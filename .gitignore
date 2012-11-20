@@ -1,2 +1,8 @@
 # A commit.log nem kell:
 commit.log
+
+# Nincs szükség a *.log állományokra:
+*.log
+
+# Nem commitolom az anonym_* könyvtárakat és tartalmukat:
+anonym_*/*
