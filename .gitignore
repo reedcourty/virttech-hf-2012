@@ -10,3 +10,6 @@ anonym_*/*
 # Nincs szükség az adatokra, és a kimenetekre se:
 datas/*
 output/*
+
+# Az IQN azonosítókat anonimizáló függvényt kihagyjuk a játékból:
+src/anonym_iqn.R
