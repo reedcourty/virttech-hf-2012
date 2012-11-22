@@ -6,3 +6,7 @@ commit.log
 
 # Nem commitolom az anonym_* könyvtárakat és tartalmukat:
 anonym_*/*
+
+# Nincs szükség az adatokra, és a kimenetekre se:
+datas/*
+output/*
