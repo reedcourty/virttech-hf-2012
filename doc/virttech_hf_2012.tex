@@ -6,21 +6,22 @@
 \usepackage{a4wide}
 
 %###############################################################################
-%#
-%#                    DOKUMENTUM METAADATOK:
-%#
-\newcommand{\szerzo}{}
-\newcommand{\szerzomail}{}
-\newcommand{\cim}{}
-\newcommand{\targy}{}
-\newcommand{\kulcsszavak}{}
-%###############################################################################
-
-%###############################################################################
 % Lokalizálom:
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
 \usepackage[magyar,english]{babel}
+%###############################################################################
+
+%###############################################################################
+%#
+%#                    DOKUMENTUM METAADATOK:
+%#
+\newcommand{\szerzo}{Nádudvari György}
+\newcommand{\szerzoneptun}{ULQP9P}
+\newcommand{\szerzomail}{ulqp9p at gmail dot com}
+\newcommand{\cim}{Virtuális gépeket futtató infrastruktúra teljesítményadatainak elemzése vizuális adatelemzés segítségével}
+\newcommand{\targy}{vizuális adatelemzés}
+\newcommand{\kulcsszavak}{vizuális adatelemzés, vmware, metrikák}
 %###############################################################################
 
 %###############################################################################
@@ -175,7 +176,7 @@
 %#
 \begin{titlepage}
     \title{\cim}
-    \author{\szerzo \\ < \szerzomail >}
+    \author{\szerzo \\ (\szerzoneptun) \\ < \szerzomail >}
     \date{\today}
 \end{titlepage}
 \maketitle
@@ -190,6 +191,24 @@
 
 \newpage
 
-\section{}
+\section{CPU metrikák}
+\subsection{cpu.swapwait.summation}
+\subsection{cpu.idle.summation maximuma}
+\subsection{cpu.ready.summation}
+\subsection{Összefüggés a wait, ready, run metrikák között}
+\subsection{Összefüggés az idle, swapwait, system metrikák között}
+\subsection{Korreláció vizsgálata a cpu.usage.average és cpu.usagemhz.average metrikák között}
+
+\section{Memória metrikák}
+\subsection{?}
+
+\section{Lemez metrikák}
+\subsection{Összefüggés a disk.deviceLatency.average, disk.kernelLatency.average, disk.totallatency.average metrikák között}
+\subsection{Összefüggés a storagepath, storageadapter, disk latency-k között}
+
+\section{Hálózati metrikák}
+\subsection{net.transmitted.average}
+
+\section{Metrikák összefüggése}
 
 \end{document}
