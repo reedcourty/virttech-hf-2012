@@ -31,6 +31,7 @@ BASE_PATH <- "c:/Users/reedcourty/git/virttech-hf-2012/"
 
 # A bemeneti állományokat tartalmazó könyvtár:
 INPUT_PATH <- file.path(BASE_PATH, "datas")
+INPUT_PATH_WP <- file.path(BASE_PATH, "datas_wp")
 
 # A kimeneti állományok ide fognak kerülni:
 OUTPUT_PATH <- file.path(BASE_PATH, "output")
@@ -56,8 +57,10 @@ logger(paste("A futás kezdete:", start_time, sep=" "))
 
 vcdatas <- load_file(file.path(INPUT_PATH, "vcenter_datas_cpu_infos.RData"))
 
-vcdatas_limit <- timestamp_filter(vcdatas, "2012-09-10 12:00:00",
-                                  "2012-09-10 13:00:00")
+#vcdatas_limit <- timestamp_filter(vcdatas, "2012-09-10 12:00:00",
+#                                  "2012-09-10 13:00:00")
+
+vcdatas_limit <- vcdatas
 
 cols <- names(vcdatas_limit)
 
@@ -82,7 +85,26 @@ sequence <- seq(from = 3, to = length(cols), by = 1)
 #            height=6, width=20)
 # }
 
-
+################################################################################
+#
+# cpu.swapwait.summation:
+#
+# plot <- ggplot() +
+#     geom_line(data=vcdatas_limit, aes(x = timestamp, 
+#                                       y = cpu.swapwait.summation, 
+#                                       colour=item_id)) +
+#     geom_point(data=vcdatas_limit, aes(x = timestamp, 
+#                                        y = cpu.swapwait.summation, 
+#                                        colour=item_id)) +
+#     ylab("cpu.swapwait.summation")
+# 
+# filename <- "cpu.swapwait.summation.png"
+# 
+# logger(paste("Plott mentése", filename, "néven...", sep=" "))
+#      
+# ggsave(plot=plot, filename=file.path(OUTPUT_PATH, filename), height=6, width=20)
+#
+################################################################################
 
 
 
@@ -98,84 +120,84 @@ sequence <- seq(from = 3, to = length(cols), by = 1)
 #   "cpu.usage.average_2", "cpu.usage.average_3", "cpu.used.summation_1", 
 #   "cpu.used.summation_2", "cpu.used.summation_3")
 
-vcd <- get_machine(vcdatas_limit, "guest-11")
-
-vcd$calc <- vcd$cpu.run.summation_0 + vcd$cpu.wait.summation_0 + vcd$cpu.ready.summation_0
-
-print(unique(vcd$calc))
-
-library(iplots)
-
-ihist(vcd$calc)
-
-vcd$calc2 <- vcd$cpu.idle.summation_0 + vcd$cpu.swapwait.summation_0 #+ vcd$cpu.system.summation_0 <---- I/O wait
-
-vcd$calc2wait <- vcd$cpu.wait.summation_0 - vcd$calc2
-
-max(unique(vcd$calc2wait))
-min(unique(vcd$calc2wait))
-
-
-ihist(vcd$calc2wait)
-
-
-
-vcd$calcusedrun <- vcd$cpu.run.summation_0 - (vcd$cpu.used.summation_0 + vcd$cpu.system.summation_0)
-
-max(unique(vcd$calcusedrun))
-min(unique(vcd$calcusedrun))
-
-ihist(vcd$calcusedrun)
-
-vcdatas <- load_file(file.path(INPUT_PATH, "vcenter_datas_cpu_infos.RData"))
-
-vcdatas_limit <- timestamp_filter(vcdatas, "2012-09-10 12:00:00",
-                                  "2012-09-10 13:00:00")
-
-vcd <- get_machine(vcdatas_limit, "host-01")
-
-df <- cbind(vcd$cpu.usage.average, vcd$cpu.usagemhz.average)
-
-unique(vcd$cpu.usagemhz.average)
-
-library(corrgram)
-
-corrgram(df, order=TRUE, lower.panel=panel.shade,
-         upper.panel=panel.pie, text.panel=panel.txt,
-         main="a")
-
-
-
-plot <- ggplot() +
-
-
-    
-    geom_line(data=vcd, aes(x = timestamp, y = cpu.wait.summation_0, colour="1")) +
-    geom_point(data=vcd, aes(x = timestamp, y = cpu.wait.summation_0, colour="1")) +
-    
-    geom_line(data=vcd, aes(x = timestamp, y = cpu.ready.summation_0, colour="2")) +
-    geom_point(data=vcd, aes(x = timestamp, y = cpu.ready.summation_0, colour="2")) +
-    
-    geom_line(data=vcd, aes(x = timestamp, y = cpu.run.summation_0, colour="3")) +
-    geom_point(data=vcd, aes(x = timestamp, y = cpu.run.summation_0, colour="3")) +
-    
-    geom_line(data=vcd, aes(x = timestamp, y = calc, colour="4")) +
-    geom_point(data=vcd, aes(x = timestamp, y = calc, colour="4")) +
-    
-    labs(y = "milliseconds") +
-    
-    scale_colour_manual(values=c("#FF0000", "#00FF00", "#0000FF", "#000000"),
-                        name="CPU",
-                        labels=c("wait", "ready", "run", "calc"))
-
-filename <- "cpu.metrics.calc.png"
-
-logger(paste("Plott mentése", filename, "néven...", sep=" "))
-
-ggsave(plot=plot, 
-       filename=file.path(OUTPUT_PATH, filename), 
-       height=6, width=20)
-
+# vcd <- get_machine(vcdatas_limit, "guest-11")
+# 
+# vcd$calc <- vcd$cpu.run.summation_0 + vcd$cpu.wait.summation_0 + vcd$cpu.ready.summation_0
+# 
+# print(unique(vcd$calc))
+# 
+# library(iplots)
+# 
+# ihist(vcd$calc)
+# 
+# vcd$calc2 <- vcd$cpu.idle.summation_0 + vcd$cpu.swapwait.summation_0 #+ vcd$cpu.system.summation_0 <---- I/O wait
+# 
+# vcd$calc2wait <- vcd$cpu.wait.summation_0 - vcd$calc2
+# 
+# max(unique(vcd$calc2wait))
+# min(unique(vcd$calc2wait))
+# 
+# 
+# ihist(vcd$calc2wait)
+# 
+# 
+# 
+# vcd$calcusedrun <- vcd$cpu.run.summation_0 - (vcd$cpu.used.summation_0 + vcd$cpu.system.summation_0)
+# 
+# max(unique(vcd$calcusedrun))
+# min(unique(vcd$calcusedrun))
+# 
+# ihist(vcd$calcusedrun)
+# 
+# vcdatas <- load_file(file.path(INPUT_PATH, "vcenter_datas_cpu_infos.RData"))
+# 
+# vcdatas_limit <- timestamp_filter(vcdatas, "2012-09-10 12:00:00",
+#                                   "2012-09-10 13:00:00")
+# 
+# vcd <- get_machine(vcdatas_limit, "host-01")
+# 
+# df <- cbind(vcd$cpu.usage.average, vcd$cpu.usagemhz.average)
+# 
+# unique(vcd$cpu.usagemhz.average)
+# 
+# library(corrgram)
+# 
+# corrgram(df, order=TRUE, lower.panel=panel.shade,
+#          upper.panel=panel.pie, text.panel=panel.txt,
+#          main="a")
+# 
+# 
+# 
+# plot <- ggplot() +
+# 
+# 
+#     
+#     geom_line(data=vcd, aes(x = timestamp, y = cpu.wait.summation_0, colour="1")) +
+#     geom_point(data=vcd, aes(x = timestamp, y = cpu.wait.summation_0, colour="1")) +
+#     
+#     geom_line(data=vcd, aes(x = timestamp, y = cpu.ready.summation_0, colour="2")) +
+#     geom_point(data=vcd, aes(x = timestamp, y = cpu.ready.summation_0, colour="2")) +
+#     
+#     geom_line(data=vcd, aes(x = timestamp, y = cpu.run.summation_0, colour="3")) +
+#     geom_point(data=vcd, aes(x = timestamp, y = cpu.run.summation_0, colour="3")) +
+#     
+#     geom_line(data=vcd, aes(x = timestamp, y = calc, colour="4")) +
+#     geom_point(data=vcd, aes(x = timestamp, y = calc, colour="4")) +
+#     
+#     labs(y = "milliseconds") +
+#     
+#     scale_colour_manual(values=c("#FF0000", "#00FF00", "#0000FF", "#000000"),
+#                         name="CPU",
+#                         labels=c("wait", "ready", "run", "calc"))
+# 
+# filename <- "cpu.metrics.calc.png"
+# 
+# logger(paste("Plott mentése", filename, "néven...", sep=" "))
+# 
+# ggsave(plot=plot, 
+#        filename=file.path(OUTPUT_PATH, filename), 
+#        height=6, width=20)
+# 
 
 
 
