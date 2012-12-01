@@ -1,6 +1,21 @@
 # A commit.log nem kell:
 commit.log
 
+# A szokásos szükségtelen LaTeX generálmányok:
+*.aux
+*.log
+*.nav
+*.out
+*.pdf
+*.snm
+*.toc
+
+# Nem kell nekünk a magyar.ldf a repóba:
+magyar.ldf
+
+# Nem kell a texcolors se:
+doc/texcolors.sty
+
 # Nincs szükség a *.log állományokra:
 *.log
 
