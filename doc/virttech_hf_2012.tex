@@ -1,0 +1,195 @@
+\documentclass[a4paper,10pt,titlepage]{article}
+
+%######################        PREUMBULUM        ###############################
+
+%# Papír méret beállítása:
+\usepackage{a4wide}
+
+%###############################################################################
+%#
+%#                    DOKUMENTUM METAADATOK:
+%#
+\newcommand{\szerzo}{}
+\newcommand{\szerzomail}{}
+\newcommand{\cim}{}
+\newcommand{\targy}{}
+\newcommand{\kulcsszavak}{}
+%###############################################################################
+
+%###############################################################################
+% Lokalizálom:
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[magyar,english]{babel}
+%###############################################################################
+
+%###############################################################################
+%#
+%#                    NÉHÁNY STÍLUS ÉS FORMÁTUM BEÁLLÍTÁS:
+%#
+%\usepackage{times}
+%# Használjunk inkább Arial betűtípust:
+\renewcommand{\rmdefault}{phv} % Arial
+\renewcommand{\sfdefault}{phv} % Arial
+%#
+%###############################################################################
+
+%###############################################################################
+%#
+%#                    CSOMAGOK BEHÚZÁSA:
+%# Tartalomjegyzék:
+\usepackage{tocbibind}
+%#
+%# Színekhez:
+\usepackage[usenames,dvipsnames]{color}
+%#
+%# Hogy legyen képünk:
+\usepackage{graphicx}
+%#
+%# hyperref használata és beállítása:
+\usepackage{hyperref}
+\hypersetup{
+    unicode=true,
+    colorlinks=true,
+    linkcolor=RoyalBlue,
+    citecolor=RoyalBlue,
+    filecolor=RoyalBlue,
+    urlcolor=RoyalBlue,
+    pdftitle={\cim},
+    pdfauthor={\szerzo},
+    pdfsubject={\targy},
+    pdfkeywords={\kulcsszavak},
+}
+%#
+%# URL-ekhez:
+\usepackage{url}
+%#
+%# Táblázatoknak:
+\usepackage{colortbl}
+%#
+%# Hogy lehessen blokkokat megjegyzéssé tenni:
+\usepackage{verbatim}
+%#
+%# Ettől a táblázatok, ábrak, lábjegyzetek maradnak 1-es sorközzel:
+\usepackage{setspace}
+%#
+%# Saját szín csomag:
+\usepackage{texcolors}
+%#
+%###############################################################################
+
+%###############################################################################
+%#
+%#                    NÉHÁNY STÍLUS ÉS FORMÁTUM BEÁLLÍTÁS:
+%#
+\setlength{\parindent}{12pt} % magyar nyelvű dokumentumokban jellemző
+\setlength{\parskip}{0pt}    % magyar nyelvű dokumentumokban jellemző
+
+%###############################################################################
+%#
+%#                    SAJÁT ESZKÖZÖK:
+%#
+%# Néhány szín definiálása:
+\definecolor{todobgszin}{rgb}{0.64,0.78,0.22}
+\definecolor{todofrszin}{rgb}{0.00,0.50,0.00}
+%#
+%# Angol szövegekhez:
+\newcommand{\angolul}[1]{\foreignlanguage{english}{#1}}
+%#
+%# TODO blokk:
+\newcommand{\todo}[1]{
+    \vfill
+    % Csinálunk egy csoportot, hogy az identálás csak erre vonatkozzon:
+    \begingroup
+        % Beállítjuk, hogy teljes szélességű legyen a dobozunk a bekezdéstől
+        % függetlenül:
+        \setlength{\parindent}{0cm}
+        \fcolorbox{todofrszin}{todobgszin}{
+            \parbox{\textwidth}{
+                \vskip10pt
+                \leftskip10pt
+                \rightskip10pt
+            
+                \emph{TODO: #1}
+  
+                \vskip10pt
+            }
+        }
+    \endgroup
+    \vfill
+}
+%#
+%# Megjegyzés blokk:
+\newcommand{\mycomment}[1]{
+    \begin{center}
+     % Csinálunk egy csoportot, hogy az identálás csak erre vonatkozzon:
+    \begingroup
+        % Beállítjuk, hogy teljes szélességű legyen a dobozunk a bekezdéstől
+        % függetlenül:
+        \setlength{\parindent}{0cm}
+        \setlength{\textwidth}{12cm}
+        \fcolorbox{bone}{eggshell}{
+            \parbox{\textwidth}{
+                \vskip5pt
+                \leftskip5pt
+                \rightskip5pt
+                
+                \small
+                
+                \textbf{Megjegyzés}
+                \newline           
+                                
+                #1
+  
+                \vskip5pt
+            }
+        }
+    \endgroup
+    \end{center}
+}
+%#
+%# Saját felsorolás stílus:
+\newenvironment{sajat_itemize}
+{
+	\begin{itemize}
+	\setlength{\itemsep}{0pt}
+}
+{
+	\end{itemize}
+}
+%#
+%###############################################################################
+
+%###############################################################################
+%#
+%#                    DOKUMENTUMTÖRZS
+%#
+\begin{document}
+
+% A magyar nyelv az alapértelmezett:
+\selectlanguage{magyar}
+
+%###############################################################################
+%#
+%#                     CÍMOLDAL:
+%#
+\begin{titlepage}
+    \title{\cim}
+    \author{\szerzo \\ < \szerzomail >}
+    \date{\today}
+\end{titlepage}
+\maketitle
+%#
+%###############################################################################
+
+% Nem akarom, hogy megjelenjen a tartalomjegyzékben a Tartalomjegyzék:
+\section*{Tartalomjegyzék}
+\makeatletter
+\@starttoc{toc}
+\makeatother
+
+\newpage
+
+\section{}
+
+\end{document}
