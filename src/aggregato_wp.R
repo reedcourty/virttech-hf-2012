@@ -140,7 +140,9 @@ for (INPUT_FILE in INPUT_LOG_FILES) {
     
 }
 
-save_data(data=vcdatas, filename="vcenter_datas_wp", tsv=FALSE)
+vcdatas_nna <- subset(vcdatas, is.na(vcdatas$timestamp) == FALSE)
+
+save_data(data=vcdatas_nna, filename="vcenter_datas_wp", tsv=FALSE)
 
 ################################################################################
 
