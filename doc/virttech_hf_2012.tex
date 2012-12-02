@@ -316,13 +316,74 @@ A \textit{guest-15} nevű virtuális gép \texttt{cpu.idle.summation} grafikonja
 
 \todo{Megcsinálni!}
 
+\begin{table}[h]
+	\caption{A cpu.ready.summation metrika}
+	\centering
+	\small
+	\begin{tabular}{| p{3.5cm} | p{7.5cm} | p{2cm} |}
+		\hline
+		\rowcolor{tc_bone} \textbf{Metrika} & \textbf{Leírás} & \textbf{Mértékegység} \\
+		\hline
+		cpu.ready.summation & Megmutatja, hogy egy virtuális gép az időablak hány százalékában volt olyan állapotban, hogy ugyan futásra készen állt, de nem került futtatási állapotba a fizikai processzoron. Az érték függ a virtuális gépek számától és azok CPU terheltségétől (loadjától). & milliszekundum \\ 
+		\hline
+	\end{tabular}
+	\normalsize
+	\label{tab:cpu.ready.summation}
+\end{table}
+
+
 \subsection{Összefüggés a wait, ready, run metrikák között}
 
 \todo{Megcsinálni!}
 
+\begin{table}[h]
+	\caption{A cpu.wait.summation metrika}
+	\centering
+	\small
+	\begin{tabular}{| p{3.5cm} | p{7.5cm} | p{2cm} |}
+		\hline
+		\rowcolor{tc_bone} \textbf{Metrika} & \textbf{Leírás} & \textbf{Mértékegység} \\
+		\hline
+		cpu.wait.summation & Értéke megadja, hogy a teljes CPU időhöz viszonyítva mennyi időt töltött a virtuális gép várakozó állapotban. & milliszekundum \\ 
+		\hline
+	\end{tabular}
+	\normalsize
+	\label{tab:cpu.wait.summation}
+\end{table}
+
+\begin{table}[h]
+	\caption{A cpu.run.summation metrika}
+	\centering
+	\small
+	\begin{tabular}{| p{3.5cm} | p{7.5cm} | p{2cm} |}
+		\hline
+		\rowcolor{tc_bone} \textbf{Metrika} & \textbf{Leírás} & \textbf{Mértékegység} \\
+		\hline
+		cpu.run.summation & Megadja, hogy a VM az idő hány százalékát töltötte futási állapotban. (Származtatott érték: 100\% = run + ready + wait (+ costop) & milliszekundum \\ 
+		\hline
+	\end{tabular}
+	\normalsize
+	\label{tab:cpu.run.summation}
+\end{table}
+
 \subsection{Összefüggés az idle, swapwait, system metrikák között}
 
 \todo{Megcsinálni!}
+
+\begin{table}[h]
+	\caption{A cpu.system.summation metrika}
+	\centering
+	\small
+	\begin{tabular}{| p{3.5cm} | p{7.5cm} | p{2cm} |}
+		\hline
+		\rowcolor{tc_bone} \textbf{Metrika} & \textbf{Leírás} & \textbf{Mértékegység} \\
+		\hline
+		cpu.system.summation & Azoknak az időknek az összege, amelyet a virtuális CPU a virtuális gépben rendszer folyamatok (megszakítás, I/O) kezelésével tölt. Ez nem a vendég operációs rendszer, hanem a kiszolgáló által látott érték. & milliszekundum \\ 
+		\hline
+	\end{tabular}
+	\normalsize
+	\label{tab:cpu.system.summation}
+\end{table}
 
 \subsection{Korreláció vizsgálata a cpu.usage.average és cpu.usagemhz.average metrikák között}
 
