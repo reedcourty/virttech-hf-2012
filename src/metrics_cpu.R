@@ -151,9 +151,171 @@ logger(paste("A futás kezdete:", start_time, sep=" "))
 # ################################################################################
 
 
+# ################################################################################
+# #
+# # cpu.idle.summation:
+# #
+# # A rajzoló függvényünk:
+# plotter <- function(datas, ST, ET) {
+#     
+#     STS <- gsub("-", "", ST)
+#     STS <- gsub(":", "", STS)
+#     STS <- gsub(" ", "", STS)
+#     
+#     ETS <- gsub("-", "", ET)
+#     ETS <- gsub(":", "", ETS)
+#     ETS <- gsub(" ", "", ETS)
+#     
+#     vcdatas_limit <- timestamp_filter(datas, ST, ET)
+#     
+#     plot <- ggplot() +
+#         geom_line(data=vcdatas_limit, aes(x = timestamp, 
+#                                           y = cpu.idle.summation, 
+#                                           colour=item_id)) +
+#         geom_point(data=vcdatas_limit, aes(x = timestamp,
+#                                            y = cpu.idle.summation,
+#                                            colour=item_id)) +
+#         xlab("dátum - idő") + ylab("milliszekundum") +
+#         scale_colour_discrete(name="Virtuális gép\nazonosítója")
+#     
+#     filename <- paste("cpu_idle_summation-", vcdatas_limit$item_id, "-", STS, 
+#                       "-", ETS, ".png", sep="")
+#     
+#     logger(paste("Plott mentése", filename, "néven...", sep=" "))
+#     
+#     ggsave(plot=plot, filename=file.path(OUTPUT_PATH, filename), height=6, 
+#            width=20)
+# }
+# #
+# vcdatas <- load_file(file.path(INPUT_PATH, "vcenter_datas_cpu_infos.RData"))
+# #
+# # Hostoknál nincs ilyen metrikánk:
+# vcdatas_vms <- get_machines(vcdatas, VMS)
+# #
+# # Memóriát spórólunk:
+# rm(vcdatas)
+# #
+# # # Első körben minden VM-et kiplottolunk, hogy lássuk, mit érdemes nézni:
+# # for (vm in VMS) {
+# #     vcdatas_vm <- get_machine(vcdatas_vms, vm)
+# # #
+# # # A teljes időintervallum:
+# #     ST <- min(vcdatas_vm$timestamp)
+# #     ET <- max(vcdatas_vm$timestamp)
+# # #
+# #     plotter(vcdatas_vm, ST, ET)
+# # #
+# # }
+# #
+# # Mutatunk egy mérési hibát:
+# #
+# vcdatas_vm <- get_machine(vcdatas_vms, "guest-15")
+# #
+# ST <- min(vcdatas_vm$timestamp)
+# ET <- max(vcdatas_vm$timestamp)
+# #
+# plotter(vcdatas_vm, ST, ET)
+# #
+# vcdatas_vm <- get_machine(vcdatas_vms, "guest-15")
+# #
+# ST <- "2012-09-19 22:15:00"
+# ET <- "2012-09-19 22:45:00"
+# #
+# plotter(vcdatas_vm, ST, ET)
+# #
+# # Nagyon sűrű, periodikussan dolgozik:
+# #
+# vcdatas_vm <- get_machine(vcdatas_vms, "guest-16")
+# #
+# ST <- min(vcdatas_vm$timestamp)
+# ET <- max(vcdatas_vm$timestamp)
+# #
+# plotter(vcdatas_vm, ST, ET)
+# #
+# vcdatas_vm <- get_machine(vcdatas_vms, "guest-16")
+# #
+# ST <- "2012-09-10 10:00:00"
+# ET <- "2012-09-10 14:00:00"
+# #
+# plotter(vcdatas_vm, ST, ET)
+# #
+# # Maximális értékek bar chartja:
+# #
+# item_id <- c()
+# max_cpu.idle.summation <- c()
+# #
+# for (vm in VMS) {
+#     vcdatas_vm <- get_machine(vcdatas_vms, vm)
+#     # Kiszedjük a mérési hibákat:
+#     vcdatas_vm <- subset(vcdatas_vm, vcdatas_vm$cpu.idle.summation <= 20000)
+#     
+#     item_id <- c(rep(item_id), rep(vm))
+#     max_cpu.idle.summation <- c(rep(max_cpu.idle.summation), 
+#                                 rep(max(vcdatas_vm$cpu.idle.summation)))    
+# }
+# #
+# max_idle <- data.frame(item_id=item_id, 
+#                        max_cpu.idle.summation=max_cpu.idle.summation)
+# #
+# plot <- ggplot() +
+#     geom_bar(data=max_idle, aes(x = item_id, y = max_cpu.idle.summation,
+#                                 fill=item_id, stat="bin")) +
+#     xlab("Virtuális gépek") + ylab("Max. érték milliszekundumban") +
+#     scale_fill_discrete(guide=FALSE) +
+#     coord_cartesian(ylim=c(min(max_idle$max_cpu.idle.summation)-100, 
+#                          max(max_idle$max_cpu.idle.summation)+100))
+# #
+# filename <- "cpu_idle_summation-max-barchart.png"
+# #
+# logger(paste("Plott mentése", filename, "néven...", sep=" "))
+# #
+# ggsave(plot=plot, filename=file.path(OUTPUT_PATH, filename), height=6, width=8)
+# #
+# 
+# vcdatas <- load_file(file.path(INPUT_PATH, "vcenter_datas_cpu_infos.RData"))
+# #
+# # Hostoknál nincs ilyen metrikánk:
+# vcdatas_vms <- get_machines(vcdatas, VMS)
+# #
+# # Memóriát spórólunk:
+# rm(vcdatas)
+# 
+# plot <- ggplot() +
+#     geom_histogram(data=vcdatas_vms, aes(x = cpu.idle.summation), 
+#                    binwidth = 50, fill="red") + 
+#     ylab("") + xlab("A cpu.idle.summation értékek milliszekundumban")
+# 
+# filename <- "cpu_idle_summation-histogram.png"
+# 
+# logger(paste("Plott mentése", filename, "néven...", sep=" "))
+# 
+# ggsave(plot=plot, filename=file.path(OUTPUT_PATH, filename), height=4, width=6)
+
+# ################################################################################
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ################################################################################
 #
-# cpu.idle.summation:
+# cpu.ready.summation:
 #
 # A rajzoló függvényünk:
 plotter <- function(datas, ST, ET) {
@@ -170,7 +332,7 @@ plotter <- function(datas, ST, ET) {
     
     plot <- ggplot() +
         geom_line(data=vcdatas_limit, aes(x = timestamp, 
-                                          y = cpu.idle.summation, 
+                                          y = cpu.ready.summation, 
                                           colour=item_id)) +
         geom_point(data=vcdatas_limit, aes(x = timestamp,
                                            y = cpu.idle.summation,
@@ -178,7 +340,7 @@ plotter <- function(datas, ST, ET) {
         xlab("dátum - idő") + ylab("milliszekundum") +
         scale_colour_discrete(name="Virtuális gép\nazonosítója")
     
-    filename <- paste("cpu_idle_summation-", vcdatas_limit$item_id, "-", STS, 
+    filename <- paste("cpu_ready_summation-", vcdatas_limit$item_id, "-", STS, 
                       "-", ETS, ".png", sep="")
     
     logger(paste("Plott mentése", filename, "néven...", sep=" "))
@@ -188,90 +350,103 @@ plotter <- function(datas, ST, ET) {
 }
 #
 vcdatas <- load_file(file.path(INPUT_PATH, "vcenter_datas_cpu_infos.RData"))
+vcdatas_wp <- load_file(file.path(INPUT_PATH_WP, "vcenter_datas_cleaned_wp.RData"))
+vcdatas <- rbind(vcdatas, vcdatas_wp)
 #
 # Hostoknál nincs ilyen metrikánk:
-vcdatas_vms <- get_machines(vcdatas, VMS)
+VMS_WP <- c(rep(VMS), "guest-24")
+vcdatas_vms <- get_machines(vcdatas, VMS_WP)
 #
 # Memóriát spórólunk:
 rm(vcdatas)
+rm(vcdatas_wp)
 #
-# # Első körben minden VM-et kiplottolunk, hogy lássuk, mit érdemes nézni:
-# for (vm in VMS) {
-#     vcdatas_vm <- get_machine(vcdatas_vms, vm)
-# #
-# # A teljes időintervallum:
-#     ST <- min(vcdatas_vm$timestamp)
-#     ET <- max(vcdatas_vm$timestamp)
-# #
-#     plotter(vcdatas_vm, ST, ET)
-# #
-# }
-#
-# Mutatunk egy mérési hibát:
-#
-vcdatas_vm <- get_machine(vcdatas_vms, "guest-15")
-#
-ST <- min(vcdatas_vm$timestamp)
-ET <- max(vcdatas_vm$timestamp)
-#
-plotter(vcdatas_vm, ST, ET)
-#
-vcdatas_vm <- get_machine(vcdatas_vms, "guest-15")
-#
-ST <- "2012-09-19 22:15:00"
-ET <- "2012-09-19 22:45:00"
-#
-plotter(vcdatas_vm, ST, ET)
-#
-# Nagyon sűrű, periodikussan dolgozik:
-#
-vcdatas_vm <- get_machine(vcdatas_vms, "guest-16")
-#
-ST <- min(vcdatas_vm$timestamp)
-ET <- max(vcdatas_vm$timestamp)
-#
-plotter(vcdatas_vm, ST, ET)
-#
-vcdatas_vm <- get_machine(vcdatas_vms, "guest-16")
-#
-ST <- "2012-09-10 10:00:00"
-ET <- "2012-09-10 14:00:00"
-#
-plotter(vcdatas_vm, ST, ET)
-#
-# Maximális értékek bar chartja:
-#
-item_id <- c()
-max_cpu.idle.summation <- c()
-#
-for (vm in VMS) {
+# Első körben minden VM-et kiplottolunk, hogy lássuk, mit érdemes nézni:
+for (vm in VMS_WP) {
     vcdatas_vm <- get_machine(vcdatas_vms, vm)
-    # Kiszedjük a mérési hibákat:
-    vcdatas_vm <- subset(vcdatas_vm, vcdatas_vm$cpu.idle.summation <= 20000)
-    
-    item_id <- c(rep(item_id), rep(vm))
-    max_cpu.idle.summation <- c(rep(max_cpu.idle.summation), 
-                                rep(max(vcdatas_vm$cpu.idle.summation)))    
+#
+# A teljes időintervallum:
+    ST <- min(vcdatas_vm$timestamp)
+    ET <- max(vcdatas_vm$timestamp)
+#
+    plotter(vcdatas_vm, ST, ET)
+#
 }
 #
-max_idle <- data.frame(item_id=item_id, 
-                       max_cpu.idle.summation=max_cpu.idle.summation)
-#
-plot <- ggplot() +
-    geom_bar(data=max_idle, aes(x = item_id, y = max_cpu.idle.summation,
-                                fill=item_id, stat="bin")) +
-    xlab("Virtuális gépek") + ylab("Max. érték milliszekundumban") +
-    scale_fill_discrete(guide=FALSE) +
-    coord_cartesian(ylim=c(min(max_idle$max_cpu.idle.summation)-100, 
-                         max(max_idle$max_cpu.idle.summation)+100))
-#
-filename <- "cpu_idle_summation-max-barchart.png"
-#
-logger(paste("Plott mentése", filename, "néven...", sep=" "))
-#
-ggsave(plot=plot, filename=file.path(OUTPUT_PATH, filename), height=6, width=8)
+# # Mutatunk egy mérési hibát:
+# #
+# vcdatas_vm <- get_machine(vcdatas_vms, "guest-15")
+# #
+# ST <- min(vcdatas_vm$timestamp)
+# ET <- max(vcdatas_vm$timestamp)
+# #
+# plotter(vcdatas_vm, ST, ET)
+# #
+# vcdatas_vm <- get_machine(vcdatas_vms, "guest-15")
+# #
+# ST <- "2012-09-19 22:15:00"
+# ET <- "2012-09-19 22:45:00"
+# #
+# plotter(vcdatas_vm, ST, ET)
+# #
+# # Nagyon sűrű, periodikussan dolgozik:
+# #
+# vcdatas_vm <- get_machine(vcdatas_vms, "guest-16")
+# #
+# ST <- min(vcdatas_vm$timestamp)
+# ET <- max(vcdatas_vm$timestamp)
+# #
+# plotter(vcdatas_vm, ST, ET)
+# #
+# vcdatas_vm <- get_machine(vcdatas_vms, "guest-16")
+# #
+# ST <- "2012-09-10 10:00:00"
+# ET <- "2012-09-10 14:00:00"
+# #
+# plotter(vcdatas_vm, ST, ET)
+# #
+# # Maximális értékek bar chartja:
+# #
+# item_id <- c()
+# max_cpu.idle.summation <- c()
+# #
+# for (vm in VMS) {
+#     vcdatas_vm <- get_machine(vcdatas_vms, vm)
+#     # Kiszedjük a mérési hibákat:
+#     vcdatas_vm <- subset(vcdatas_vm, vcdatas_vm$cpu.idle.summation <= 20000)
+#     
+#     item_id <- c(rep(item_id), rep(vm))
+#     max_cpu.idle.summation <- c(rep(max_cpu.idle.summation), 
+#                                 rep(max(vcdatas_vm$cpu.idle.summation)))    
+# }
+# #
+# max_idle <- data.frame(item_id=item_id, 
+#                        max_cpu.idle.summation=max_cpu.idle.summation)
+# #
+# plot <- ggplot() +
+#     geom_bar(data=max_idle, aes(x = item_id, y = max_cpu.idle.summation,
+#                                 fill=item_id, stat="bin")) +
+#                                     xlab("Virtuális gépek") + ylab("Max. érték milliszekundumban") +
+#                                     scale_fill_discrete(guide=FALSE) +
+#                                     coord_cartesian(ylim=c(min(max_idle$max_cpu.idle.summation)-100, 
+#                                                            max(max_idle$max_cpu.idle.summation)+100))
+# #
+# filename <- "cpu_idle_summation-max-barchart.png"
+# #
+# logger(paste("Plott mentése", filename, "néven...", sep=" "))
+# #
+# ggsave(plot=plot, filename=file.path(OUTPUT_PATH, filename), height=6, width=8)
 #
 ################################################################################
+
+
+
+
+
+
+
+
+
 
 
 
