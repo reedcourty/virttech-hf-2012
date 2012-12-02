@@ -290,26 +290,8 @@ logger(paste("A futás kezdete:", start_time, sep=" "))
 # logger(paste("Plott mentése", filename, "néven...", sep=" "))
 # 
 # ggsave(plot=plot, filename=file.path(OUTPUT_PATH, filename), height=4, width=6)
-
+#
 # ################################################################################
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -335,12 +317,12 @@ plotter <- function(datas, ST, ET) {
                                           y = cpu.ready.summation, 
                                           colour=item_id)) +
         geom_point(data=vcdatas_limit, aes(x = timestamp,
-                                           y = cpu.idle.summation,
+                                           y = cpu.ready.summation,
                                            colour=item_id)) +
         xlab("dátum - idő") + ylab("milliszekundum") +
         scale_colour_discrete(name="Virtuális gép\nazonosítója")
     
-    filename <- paste("cpu_ready_summation-", vcdatas_limit$item_id, "-", STS, 
+    filename <- paste("cpu_ready_summation-", unique(vcdatas_limit$item_id), "-", STS, 
                       "-", ETS, ".png", sep="")
     
     logger(paste("Plott mentése", filename, "néven...", sep=" "))
@@ -348,105 +330,170 @@ plotter <- function(datas, ST, ET) {
     ggsave(plot=plot, filename=file.path(OUTPUT_PATH, filename), height=6, 
            width=20)
 }
+
+plotter_wp <- function(datas, ST, ET) {
+    
+    STS <- gsub("-", "", ST)
+    STS <- gsub(":", "", STS)
+    STS <- gsub(" ", "", STS)
+    
+    ETS <- gsub("-", "", ET)
+    ETS <- gsub(":", "", ETS)
+    ETS <- gsub(" ", "", ETS)
+    
+    vcdatas_limit <- timestamp_filter(datas, ST, ET)
+    
+    plot <- ggplot() +
+        geom_line(data=vcdatas_limit, aes(x = timestamp, 
+                                          y = cpu.ready.summation, 
+                                          colour="1")) +
+        geom_point(data=vcdatas_limit, aes(x = timestamp,
+                                           y = cpu.ready.summation,
+                                           colour="1")) +
+                                               
+        geom_line(data=vcdatas_limit, aes(x = timestamp,
+                                          y = cpu.ready.summation_0,
+                                          colour="2")) +
+        geom_point(data=vcdatas_limit, aes(x = timestamp,
+                                           y = cpu.ready.summation_0,
+                                           colour="2")) +
+        
+        geom_line(data=vcdatas_limit, aes(x = timestamp,
+                                          y = cpu.ready.summation_1,
+                                          colour="3")) +
+        geom_point(data=vcdatas_limit, aes(x = timestamp,
+                                           y = cpu.ready.summation_1,
+                                           colour="3")) +
+        
+        xlab("dátum - idő") + ylab("milliszekundum") +
+        scale_colour_manual(values=c("#FF0000", "#00FF00", "#0000FF"),
+                            name="CPU-k",
+                            labels=c("CPU 0+1", "CPU 0", "CPU 1"))
+    
+    filename <- paste("cpu_ready_summation-", unique(vcdatas_limit$item_id), "-", STS, 
+                      "-", ETS, ".png", sep="")
+    
+    logger(paste("Plott mentése", filename, "néven...", sep=" "))
+    
+    ggsave(plot=plot, filename=file.path(OUTPUT_PATH, filename), height=6, 
+           width=20)
+}
+
+
 #
 vcdatas <- load_file(file.path(INPUT_PATH, "vcenter_datas_cpu_infos.RData"))
-vcdatas_wp <- load_file(file.path(INPUT_PATH_WP, "vcenter_datas_cleaned_wp.RData"))
-vcdatas <- rbind(vcdatas, vcdatas_wp)
+
 #
 # Hostoknál nincs ilyen metrikánk:
-VMS_WP <- c(rep(VMS), "guest-24")
-vcdatas_vms <- get_machines(vcdatas, VMS_WP)
+vcdatas_vms <- get_machines(vcdatas, VMS)
+
 #
 # Memóriát spórólunk:
 rm(vcdatas)
-rm(vcdatas_wp)
 #
 # Első körben minden VM-et kiplottolunk, hogy lássuk, mit érdemes nézni:
-for (vm in VMS_WP) {
+for (vm in VMS) {
     vcdatas_vm <- get_machine(vcdatas_vms, vm)
-#
-# A teljes időintervallum:
+    
+    # A teljes időintervallum:
     ST <- min(vcdatas_vm$timestamp)
     ET <- max(vcdatas_vm$timestamp)
-#
+    
     plotter(vcdatas_vm, ST, ET)
-#
+    
 }
+
+# A problémás guest-et is kirajzoljuk:
+
+vcdatas_wp <- load_file(file.path(INPUT_PATH_WP, "vcenter_datas_cleaned_wp.RData"))
+
+ST <- min(vcdatas_wp$timestamp)
+ET <- max(vcdatas_wp$timestamp)
+
+plotter_wp(vcdatas_wp, ST, ET)
+
+ST <- "2012-09-12 17:00:00"
+ET <- "2012-09-12 17:30:00"
+
+plotter_wp(vcdatas_wp, ST, ET)
+
+vcdatas_vms_l <- vcdatas_vms[, c("timestamp", "item_id", "cpu.ready.summation")]
+vcdatas_wp_l <- vcdatas_wp[, c("timestamp", "item_id", "cpu.ready.summation")]
+
+vcdatas_vms_l <- rbind(vcdatas_vms_l, vcdatas_wp_l)
+
+VMS_WP <- c(rep(VMS), rep("guest-24"))
+
+# Maximális értékek bar chartja:
 #
-# # Mutatunk egy mérési hibát:
-# #
-# vcdatas_vm <- get_machine(vcdatas_vms, "guest-15")
-# #
-# ST <- min(vcdatas_vm$timestamp)
-# ET <- max(vcdatas_vm$timestamp)
-# #
-# plotter(vcdatas_vm, ST, ET)
-# #
-# vcdatas_vm <- get_machine(vcdatas_vms, "guest-15")
-# #
-# ST <- "2012-09-19 22:15:00"
-# ET <- "2012-09-19 22:45:00"
-# #
-# plotter(vcdatas_vm, ST, ET)
-# #
-# # Nagyon sűrű, periodikussan dolgozik:
-# #
-# vcdatas_vm <- get_machine(vcdatas_vms, "guest-16")
-# #
-# ST <- min(vcdatas_vm$timestamp)
-# ET <- max(vcdatas_vm$timestamp)
-# #
-# plotter(vcdatas_vm, ST, ET)
-# #
-# vcdatas_vm <- get_machine(vcdatas_vms, "guest-16")
-# #
-# ST <- "2012-09-10 10:00:00"
-# ET <- "2012-09-10 14:00:00"
-# #
-# plotter(vcdatas_vm, ST, ET)
-# #
-# # Maximális értékek bar chartja:
-# #
-# item_id <- c()
-# max_cpu.idle.summation <- c()
-# #
-# for (vm in VMS) {
-#     vcdatas_vm <- get_machine(vcdatas_vms, vm)
-#     # Kiszedjük a mérési hibákat:
-#     vcdatas_vm <- subset(vcdatas_vm, vcdatas_vm$cpu.idle.summation <= 20000)
-#     
-#     item_id <- c(rep(item_id), rep(vm))
-#     max_cpu.idle.summation <- c(rep(max_cpu.idle.summation), 
-#                                 rep(max(vcdatas_vm$cpu.idle.summation)))    
-# }
-# #
-# max_idle <- data.frame(item_id=item_id, 
-#                        max_cpu.idle.summation=max_cpu.idle.summation)
-# #
-# plot <- ggplot() +
-#     geom_bar(data=max_idle, aes(x = item_id, y = max_cpu.idle.summation,
-#                                 fill=item_id, stat="bin")) +
-#                                     xlab("Virtuális gépek") + ylab("Max. érték milliszekundumban") +
-#                                     scale_fill_discrete(guide=FALSE) +
-#                                     coord_cartesian(ylim=c(min(max_idle$max_cpu.idle.summation)-100, 
-#                                                            max(max_idle$max_cpu.idle.summation)+100))
-# #
-# filename <- "cpu_idle_summation-max-barchart.png"
-# #
-# logger(paste("Plott mentése", filename, "néven...", sep=" "))
-# #
-# ggsave(plot=plot, filename=file.path(OUTPUT_PATH, filename), height=6, width=8)
+item_id <- c()
+max_cpu.ready.summation <- c()
 #
+for (vm in VMS_WP) {
+    vcdatas_vm <- get_machine(vcdatas_vms_l, vm)
+    
+    item_id <- c(rep(item_id), rep(vm))
+    max_cpu.ready.summation <- c(rep(max_cpu.ready.summation), 
+                                rep(max(vcdatas_vm$cpu.ready.summation)))    
+}
+
+vcdatas_vm <- get_machine(vcdatas_wp, "guest-24")
+
+item_id <- c(rep(item_id), rep("guest-24 CPU 0"))
+max_cpu.ready.summation <- c(rep(max_cpu.ready.summation),  
+                             rep(max(vcdatas_vm$cpu.ready.summation_0)))
+
+item_id <- c(rep(item_id), rep("guest-24 CPU 1"))
+max_cpu.ready.summation <- c(rep(max_cpu.ready.summation),  
+                             rep(max(vcdatas_vm$cpu.ready.summation_1)))
+
+rm(vcdatas_vm)
+#
+max_ready <- data.frame(item_id=item_id, 
+                        max_cpu.ready.summation=max_cpu.ready.summation)
+#
+plot <- ggplot() +
+    geom_bar(data=max_ready, aes(x = item_id, y = max_cpu.ready.summation,
+                                fill=item_id, stat="bin")) +
+    xlab("Virtuális gépek") + ylab("Max. érték milliszekundumban") +
+    scale_fill_discrete(guide=FALSE) +
+    coord_cartesian(ylim=c(min(max_ready$max_cpu.ready.summation)-100, 
+                         max(max_ready$max_cpu.ready.summation)+100))
+#
+filename <- "cpu_ready_summation-max-barchart.png"
+#
+logger(paste("Plott mentése", filename, "néven...", sep=" "))
+#
+ggsave(plot=plot, filename=file.path(OUTPUT_PATH, filename), height=6, width=12)
+#
+
+plot <- ggplot() +
+        geom_histogram(data=vcdatas_vms_l, aes(x = cpu.ready.summation), 
+                       binwidth = 1, fill="blue") + 
+        ylab("") + xlab("A cpu.ready.summation értékek milliszekundumban")
+    
+filename <- "cpu_ready_summation-histogram.png"
+    
+logger(paste("Plott mentése", filename, "néven...", sep=" "))
+    
+ggsave(plot=plot, filename=file.path(OUTPUT_PATH, filename), height=4, width=6)
+
+# Berajzoljuk a kritikus 5 és 10%-okat:
+plot <- ggplot() +
+    geom_histogram(data=vcdatas_vms_l, aes(x = cpu.ready.summation), 
+                   binwidth = 1, fill="blue") + 
+                       ylab("") + xlab("A cpu.ready.summation értékek milliszekundumban") +
+    
+    geom_vline(aes(xintercept = as.numeric(20000/100*5)), colour="green") + 
+    geom_vline(aes(xintercept = as.numeric(20000/100*10)), colour="red")
+
+filename <- "cpu_ready_summation-histogram-w-b.png"
+
+logger(paste("Plott mentése", filename, "néven...", sep=" "))
+
+ggsave(plot=plot, filename=file.path(OUTPUT_PATH, filename), height=4, width=6)
+
 ################################################################################
-
-
-
-
-
-
-
-
-
 
 
 
