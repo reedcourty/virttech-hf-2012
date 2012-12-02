@@ -129,7 +129,7 @@
         % függetlenül:
         \setlength{\parindent}{0cm}
         \setlength{\textwidth}{12cm}
-        \fcolorbox{bone}{eggshell}{
+        \fcolorbox{tc_bone}{tc_eggshell}{
             \parbox{\textwidth}{
                 \vskip5pt
                 \leftskip5pt
@@ -235,7 +235,7 @@ A \texttt{cpu.swapwait.summation} nullától eltérő értéke teljesítménybel
 \end{figure}
 
 \begin{table}[h]
-	\caption{cpu.swapwait.summation}
+	\caption{A cpu.swapwait.summation metrika}
 	\centering
 	\small
 	\begin{tabular}{| p{3.5cm} | p{7.5cm} | p{2cm} |}
@@ -255,7 +255,9 @@ A \texttt{cpu.swapwait.summation} nullától eltérő értéke teljesítménybel
 %#
 %#                    cpu.idle.summation
 %#
-\subsection{cpu.idle.summation maximuma}
+\subsection{A cpu.idle.summation metrika}
+
+Vizsgálódásunk tárgyai ebben az esetben a \textit{guest-15} és \textit{guest-16} nevű virtuális gépek. \Aref{fig:cpu_idle_summation_g16_1}.~ábrán a \textit{guest-16} VM idle értékei láthatóak a teljes mérési időben. Ahhoz, hogy követeztetéseket tudjunk levonni csökkentenünk kell az időablakot. \Aref{fig:cpu_idle_summation_g16_2}.~ábrával már egyszerűbb dolgunk van. \Aref{fig:cpu_idle_summation_g16_1}.~ábra tömörségének oka, hogy egyfajta periodicitás jellemzi a VM idle állapotban töltött idejét. 
 
 \begin{figure}[h!]
 \centering
@@ -268,6 +270,8 @@ A \texttt{cpu.swapwait.summation} nullától eltérő értéke teljesítménybel
 \includegraphics[width=1.00\textwidth]{figures/cpu_idle_summation-guest-16-20120910100000-20120910140000.png}
 \caption{A guest-16 VM cpu.idle.summation értéke 2012.09.10. 10:00:00 és 2012.09.10. 14:00:00 között \label{fig:cpu_idle_summation_g16_2}}
 \end{figure}
+
+A \textit{guest-15} nevű virtuális gép \texttt{cpu.idle.summation} grafikonja jó példa arra, hogy a vizuális adatelemzés segítségével könnyen kiszúrhatjuk az esetleges mérési hibákat. \Aref{fig:cpu_idle_summation_g15_1}.~ábrán látható, hogy két esetben is (20000 milliszekundumnál) nagyobb értékek találhatóak az adathalmazunkban, mint ahogy annak értelme lenne. \Aref{fig:cpu_idle_summation_g15_2}.~ábra kisebb időablakban mutatja az egyik mérési hiba megjelenését.
 
 \begin{figure}[h!]
 \centering
@@ -286,6 +290,10 @@ A \texttt{cpu.swapwait.summation} nullától eltérő értéke teljesítménybel
 \includegraphics[width=1.00\textwidth]{figures/cpu_idle_summation-max-barchart.png}
 \caption{Az egyes VM-ek max. cpu.idle.summation értéke a teljes megfigyelési időintervallumra nézve \label{fig:cpu_idle_summation_max_barchart}}
 \end{figure}
+
+Érdemes megnézni az egyes virtuális gépek idle állapotban eltöltött idejének maximumát. Ezt mutatja \aref{fig:cpu_idle_summation_max_barchart}.~ábra.
+
+\mycomment{A már említett mérési hibák nem jelennek meg \aref{fig:cpu_idle_summation_max_barchart}.~ábrán, azok eltávolításra kerültek a diagram adathalmazából.}
 
 \begin{table}[h]
 	\caption{A cpu.idle.summation metrika}
