@@ -197,26 +197,15 @@
 \section{CPU metrikák}
 
 
+%###############################################################################
+%#
+%#                    cpu.swapwait.summation:
+%#
 \subsection{A cpu.swapwait.summation metrika}
 
-\begin{table}[h]
-	\caption{cpu.swapwait.summation}
-	\centering
-	\small
-	\begin{tabular}{| p{3.5cm} | p{7.5cm} | p{2cm} |}
-		\hline
-		\rowcolor{tc_bone} \textbf{Metrika} & \textbf{Leírás} & \textbf{Mértékegység} \\
-		\hline
-		cpu.swapwait.summation & A 20 milliszekundumos ablakból mennyi időt tölt a VM várakozással (munkavégzés nélkül) amiatt, hogy nem tudja memóriába tölteni a működéséhez szükséges adatokat. & milliszekundum \\ 
-		\hline
-	\end{tabular}
-	\normalsize
-	\label{tab:cpu.swapwait.summation}
-\end{table}
+A \texttt{cpu.swapwait.summation} nullától eltérő értéke teljesítménybeli problémát jelent, hiszen azt az időt mutatja, hogy egy swap-in műveletre mennyit kellett várnia egy virtuális gépnek (\ref{tab:cpu.swapwait.summation}.~táblázat). A várakozás oka, hogy hely hiány miatt nem sikerül a virtuális memóriából a memóriába tölteni a működéshez szükséges adatokat.
 
-A \texttt{cpu.swapwait.summation} nullától eltérő értéke teljesítménybeli problémát jelent, hiszen azt az időt mutatja, hogy egy swap-in műveletre mennyit kellett várnia egy virtuális gépnek. A várakozás oka, hogy hely hiány miatt nem sikerül a virtuális memóriából a memóriába tölteni a működéshez szükséges adatokat.
-
-\Aref{fig:cpu_swapwait_summation}.~ábra a teljes megfigyelt intervallumot ábrázolja. Jól látható, hogy ez idő alatt kétszer fordult elő nagyobb várakozás. Az egyik augusztus 27-én (\ref{fig:cpu_swapwait_summation_082701}.~ábra), a másik szeptember 13-án (\ref{fig:cpu_swapwait_summation_0913}.~ábra). Amíg a szeptemberi egy viszonylag rövidebb ideig tartott, addig az augusztusit érdemesebb lehet jobban megvizsgálni, hiszen itt egy félórás időszeletről beszélünk. Külön említést érdemel, hogy \aref{fig:cpu_swapwait_summation_082702}.~ábrát jobban megfigyelve a várakozási idő megnövekedése elején nem rendelkezünk minden mérési pontról adattal (a grafikon vonalának lassú az emelkedése).
+\Aref{fig:cpu_swapwait_summation}.~ábra a teljes megfigyelt intervallumot ábrázolja. Jól látható, hogy ez idő alatt kétszer fordult elő nagyobb várakozás egy-egy VM-nél. Az egyik augusztus 27-én, a \textit{guest-15} esetében (\ref{fig:cpu_swapwait_summation_082701}.~ábra), a másik szeptember 13-án a \textit{guest-21}-nél(\ref{fig:cpu_swapwait_summation_0913}.~ábra). Amíg a szeptemberi egy viszonylag rövidebb ideig tartott, addig az augusztusit érdemesebb lehet jobban megvizsgálni, hiszen itt egy félórás időszeletről beszélünk. Külön említést érdemel, hogy \aref{fig:cpu_swapwait_summation_082702}.~ábrát jobban megfigyelve a várakozási idő megnövekedése elején nem rendelkezünk minden mérési pontról adattal (a grafikon vonalának lassú az emelkedése).
 
 \begin{figure}[h!]
 \centering
@@ -243,6 +232,21 @@ A \texttt{cpu.swapwait.summation} nullától eltérő értéke teljesítménybel
 \includegraphics[width=1.00\textwidth]{figures/cpu_swapwait_summation-20120827100000-20120827100500.png}
 \caption{A cpu.swapwait.summation értéke 2012.08.27 10:00:00 - 10:05:00 között \label{fig:cpu_swapwait_summation_082702}}
 \end{figure}
+
+\begin{table}[h]
+	\caption{cpu.swapwait.summation}
+	\centering
+	\small
+	\begin{tabular}{| p{3.5cm} | p{7.5cm} | p{2cm} |}
+		\hline
+		\rowcolor{tc_bone} \textbf{Metrika} & \textbf{Leírás} & \textbf{Mértékegység} \\
+		\hline
+		cpu.swapwait.summation & A 20 milliszekundumos ablakból mennyi időt tölt a VM várakozással (munkavégzés nélkül) amiatt, hogy nem tudja memóriába tölteni a működéséhez szükséges adatokat. & milliszekundum \\ 
+		\hline
+	\end{tabular}
+	\normalsize
+	\label{tab:cpu.swapwait.summation}
+\end{table}
 
 
 \subsection{cpu.idle.summation maximuma}
