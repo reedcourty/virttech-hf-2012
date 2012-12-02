@@ -196,6 +196,7 @@
 \todo{Infrastruktúra felépítése, hostok, VM-ek, mérés elvégzésének ideje, metrikák gyűjtésére használt eszközök stb.}
 \section{CPU metrikák}
 
+\todo{Forrásként megjelölni: \url{http://www.vmware.com/support/developer/vc-sdk/visdk400pubs/ReferenceGuide/cpu_counters.html}}
 
 %###############################################################################
 %#
@@ -210,7 +211,7 @@ A \texttt{cpu.swapwait.summation} nullától eltérő értéke teljesítménybel
 \begin{figure}[h!]
 \centering
 \includegraphics[width=1.00\textwidth]{figures/cpu_swapwait_summation-20120826230140-20120924083120.png}
-\caption{A cpu.swapwait.summation értékei monitorozott időintervallumban \label{fig:cpu_swapwait_summation}}
+\caption{A cpu.swapwait.summation értékei a monitorozott időintervallumban \label{fig:cpu_swapwait_summation}}
 \end{figure}
 
 \begin{figure}[h!]
@@ -219,13 +220,11 @@ A \texttt{cpu.swapwait.summation} nullától eltérő értéke teljesítménybel
 \caption{A cpu.swapwait.summation értéke 2012.09.13 10:31:15 - 10:33:30 között \label{fig:cpu_swapwait_summation_0913}}
 \end{figure}
 
-
 \begin{figure}[h!]
 \centering
 \includegraphics[width=1.00\textwidth]{figures/cpu_swapwait_summation-20120827100000-20120827103500.png}
 \caption{A cpu.swapwait.summation értéke 2012.08.27 10:00:00 - 10:35:00 között \label{fig:cpu_swapwait_summation_082701}}
 \end{figure}
-
 
 \begin{figure}[h!]
 \centering
@@ -247,9 +246,62 @@ A \texttt{cpu.swapwait.summation} nullától eltérő értéke teljesítménybel
 	\normalsize
 	\label{tab:cpu.swapwait.summation}
 \end{table}
+%#
+%###############################################################################
 
-
+%###############################################################################
+%#
+%#                    cpu.idle.summation
+%#
 \subsection{cpu.idle.summation maximuma}
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=1.00\textwidth]{figures/cpu_idle_summation-guest-16-20120826230140-20120924083120.png}
+\caption{A guest-16 VM cpu.idle.summation értéke a monitorozott időintervallumban \label{fig:cpu_idle_summation_g16_1}}
+\end{figure}
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=1.00\textwidth]{figures/cpu_idle_summation-guest-16-20120910100000-20120910140000.png}
+\caption{A guest-16 VM cpu.idle.summation értéke 2012.09.10. 10:00:00 és 2012.09.10. 14:00:00 között \label{fig:cpu_idle_summation_g16_2}}
+\end{figure}
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=1.00\textwidth]{figures/cpu_idle_summation-guest-15-20120826230140-20120924083120.png}
+\caption{A guest-15 VM cpu.idle.summation értéke a monitorozott időintervallumban \label{fig:cpu_idle_summation_g15_1}}
+\end{figure}
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=1.00\textwidth]{figures/cpu_idle_summation-guest-15-20120919221500-20120919224500.png}
+\caption{A guest-15 VM cpu.idle.summation értéke 2012.09.19. 22:15:00 és 2012.09.19. 22:45:00 között \label{fig:cpu_idle_summation_g15_2}}
+\end{figure}
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=1.00\textwidth]{figures/cpu_idle_summation-max-barchart.png}
+\caption{Az egyes VM-ek max. cpu.idle.summation értéke a teljes megfigyelési időintervallumra nézve \label{fig:cpu_idle_summation_max_barchart}}
+\end{figure}
+
+\begin{table}[h]
+	\caption{A cpu.idle.summation metrika}
+	\centering
+	\small
+	\begin{tabular}{| p{3.5cm} | p{7.5cm} | p{2cm} |}
+		\hline
+		\rowcolor{tc_bone} \textbf{Metrika} & \textbf{Leírás} & \textbf{Mértékegység} \\
+		\hline
+		cpu.idle.summation & A 20 milliszekundumos ablakból mennyi időt tölt a VM idle (vagyis futás nélküli) állapotban. & milliszekundum \\ 
+		\hline
+	\end{tabular}
+	\normalsize
+	\label{tab:cpu.idle.summation}
+\end{table}
+
+
+
 \subsection{cpu.ready.summation}
 \subsection{Összefüggés a wait, ready, run metrikák között}
 \subsection{Összefüggés az idle, swapwait, system metrikák között}
