@@ -57,15 +57,15 @@ logger(paste("A futás kezdete:", start_time, sep=" "))
 
 vcdatas <- load_file(file.path(INPUT_PATH, "vcenter_datas_cpu_infos.RData"))
 
-#vcdatas_limit <- timestamp_filter(vcdatas, "2012-09-10 12:00:00",
+# vcdatas_limit <- timestamp_filter(vcdatas, "2012-09-10 12:00:00",
 #                                  "2012-09-10 13:00:00")
-
-vcdatas_limit <- vcdatas
-
-cols <- names(vcdatas_limit)
-
-sequence <- seq(from = 3, to = length(cols), by = 1)
-
+#
+# vcdatas_limit <- vcdatas
+#
+# cols <- names(vcdatas_limit)
+#
+# sequence <- seq(from = 3, to = length(cols), by = 1)
+#
 # for (i in sequence) {
 #     col <- as.character(names(vcdatas_limit)[i])
 #     
@@ -96,13 +96,44 @@ sequence <- seq(from = 3, to = length(cols), by = 1)
 #     geom_point(data=vcdatas_limit, aes(x = timestamp, 
 #                                        y = cpu.swapwait.summation, 
 #                                        colour=item_id)) +
-#     ylab("cpu.swapwait.summation")
+#     ylab("milliszekundum")
 # 
 # filename <- "cpu.swapwait.summation.png"
 # 
 # logger(paste("Plott mentése", filename, "néven...", sep=" "))
 #      
 # ggsave(plot=plot, filename=file.path(OUTPUT_PATH, filename), height=6, width=20)
+
+
+ST <- "2012-09-13 10:31:15"
+ET <- "2012-09-13 10:33:30"
+
+STS <- gsub("-", "", ST)
+STS <- gsub(":", "", STS)
+STS <- gsub(" ", "", STS)
+
+ETS <- gsub("-", "", ET)
+ETS <- gsub(":", "", ETS)
+ETS <- gsub(" ", "", ETS)
+
+
+vcdatas_limit <- timestamp_filter(vcdatas, ST, ET)
+
+plot <- ggplot() +
+    geom_line(data=vcdatas_limit, aes(x = timestamp, 
+                                      y = cpu.swapwait.summation, 
+                                      colour=item_id)) +
+    geom_point(data=vcdatas_limit, aes(x = timestamp,
+                                       y = cpu.swapwait.summation,
+                                       colour=item_id)) +
+    ylab("milliszekundum")
+
+filename <- paste("cpu.swapwait.summation-", STS, "-", ETS, ".png", sep="")
+
+logger(paste("Plott mentése", filename, "néven...", sep=" "))
+
+ggsave(plot=plot, filename=file.path(OUTPUT_PATH, filename), height=6, width=20)
+
 #
 ################################################################################
 
