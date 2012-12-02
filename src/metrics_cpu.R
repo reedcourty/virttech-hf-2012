@@ -55,12 +55,11 @@ logger(paste("A futás kezdete:", start_time, sep=" "))
 
 ################################################################################
 
-vcdatas <- load_file(file.path(INPUT_PATH, "vcenter_datas_cpu_infos.RData"))
-
-# vcdatas_limit <- timestamp_filter(vcdatas, "2012-09-10 12:00:00",
-#                                  "2012-09-10 13:00:00")
+################################################################################
 #
-# vcdatas_limit <- vcdatas
+# Minden CPU metrika kirajzoltatása:
+#
+# vcdatas <- load_file(file.path(INPUT_PATH, "vcenter_datas_cpu_infos.RData"))
 #
 # cols <- names(vcdatas_limit)
 #
@@ -74,7 +73,8 @@ vcdatas <- load_file(file.path(INPUT_PATH, "vcenter_datas_cpu_infos.RData"))
 #     plot <- ggplot() +
 #         geom_line(data=vcdatas_limit, aes(x = timestamp, y = vcdatas_limit[, i], colour=item_id)) +
 #         geom_point(data=vcdatas_limit, aes(x = timestamp, y = vcdatas_limit[, i], colour=item_id)) +
-#         ylab(col)
+#         ylab(col) +
+#         scale_fill_manual(name="Virtuális gépek azonosítói")
 #     
 #     filename <- paste("cpu.metrics.", col, ".png", sep="")
 #     
@@ -89,50 +89,132 @@ vcdatas <- load_file(file.path(INPUT_PATH, "vcenter_datas_cpu_infos.RData"))
 #
 # cpu.swapwait.summation:
 #
+# A rajzoló függvényünk:
+plotter <- function(datas, ST, ET) {
+    
+    STS <- gsub("-", "", ST)
+    STS <- gsub(":", "", STS)
+    STS <- gsub(" ", "", STS)
+    
+    ETS <- gsub("-", "", ET)
+    ETS <- gsub(":", "", ETS)
+    ETS <- gsub(" ", "", ETS)
+    
+    vcdatas_limit <- timestamp_filter(datas, ST, ET)
+    
+    plot <- ggplot() +
+        geom_line(data=vcdatas_limit, aes(x = timestamp, 
+                                          y = cpu.swapwait.summation, 
+                                          colour=item_id)) +
+        geom_point(data=vcdatas_limit, aes(x = timestamp,
+                                           y = cpu.swapwait.summation,
+                                           colour=item_id)) +
+        xlab("dátum - idő") + ylab("milliszekundum") +
+        scale_colour_discrete(name="Virtuális gépek azonosítói")
+    
+    filename <- paste("cpu.swapwait.summation-", STS, "-", ETS, ".png", sep="")
+    
+    logger(paste("Plott mentése", filename, "néven...", sep=" "))
+    
+    ggsave(plot=plot, filename=file.path(OUTPUT_PATH, filename), height=6, width=20)
+}
+#
+vcdatas <- load_file(file.path(INPUT_PATH, "vcenter_datas_cpu_infos.RData"))
+#
+# Hostoknál nincs ilyen metrikánk:
+vcdatas_vms <- get_machines(vcdatas, VMS)
+#
+# Memóriát spórólunk:
+rm(vcdatas)
+#
+# A teljes időintervallum:
+ST <- min(vcdatas_vms$timestamp)
+ET <- max(vcdatas_vms$timestamp)
+#
+plotter(vcdatas_vms, ST, ET)
+#
+ST <- "2012-08-27 10:00:00"
+ET <- "2012-08-27 10:05:00"
+#
+plotter(vcdatas_vms, ST, ET)
+#
+ST <- "2012-08-27 10:00:00"
+ET <- "2012-08-27 10:35:00"
+#
+plotter(vcdatas_vms, ST, ET)
+#
+ST <- "2012-09-13 10:31:15"
+ET <- "2012-09-13 10:33:30"
+#
+plotter(vcdatas_vms, ST, ET)
+#
+################################################################################
+
+# v <- subset(vcdatas, vcdatas$cpu.swapwait.summation != 0)
+# v <- v[,c("timestamp", "item_id", "cpu.swapwait.summation")]
+
+# ST <- "2012-09-13 10:31:15"
+# ET <- "2012-09-13 10:33:30"
+# 
+# STS <- gsub("-", "", ST)
+# STS <- gsub(":", "", STS)
+# STS <- gsub(" ", "", STS)
+# 
+# ETS <- gsub("-", "", ET)
+# ETS <- gsub(":", "", ETS)
+# ETS <- gsub(" ", "", ETS)
+# 
+# 
+# vcdatas_limit <- timestamp_filter(vcdatas, ST, ET)
+# 
 # plot <- ggplot() +
 #     geom_line(data=vcdatas_limit, aes(x = timestamp, 
 #                                       y = cpu.swapwait.summation, 
 #                                       colour=item_id)) +
-#     geom_point(data=vcdatas_limit, aes(x = timestamp, 
-#                                        y = cpu.swapwait.summation, 
+#     geom_point(data=vcdatas_limit, aes(x = timestamp,
+#                                        y = cpu.swapwait.summation,
 #                                        colour=item_id)) +
 #     ylab("milliszekundum")
+xlab("dátum - idő") +
+    scale_colour_discrete(name="Virtuális gépek azonosítói")
 # 
-# filename <- "cpu.swapwait.summation.png"
+# filename <- paste("cpu.swapwait.summation-", STS, "-", ETS, ".png", sep="")
 # 
 # logger(paste("Plott mentése", filename, "néven...", sep=" "))
-#      
+# 
 # ggsave(plot=plot, filename=file.path(OUTPUT_PATH, filename), height=6, width=20)
 
 
-ST <- "2012-09-13 10:31:15"
-ET <- "2012-09-13 10:33:30"
-
-STS <- gsub("-", "", ST)
-STS <- gsub(":", "", STS)
-STS <- gsub(" ", "", STS)
-
-ETS <- gsub("-", "", ET)
-ETS <- gsub(":", "", ETS)
-ETS <- gsub(" ", "", ETS)
-
-
-vcdatas_limit <- timestamp_filter(vcdatas, ST, ET)
-
-plot <- ggplot() +
-    geom_line(data=vcdatas_limit, aes(x = timestamp, 
-                                      y = cpu.swapwait.summation, 
-                                      colour=item_id)) +
-    geom_point(data=vcdatas_limit, aes(x = timestamp,
-                                       y = cpu.swapwait.summation,
-                                       colour=item_id)) +
-    ylab("milliszekundum")
-
-filename <- paste("cpu.swapwait.summation-", STS, "-", ETS, ".png", sep="")
-
-logger(paste("Plott mentése", filename, "néven...", sep=" "))
-
-ggsave(plot=plot, filename=file.path(OUTPUT_PATH, filename), height=6, width=20)
+# ST <- "2012-08-27 10:00:00"
+# ET <- "2012-08-27 10:05:00"
+# 
+# STS <- gsub("-", "", ST)
+# STS <- gsub(":", "", STS)
+# STS <- gsub(" ", "", STS)
+# 
+# ETS <- gsub("-", "", ET)
+# ETS <- gsub(":", "", ETS)
+# ETS <- gsub(" ", "", ETS)
+# 
+# 
+# vcdatas_limit <- timestamp_filter(vcdatas, ST, ET)
+# 
+# v <- vcdatas_limit[,c("timestamp", "item_id", "cpu.swapwait.summation")]
+# 
+# plot <- ggplot() +
+#     geom_line(data=vcdatas_limit, aes(x = timestamp,
+#                                       y = cpu.swapwait.summation, 
+#                                       colour=item_id)) +
+#     geom_point(data=vcdatas_limit, aes(x = timestamp,
+#                                        y = cpu.swapwait.summation,
+#                                        colour=item_id)) +
+#     ylab("milliszekundum")
+# 
+# filename <- paste("cpu.swapwait.summation-", STS, "-", ETS, ".png", sep="")
+# 
+# logger(paste("Plott mentése", filename, "néven...", sep=" "))
+# 
+# ggsave(plot=plot, filename=file.path(OUTPUT_PATH, filename), height=6, width=20)
 
 #
 ################################################################################
