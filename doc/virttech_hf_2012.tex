@@ -474,24 +474,25 @@ A guest-15 kiugró értékeitől kisebb eltéréseket is megfigyelhetünk más v
 
 A vizsgálatból megállítható, hogy bár a három metrika összege megközelítve kiadja a mérési időablak nagyságának értékét, de nincs teljesen megbízható lehetőség arra, hogy esetlegesen valamelyik metrika eltárolása helyett azt a másik kettő alapján számoljuk ki.
 
-\subsection{Összefüggés az idle, swapwait, system metrikák között}
+%\subsection{Összefüggés az idle, swapwait, system metrikák között}
+%
+%\todo{Megcsinálni!}
+%
+%\begin{table}[h]
+%	\caption{A cpu.system.summation metrika}
+%	\centering
+%	\small
+%	\begin{tabular}{| p{3.5cm} | p{7.5cm} | p{2cm} |}
+%		\hline
+%		\rowcolor{tc_bone} \textbf{Metrika} & \textbf{Leírás} & \textbf{Mértékegység} \\
+%		\hline
+%		cpu.system.summation & Azoknak az időknek az összege, amelyet a virtuális CPU a virtuális gépben rendszer folyamatok (megszakítás, I/O) kezelésével tölt. Ez nem a vendég operációs rendszer, hanem a kiszolgáló által látott érték. & milliszekundum \\ 
+%		\hline
+%	\end{tabular}
+%	\normalsize
+%	\label{tab:cpu.system.summation}
+%\end{table}
 
-\todo{Megcsinálni!}
-
-\begin{table}[h]
-	\caption{A cpu.system.summation metrika}
-	\centering
-	\small
-	\begin{tabular}{| p{3.5cm} | p{7.5cm} | p{2cm} |}
-		\hline
-		\rowcolor{tc_bone} \textbf{Metrika} & \textbf{Leírás} & \textbf{Mértékegység} \\
-		\hline
-		cpu.system.summation & Azoknak az időknek az összege, amelyet a virtuális CPU a virtuális gépben rendszer folyamatok (megszakítás, I/O) kezelésével tölt. Ez nem a vendég operációs rendszer, hanem a kiszolgáló által látott érték. & milliszekundum \\ 
-		\hline
-	\end{tabular}
-	\normalsize
-	\label{tab:cpu.system.summation}
-\end{table}
 
 \subsection{Korreláció vizsgálata a cpu.usage.average és cpu.usagemhz.average metrikák között}
 
