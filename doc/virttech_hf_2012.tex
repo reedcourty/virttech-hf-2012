@@ -314,7 +314,31 @@ A \textit{guest-15} nevű virtuális gép \texttt{cpu.idle.summation} grafikonja
 
 \subsection{A cpu.ready.summation metrika}
 
+A cpu.ready.summation metrika az egyik legismertebb teljesítmény indikátor a metrikák közül. Amennyiben egy virtuális gép futásra kész állapotban van, ám ennek ellenére nem jut fizikai processzor időhöz, úgy ennek a számlálónak az értéke növekszik, maximum a 20 másodperces mintavételezési ablak értékéig.
+
+Amennyiben egy virtuális infrastruktúra monitorozása során magas CPU ready értékeket figyelünk meg, úgy abban az esetben érdemes utána járni, hogy mi lehet ennek az oka. Általában ha túlterhelt (sok VM-et működtet) a kiszolgálónk, az megjelenik a magas ready időkben.
+
+Magas értékekről beszélünk, ha a ready meghaladja az időablak 10\%-át, tehát 2 másodpercet. Egy átlagos kihasználtsággal rendelkező infrastruktúra esetében a ready értékek 5\% környékiek. 
+
 \todo{Megcsinálni!}
+
+\todo{Következtetést levonni jelen infrastruktúra teljesítményére ready alapján!}
+
+\todo{Forrás: \url{http://communities.vmware.com/docs/DOC-7390}}
+
+\todo{Forrás: \url{http://www.vmware.com/files/webinars/communities/VI-Performance-Monitoring.pdf}}
+
+\todo{Forrás: \url{http://www.vmware.com/support/developer/vc-sdk/visdk400pubs/ReferenceGuide/cpu_counters.html}}
+
+\todo{Forrás: \url{http://www.vmware.com/support/developer/vc-sdk/visdk400pubs/ReferenceGuide/vim.PerformanceManager.CounterInfo.html}}
+
+\todo{Forrás: \url{http://www.slideshare.net/alanrenouf/vsphere-apis-for-performance-monitoring}}
+
+\todo{Forrás: \url{http://www.vmware.com/support/developer/vc-sdk/}}
+
+\todo{Forrás: \url{http://communities.vmware.com/docs/DOC-5600}}
+
+\todo{Forrás: \url{http://communities.vmware.com/docs/DOC-5230}}
 
 \begin{figure}[h!]
 \centering
@@ -438,6 +462,8 @@ A \textit{guest-15} nevű virtuális gép \texttt{cpu.idle.summation} grafikonja
 \section{Lemez metrikák}
 
 \todo{Írni a lemezmetrikákról általánosan!}
+
+\todo{Forrás: \url{http://www.vmware.com/support/developer/vc-sdk/visdk400pubs/ReferenceGuide/disk_counters.html}}
 
 \subsection{Összefüggés a disk.deviceLatency.average, disk.kernelLatency.average, \\ disk.totallatency.average metrikák között}
 
