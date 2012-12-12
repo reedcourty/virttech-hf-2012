@@ -57,7 +57,7 @@ logger(paste("A futás kezdete:", start_time, sep=" "))
 vcdatas <- load_file(file.path(INPUT_PATH, "vcenter_datas_disk_infos.RData"))
 
 vcdatas_limit <- timestamp_filter(vcdatas, "2012-09-10 12:00:00",
-                                  "2012-09-10 13:00:00")
+                                  "2012-09-10 12:30:00")
 
 cols <- names(vcdatas_limit)
 
@@ -135,7 +135,7 @@ logger(paste("Plott mentése", filename, "néven...", sep=" "))
 
 ggsave(plot=plot, 
        filename=file.path(OUTPUT_PATH, filename), 
-       height=6, width=20)
+       height=4, width=10)
 
 
 # "storageadapter.totalreadlatency.average_vmhba0", 
