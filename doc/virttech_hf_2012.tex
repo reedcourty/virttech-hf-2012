@@ -194,14 +194,20 @@
 
 \section{Bevezetés}
 \subsection{A vizuális adatelemzésről}
-\todo{R, ggplot2, Mondrian, előnyök, hátrányok stb.}
+
+Feltáró adatelemzésnek nevezzük azt a folyamatot, amikor egy nagy méretű adathalmazból új információkat, következtetéseket próbálunk meg levonni. Ezeket a következtetéseket segíti az adott területtel kapcsolatos háttértudás.
+
+A feltáró adatelemzést megkönnyítheti az adatok ábrázolása, vagyis a vizuális adatelemzés. Az ábrák segítenek áttekinteni a nagy méretű adathalmazokat, egyszerűbben találhatjuk meg az érdekesebb, nagy eséllyel új információt tartalmazó részeket. Ugyanakkor az is előfordulhat, hogy olyan helyen találunk információra utaló mintákat, amik valójában nem is léteznek.
+
+Jelen dokumentum megpróbálja egy VMware infrastruktúrából származó mérési eredmények adatainak egy részét elemezni. Ehhez az R nyelv és a hozzákapcsolódó ggplot2 csomag került felhasználásra \cite{link:R, link:GG2}.
+
 \subsection{A vizsgált infrastruktúra}
 \todo{Infrastruktúra felépítése, hostok, VM-ek, mérés elvégzésének ideje, metrikák gyűjtésére használt eszközök stb.}
 \section{CPU metrikák}
 
-\todo{Forrásként megjelölni: \url{http://www.vmware.com/support/developer/vc-sdk/visdk400pubs/ReferenceGuide/cpu_counters.html}}
-
 \todo{Írni a CPU metrikákról általánosan!}
+
+\cite{link:CC}
 
 %###############################################################################
 %#
@@ -209,7 +215,7 @@
 %#
 \subsection{A cpu.swapwait.summation metrika}
 
-A \texttt{cpu.swapwait.summation} nullától eltérő értéke teljesítménybeli problémát jelent, hiszen azt az időt mutatja, hogy egy swap-in műveletre mennyit kellett várnia egy virtuális gépnek (\ref{tab:cpu.swapwait.summation}.~táblázat). A várakozás oka, hogy hely hiány miatt nem sikerül a virtuális memóriából a memóriába tölteni a működéshez szükséges adatokat.
+A \texttt{cpu.swapwait.summation} nullától eltérő értéke teljesítménybeli problémát jelent, hiszen azt az időt mutatja, hogy egy swap-in műveletre mennyit kellett várnia egy virtuális gépnek (\ref{tab:cpu.metrics}.~táblázat). A várakozás oka, hogy hely hiány miatt nem sikerül a virtuális memóriából a memóriába tölteni a működéshez szükséges adatokat.
 
 \Aref{fig:cpu_swapwait_summation}.~ábra a teljes megfigyelt intervallumot ábrázolja. Jól látható, hogy ez idő alatt kétszer fordult elő nagyobb várakozás egy-egy VM-nél. Az egyik augusztus 27-én, a \textit{guest-15} esetében (\ref{fig:cpu_swapwait_summation_082701}.~ábra), a másik szeptember 13-án a \textit{guest-21}-nél(\ref{fig:cpu_swapwait_summation_0913}.~ábra). Amíg a szeptemberi egy viszonylag rövidebb ideig tartott, addig az augusztusit érdemesebb lehet jobban megvizsgálni, hiszen itt egy félórás időszeletről beszélünk. Külön említést érdemel, hogy \aref{fig:cpu_swapwait_summation_082702}.~ábrát jobban megfigyelve a várakozási idő megnövekedése elején nem rendelkezünk minden mérési pontról adattal (a grafikon vonalának lassú az emelkedése).
 
@@ -299,7 +305,7 @@ Magas értékekről beszélünk, ha a ready meghaladja az időablak 10\%-át, te
 
 \todo{Következtetést levonni jelen infrastruktúra teljesítményére ready alapján!}
 
-\todo{Forrás: \url{http://communities.vmware.com/docs/DOC-7390}}
+\todo{Forrás: \url{http://communities.vmware.com/docs/DOC-7390}} \cite{link:CRT}
 
 \todo{Forrás: \url{http://www.vmware.com/files/webinars/communities/VI-Performance-Monitoring.pdf}}
 
@@ -538,6 +544,10 @@ Megállapítható, hogy a két metrika közötti összefüggés miatt az egyikü
 
 \todo{Megcsinálni!}
 
+\section{Köszönetnyilvánítás}
+
+\todo{Megcsinálni!}
+
 \section{Függelék - A dokumentumban előforduló néhány metrika leírása}
 
 \begin{table}[h]
@@ -589,5 +599,25 @@ Megállapítható, hogy a két metrika közötti összefüggés miatt az egyikü
 \todo{Lemez metrikákat megcsinálni!}
 
 \todo{Netes metrikát megcsinálni!}
+
+\begin{thebibliography}{99}
+
+\bibitem[R] {link:R}
+The R Project for Statistical Computing \\
+Link: {\footnotesize \url{http://www.r-project.org/}}
+
+\bibitem[GG2] {link:GG2}
+ggplot2 \\
+Link: {\footnotesize \url{http://ggplot2.org/}}
+
+\bibitem[CC] {link:CC}
+VMware.com - CPU Counters \\
+Link: {\footnotesize \url{http://www.vmware.com/support/developer/vc-sdk/visdk400pubs/ReferenceGuide/cpu_counters.html}}
+
+\bibitem[CRT] {link:CRT}
+VMware Communities - Ready Time \\
+Link: {\footnotesize \url{http://communities.vmware.com/docs/DOC-7390}}
+
+\end{thebibliography}
 
 \end{document}
