@@ -738,13 +738,12 @@ for (item in ITEMS) {
     df <- data.frame(vcdatas_item$cpu.usage.average, vcdatas_item$cpu.usagemhz.average)
     names(df) <- c("cpu.usage.average", "cpu.usagemhz.average")
     
-    c <- cor(df)
-    print(c)
+    c <- gsub("\\.", "", as.character(cor(df)[2][1]))
     
     corrgram(df, order=TRUE, lower.panel=panel.shade,
              upper.panel=panel.pie, text.panel=panel.txt)
     
-    filename=paste("corrgram", "-", item, ".png", sep="")
+    filename=paste("corrgram", "-", item, "-", c, ".png", sep="")
     
     dev.copy(png,file.path(OUTPUT_PATH, filename))
     dev.off()
