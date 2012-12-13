@@ -77,6 +77,9 @@
 %# Saját szín csomag:
 \usepackage{texcolors}
 %#
+%# Egymás melleti képekhez:
+\usepackage{subfig}
+%#
 %###############################################################################
 
 %###############################################################################
@@ -495,6 +498,50 @@ A vizsgálatból megállítható, hogy bár a három metrika összege megközel�
 
 
 \subsection{Korreláció vizsgálata a cpu.usage.average és cpu.usagemhz.average metrikák között}
+
+\begin{table}[h]
+	\caption{A cpu.usage.average metrika}
+	\centering
+	\small
+	\begin{tabular}{| p{3.5cm} | p{7.5cm} | p{2cm} |}
+		\hline
+		\rowcolor{tc_bone} \textbf{Metrika} & \textbf{Leírás} & \textbf{Mértékegység} \\
+		\hline
+		cpu.usage.average & Az aktívan használt virtuális CPU értéke a teljes elérhető CPU-ra nézve. Ez az átlagos kihasználtsága az összes CPU-nak az adott virtuális gépben. & \% \\ 
+		\hline
+	\end{tabular}
+	\normalsize
+	\label{tab:cpu.usage.average}
+\end{table}
+
+\begin{table}[h]
+	\caption{A cpu.usagemhz.average metrika}
+	\centering
+	\small
+	\begin{tabular}{| p{3.5cm} | p{7.5cm} | p{2cm} |}
+		\hline
+		\rowcolor{tc_bone} \textbf{Metrika} & \textbf{Leírás} & \textbf{Mértékegység} \\
+		\hline
+		cpu.usagemhz.average & Az aktívan használt virtuális CPU értéke. Ez a host által látott CPU használat, és nem a vendég operációs rendszer által megfigyelt. & MHz \\ 
+		\hline
+	\end{tabular}
+	\normalsize
+	\label{tab:cpu.usage.average}
+\end{table}
+
+Vizsgáljuk meg a \texttt{cpu.usage.average} és \texttt{cpu.usagemhz.average} metrikák közötti korrelációt. A korreláció nagyságát vizuálisan \aref{fig:corrgram-hosts}.~ábra mutatja.
+
+Megállapítható, hogy a két metrika közötti összefüggés miatt az egyikük akár el is hagyható a monitorozás/naplózás során, hiszen nem nyújt új információt az infrastruktúráról. 
+
+\begin{figure}[h!]
+  \centering
+  \subfloat[host-01 (Korreláció: $0,999999734514543$)]{\label{fig:corrgram-host-01}\includegraphics[width=0.45\textwidth]{figures/corrgram-host-01-0999999734514543.png}}                
+  \subfloat[host-02 (Korreláció: $0,999999692814215$)]{\label{fig:corrgram-host-01}\includegraphics[width=0.45\textwidth]{figures/corrgram-host-02-0999999692814215.png}}
+  \caption{A cpu.usage.average és cpu.usagemhz.average metrikák közötti korreláció}
+  \label{fig:corrgram-hosts}
+\end{figure}
+
+
 
 \section{Lemez metrikák}
 

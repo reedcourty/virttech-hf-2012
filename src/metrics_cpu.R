@@ -1,6 +1,7 @@
 # A felhasznált library-k:
 library(ggplot2)
 library(plyr)
+library(corrgram)
 
 # Saját külső modulok:
 # Naplózó függvény beinclude-olása:
@@ -497,11 +498,226 @@ logger(paste("A futás kezdete:", start_time, sep=" "))
 # ################################################################################
 
 
-
-
-
-
-
+# ################################################################################
+# #
+# # cpu.run.summation + cpu.wait.summation + cpu.ready.summation
+# #
+# # A rajzoló függvényeink:
+# plotter <- function(datas, ST, ET) {
+#     
+#     STS <- gsub("-", "", ST)
+#     STS <- gsub(":", "", STS)
+#     STS <- gsub(" ", "", STS)
+#     
+#     ETS <- gsub("-", "", ET)
+#     ETS <- gsub(":", "", ETS)
+#     ETS <- gsub(" ", "", ETS)
+#     
+#     vcdatas_limit <- timestamp_filter(datas, ST, ET)
+#     
+#     plot <- ggplot() +
+#         geom_line(data=vcdatas_limit, aes(x = timestamp, 
+#                                           y = cpu.run.summation, 
+#                                           colour="1")) +
+#         geom_point(data=vcdatas_limit, aes(x = timestamp,
+#                                            y = cpu.run.summation,
+#                                            colour="1")) +
+#                                                
+#         geom_line(data=vcdatas_limit, aes(x = timestamp,
+#                                           y = cpu.wait.summation,
+#                                           colour="2")) +
+#         geom_point(data=vcdatas_limit, aes(x = timestamp,
+#                                            y = cpu.wait.summation,
+#                                            colour="2")) +
+#         
+#         geom_line(data=vcdatas_limit, aes(x = timestamp,
+#                                           y = cpu.ready.summation,
+#                                           colour="3")) +
+#         geom_point(data=vcdatas_limit, aes(x = timestamp,
+#                                            y = cpu.ready.summation,
+#                                            colour="3")) +
+#                                                
+#         geom_line(data=vcdatas_limit, aes(x = timestamp,
+#                                           y = cpu.run.wait.ready,
+#                                           colour="4")) +
+#         geom_point(data=vcdatas_limit, aes(x = timestamp,
+#                                            y = cpu.run.wait.ready,
+#                                            colour="4")) +
+#         
+#         geom_line(data=vcdatas_limit, aes(x = timestamp,
+#                                           y = 20000,
+#                                           colour="5")) +
+#         geom_point(data=vcdatas_limit, aes(x = timestamp,
+#                                            y = 20000,
+#                                            colour="5")) +
+#                                                
+#         xlab("dátum - idő") + ylab("milliszekundum") +
+#         scale_colour_manual(values=c("#FF0000", "#00FF00", "#0000FF", 
+#                                      "#000000", "#FDEE00"),
+#                             name="Metrikák",
+#                             labels=c("cpu.run.summation", 
+#                                      "cpu.wait.summation", 
+#                                      "cpu.ready.summation", "Összeg", 
+#                                      "20000"))
+#     
+#     filename <- paste("cpu_run_wait_ready-", unique(vcdatas_limit$item_id), 
+#                       "-", STS, "-", ETS, ".png", sep="")
+#     
+#     logger(paste("Plott mentése", filename, "néven...", sep=" "))
+#     
+#     ggsave(plot=plot, filename=file.path(OUTPUT_PATH, filename), height=6, 
+#            width=20)
+# }
+# 
+# plotter_diff <- function(datas, ST, ET) {
+#     
+#     STS <- gsub("-", "", ST)
+#     STS <- gsub(":", "", STS)
+#     STS <- gsub(" ", "", STS)
+#     
+#     ETS <- gsub("-", "", ET)
+#     ETS <- gsub(":", "", ETS)
+#     ETS <- gsub(" ", "", ETS)
+#     
+#     vcdatas_limit <- timestamp_filter(datas, ST, ET)
+#     
+#     plot <- ggplot() +
+#         geom_line(data=vcdatas_limit, aes(x = timestamp, 
+#                                           y = diff, 
+#                                           colour="1")) +
+#         geom_point(data=vcdatas_limit, aes(x = timestamp,
+#                                            y = diff,
+#                                            colour="1")) +
+#         
+#         xlab("dátum - idő") + ylab("milliszekundum") +
+#         scale_colour_manual(values=c("#0000FF"),
+#                             name="Metrikák",
+#                             labels=c("A 20 másodperctől való eltérés"))
+#     
+#     filename <- paste("cpu_run_wait_ready-diff-", unique(vcdatas_limit$item_id), "-", STS, 
+#                       "-", ETS, ".png", sep="")
+#     
+#     logger(paste("Plott mentése", filename, "néven...", sep=" "))
+#     
+#     ggsave(plot=plot, filename=file.path(OUTPUT_PATH, filename), height=6, 
+#            width=20)
+# }
+# 
+# plot_diff_distribution <- function(datas, ST, ET) {
+#     
+#     STS <- gsub("-", "", ST)
+#     STS <- gsub(":", "", STS)
+#     STS <- gsub(" ", "", STS)
+#     
+#     ETS <- gsub("-", "", ET)
+#     ETS <- gsub(":", "", ETS)
+#     ETS <- gsub(" ", "", ETS)
+#     
+#     vcdatas_limit <- timestamp_filter(datas, ST, ET)
+#     
+#     diff_dist <- ddply(vcdatas_limit, .(diff), summarize, count = length(unique(timestamp)))
+#     diff_dist <- data.frame(diff_dist, seq(1:nrow(diff_dist)))
+#     
+#     names(diff_dist) <- c("diff","count","seq")
+#     
+#     plot <- ggplot(data=diff_dist, aes(x = factor(diff), y=count)) +
+#         geom_histogram(fill=diff_dist$diff, stat="identity") +
+#         
+#         theme(axis.text.x = element_text(angle = 90, hjust = 0, size=6, color="#000000")) +
+#         ylab("Előfordulások száma") + xlab("Eltérés a 20 másodperctől milliszekundumban")
+#     
+#     filename <- paste("cpu_run_wait_ready-diff-dist", 
+#                       "-", STS, 
+#                       "-", ETS, ".png", sep="")
+#     logger(paste("Plott mentése", filename, "néven...", sep=" "))
+#     
+#     ggsave(plot=plot, filename=file.path(OUTPUT_PATH, filename), height=4, width=12)
+# }
+# 
+# plot_diff_distribution_log <- function(datas, ST, ET) {
+#     
+#     STS <- gsub("-", "", ST)
+#     STS <- gsub(":", "", STS)
+#     STS <- gsub(" ", "", STS)
+#     
+#     ETS <- gsub("-", "", ET)
+#     ETS <- gsub(":", "", ETS)
+#     ETS <- gsub(" ", "", ETS)
+#     
+#     vcdatas_limit <- timestamp_filter(datas, ST, ET)
+#     
+#     diff_dist <- ddply(vcdatas_limit, .(diff), summarize, count = length(unique(timestamp)))
+#     diff_dist <- data.frame(diff_dist, seq(1:nrow(diff_dist)))
+#     
+#     names(diff_dist) <- c("diff","count","seq")
+#     
+#     plot <- ggplot(data=diff_dist, aes(x = factor(diff), y=log(count))) +
+#         geom_histogram(fill=diff_dist$diff, stat="identity") +
+#         
+#         theme(axis.text.x = element_text(angle = 90, hjust = 0, size=6, color="#000000")) +
+#         ylab("Előfordulások száma (logaritmikus skála)") + xlab("Eltérés a 20 másodperctől milliszekundumban")
+#     
+#     filename <- paste("cpu_run_wait_ready-diff-dist-log", 
+#                       "-", STS, 
+#                       "-", ETS, ".png", sep="")
+#     logger(paste("Plott mentése", filename, "néven...", sep=" "))
+#     
+#     ggsave(plot=plot, filename=file.path(OUTPUT_PATH, filename), height=4, width=12)
+# }
+# 
+# vcdatas <- load_file(file.path(INPUT_PATH, "vcenter_datas_cpu_infos.RData"))
+# 
+# #
+# # Hostoknál nincs ilyen metrikánk:
+# vcdatas_vms <- get_machines(vcdatas, VMS)
+# 
+# # Számolunk:
+# vcdatas_vms$cpu.run.wait.ready = vcdatas_vms$cpu.run.summation + 
+#     vcdatas_vms$cpu.wait.summation + vcdatas_vms$cpu.ready.summation
+# 
+# vcdatas_vms$diff = vcdatas_vms$cpu.run.wait.ready - 20000
+# 
+# #
+# # Memóriát spórólunk:
+# rm(vcdatas)
+# #
+# # Első körben minden VM-et kiplottolunk, hogy lássuk, mit érdemes nézni:
+# for (vm in VMS) {
+#     vcdatas_vm <- get_machine(vcdatas_vms, vm)
+#     
+#     # A teljes időintervallum:
+#     ST <- min(vcdatas_vm$timestamp)
+#     ET <- max(vcdatas_vm$timestamp)
+#     
+#     plotter(vcdatas_vm, ST, ET)
+#     
+# }
+# 
+# vcdatas_vm <- get_machine(vcdatas_vms, "guest-15")
+# 
+# ST <- "2012-09-06 22:00:00"
+# ET <- "2012-09-06 22:10:00"
+#     
+# plotter(vcdatas_vm, ST, ET)
+# 
+# for (vm in VMS) {
+#     vcdatas_vm <- get_machine(vcdatas_vms, vm)
+#     
+#     # A teljes időintervallum:
+#     ST <- min(vcdatas_vm$timestamp)
+#     ET <- max(vcdatas_vm$timestamp)
+#     
+#     plotter_diff(vcdatas_vm, ST, ET)
+#     
+# }
+# 
+# ST <- min(vcdatas_vms$timestamp)
+# ET <- max(vcdatas_vms$timestamp)
+# 
+# plot_diff_distribution(vcdatas_vms, ST, ET)
+# plot_diff_distribution_log(vcdatas_vms, ST, ET)
+# #
+# ################################################################################
 
 
 
@@ -509,222 +725,54 @@ logger(paste("A futás kezdete:", start_time, sep=" "))
 
 ################################################################################
 #
-# cpu.run.summation + cpu.wait.summation + cpu.ready.summation
+# Korreláció vizsgálata a cpu.usage.average és cpu.usagemhz.average metrikák
+# között
 #
-# A rajzoló függvényeink:
-plotter <- function(datas, ST, ET) {
-    
-    STS <- gsub("-", "", ST)
-    STS <- gsub(":", "", STS)
-    STS <- gsub(" ", "", STS)
-    
-    ETS <- gsub("-", "", ET)
-    ETS <- gsub(":", "", ETS)
-    ETS <- gsub(" ", "", ETS)
-    
-    vcdatas_limit <- timestamp_filter(datas, ST, ET)
-    
-    plot <- ggplot() +
-        geom_line(data=vcdatas_limit, aes(x = timestamp, 
-                                          y = cpu.run.summation, 
-                                          colour="1")) +
-        geom_point(data=vcdatas_limit, aes(x = timestamp,
-                                           y = cpu.run.summation,
-                                           colour="1")) +
-                                               
-        geom_line(data=vcdatas_limit, aes(x = timestamp,
-                                          y = cpu.wait.summation,
-                                          colour="2")) +
-        geom_point(data=vcdatas_limit, aes(x = timestamp,
-                                           y = cpu.wait.summation,
-                                           colour="2")) +
-        
-        geom_line(data=vcdatas_limit, aes(x = timestamp,
-                                          y = cpu.ready.summation,
-                                          colour="3")) +
-        geom_point(data=vcdatas_limit, aes(x = timestamp,
-                                           y = cpu.ready.summation,
-                                           colour="3")) +
-                                               
-        geom_line(data=vcdatas_limit, aes(x = timestamp,
-                                          y = cpu.run.wait.ready,
-                                          colour="4")) +
-        geom_point(data=vcdatas_limit, aes(x = timestamp,
-                                           y = cpu.run.wait.ready,
-                                           colour="4")) +
-        
-        geom_line(data=vcdatas_limit, aes(x = timestamp,
-                                          y = 20000,
-                                          colour="5")) +
-        geom_point(data=vcdatas_limit, aes(x = timestamp,
-                                           y = 20000,
-                                           colour="5")) +
-                                               
-        xlab("dátum - idő") + ylab("milliszekundum") +
-        scale_colour_manual(values=c("#FF0000", "#00FF00", "#0000FF", 
-                                     "#000000", "#FDEE00"),
-                            name="Metrikák",
-                            labels=c("cpu.run.summation", 
-                                     "cpu.wait.summation", 
-                                     "cpu.ready.summation", "Összeg", 
-                                     "20000"))
-    
-    filename <- paste("cpu_run_wait_ready-", unique(vcdatas_limit$item_id), 
-                      "-", STS, "-", ETS, ".png", sep="")
-    
-    logger(paste("Plott mentése", filename, "néven...", sep=" "))
-    
-    ggsave(plot=plot, filename=file.path(OUTPUT_PATH, filename), height=6, 
-           width=20)
-}
-
-plotter_diff <- function(datas, ST, ET) {
-    
-    STS <- gsub("-", "", ST)
-    STS <- gsub(":", "", STS)
-    STS <- gsub(" ", "", STS)
-    
-    ETS <- gsub("-", "", ET)
-    ETS <- gsub(":", "", ETS)
-    ETS <- gsub(" ", "", ETS)
-    
-    vcdatas_limit <- timestamp_filter(datas, ST, ET)
-    
-    plot <- ggplot() +
-        geom_line(data=vcdatas_limit, aes(x = timestamp, 
-                                          y = diff, 
-                                          colour="1")) +
-        geom_point(data=vcdatas_limit, aes(x = timestamp,
-                                           y = diff,
-                                           colour="1")) +
-        
-        xlab("dátum - idő") + ylab("milliszekundum") +
-        scale_colour_manual(values=c("#0000FF"),
-                            name="Metrikák",
-                            labels=c("A 20 másodperctől való eltérés"))
-    
-    filename <- paste("cpu_run_wait_ready-diff-", unique(vcdatas_limit$item_id), "-", STS, 
-                      "-", ETS, ".png", sep="")
-    
-    logger(paste("Plott mentése", filename, "néven...", sep=" "))
-    
-    ggsave(plot=plot, filename=file.path(OUTPUT_PATH, filename), height=6, 
-           width=20)
-}
-
-plot_diff_distribution <- function(datas, ST, ET) {
-    
-    STS <- gsub("-", "", ST)
-    STS <- gsub(":", "", STS)
-    STS <- gsub(" ", "", STS)
-    
-    ETS <- gsub("-", "", ET)
-    ETS <- gsub(":", "", ETS)
-    ETS <- gsub(" ", "", ETS)
-    
-    vcdatas_limit <- timestamp_filter(datas, ST, ET)
-    
-    diff_dist <- ddply(vcdatas_limit, .(diff), summarize, count = length(unique(timestamp)))
-    diff_dist <- data.frame(diff_dist, seq(1:nrow(diff_dist)))
-    
-    names(diff_dist) <- c("diff","count","seq")
-    
-    plot <- ggplot(data=diff_dist, aes(x = factor(diff), y=count)) +
-        geom_histogram(fill=diff_dist$diff, stat="identity") +
-        
-        theme(axis.text.x = element_text(angle = 90, hjust = 0, size=6, color="#000000")) +
-        ylab("Előfordulások száma") + xlab("Eltérés a 20 másodperctől milliszekundumban")
-    
-    filename <- paste("cpu_run_wait_ready-diff-dist", 
-                      "-", STS, 
-                      "-", ETS, ".png", sep="")
-    logger(paste("Plott mentése", filename, "néven...", sep=" "))
-    
-    ggsave(plot=plot, filename=file.path(OUTPUT_PATH, filename), height=4, width=12)
-}
-
-plot_diff_distribution_log <- function(datas, ST, ET) {
-    
-    STS <- gsub("-", "", ST)
-    STS <- gsub(":", "", STS)
-    STS <- gsub(" ", "", STS)
-    
-    ETS <- gsub("-", "", ET)
-    ETS <- gsub(":", "", ETS)
-    ETS <- gsub(" ", "", ETS)
-    
-    vcdatas_limit <- timestamp_filter(datas, ST, ET)
-    
-    diff_dist <- ddply(vcdatas_limit, .(diff), summarize, count = length(unique(timestamp)))
-    diff_dist <- data.frame(diff_dist, seq(1:nrow(diff_dist)))
-    
-    names(diff_dist) <- c("diff","count","seq")
-    
-    plot <- ggplot(data=diff_dist, aes(x = factor(diff), y=log(count))) +
-        geom_histogram(fill=diff_dist$diff, stat="identity") +
-        
-        theme(axis.text.x = element_text(angle = 90, hjust = 0, size=6, color="#000000")) +
-        ylab("Előfordulások száma (logaritmikus skála)") + xlab("Eltérés a 20 másodperctől milliszekundumban")
-    
-    filename <- paste("cpu_run_wait_ready-diff-dist-log", 
-                      "-", STS, 
-                      "-", ETS, ".png", sep="")
-    logger(paste("Plott mentése", filename, "néven...", sep=" "))
-    
-    ggsave(plot=plot, filename=file.path(OUTPUT_PATH, filename), height=4, width=12)
-}
-
+# 
 vcdatas <- load_file(file.path(INPUT_PATH, "vcenter_datas_cpu_infos.RData"))
 
-#
-# Hostoknál nincs ilyen metrikánk:
-vcdatas_vms <- get_machines(vcdatas, VMS)
 
-# Számolunk:
-vcdatas_vms$cpu.run.wait.ready = vcdatas_vms$cpu.run.summation + 
-    vcdatas_vms$cpu.wait.summation + vcdatas_vms$cpu.ready.summation
-
-vcdatas_vms$diff = vcdatas_vms$cpu.run.wait.ready - 20000
-
-#
-# Memóriát spórólunk:
-rm(vcdatas)
-#
-# Első körben minden VM-et kiplottolunk, hogy lássuk, mit érdemes nézni:
-for (vm in VMS) {
-    vcdatas_vm <- get_machine(vcdatas_vms, vm)
+for (item in ITEMS) {
+    vcdatas_item <- get_machine(vcdatas, item)
     
-    # A teljes időintervallum:
-    ST <- min(vcdatas_vm$timestamp)
-    ET <- max(vcdatas_vm$timestamp)
+    df <- data.frame(vcdatas_item$cpu.usage.average, vcdatas_item$cpu.usagemhz.average)
+    names(df) <- c("cpu.usage.average", "cpu.usagemhz.average")
     
-    plotter(vcdatas_vm, ST, ET)
+    c <- cor(df)
+    print(c)
+    
+    corrgram(df, order=TRUE, lower.panel=panel.shade,
+             upper.panel=panel.pie, text.panel=panel.txt)
+    
+    filename=paste("corrgram", "-", item, ".png", sep="")
+    
+    dev.copy(png,file.path(OUTPUT_PATH, filename))
+    dev.off()
     
 }
 
-vcdatas_vm <- get_machine(vcdatas_vms, "guest-15")
 
-ST <- "2012-09-06 22:00:00"
-ET <- "2012-09-06 22:10:00"
-    
-plotter(vcdatas_vm, ST, ET)
 
-for (vm in VMS) {
-    vcdatas_vm <- get_machine(vcdatas_vms, vm)
-    
-    # A teljes időintervallum:
-    ST <- min(vcdatas_vm$timestamp)
-    ET <- max(vcdatas_vm$timestamp)
-    
-    plotter_diff(vcdatas_vm, ST, ET)
-    
-}
 
-ST <- min(vcdatas_vms$timestamp)
-ET <- max(vcdatas_vms$timestamp)
 
-plot_diff_distribution(vcdatas_vms, ST, ET)
-plot_diff_distribution_log(vcdatas_vms, ST, ET)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 ################################################################################
 
