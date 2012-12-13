@@ -236,21 +236,6 @@ A \texttt{cpu.swapwait.summation} nullától eltérő értéke teljesítménybel
 \includegraphics[width=1.00\textwidth]{figures/cpu_swapwait_summation-20120827100000-20120827100500.png}
 \caption{A cpu.swapwait.summation értéke 2012.08.27. 10:00:00 - 10:05:00 között \label{fig:cpu_swapwait_summation_082702}}
 \end{figure}
-
-\begin{table}[h]
-	\caption{A cpu.swapwait.summation metrika}
-	\centering
-	\small
-	\begin{tabular}{| p{3.5cm} | p{7.5cm} | p{2cm} |}
-		\hline
-		\rowcolor{tc_bone} \textbf{Metrika} & \textbf{Leírás} & \textbf{Mértékegység} \\
-		\hline
-		cpu.swapwait.summation & A 20 milliszekundumos ablakból mennyi időt tölt a VM várakozással (munkavégzés nélkül) amiatt, hogy nem tudja memóriába tölteni a működéséhez szükséges adatokat. & milliszekundum \\ 
-		\hline
-	\end{tabular}
-	\normalsize
-	\label{tab:cpu.swapwait.summation}
-\end{table}
 %#
 %###############################################################################
 
@@ -298,20 +283,7 @@ A \textit{guest-15} nevű virtuális gép \texttt{cpu.idle.summation} grafikonja
 
 \mycomment{A már említett mérési hibák nem jelennek meg \aref{fig:cpu_idle_summation_max_barchart}.~ábrán, azok eltávolításra kerültek a diagram adathalmazából.}
 
-\begin{table}[h]
-	\caption{A cpu.idle.summation metrika}
-	\centering
-	\small
-	\begin{tabular}{| p{3.5cm} | p{7.5cm} | p{2cm} |}
-		\hline
-		\rowcolor{tc_bone} \textbf{Metrika} & \textbf{Leírás} & \textbf{Mértékegység} \\
-		\hline
-		cpu.idle.summation & A 20 milliszekundumos ablakból mennyi időt tölt a VM idle (vagyis futás nélküli) állapotban. & milliszekundum \\ 
-		\hline
-	\end{tabular}
-	\normalsize
-	\label{tab:cpu.idle.summation}
-\end{table}
+
 
 
 
@@ -383,52 +355,11 @@ Magas értékekről beszélünk, ha a ready meghaladja az időablak 10\%-át, te
 \end{figure}
 
 
-\begin{table}[h]
-	\caption{A cpu.ready.summation metrika}
-	\centering
-	\small
-	\begin{tabular}{| p{3.5cm} | p{7.5cm} | p{2cm} |}
-		\hline
-		\rowcolor{tc_bone} \textbf{Metrika} & \textbf{Leírás} & \textbf{Mértékegység} \\
-		\hline
-		cpu.ready.summation & Megmutatja, hogy egy virtuális gép az időablak hány százalékában volt olyan állapotban, hogy ugyan futásra készen állt, de nem került futtatási állapotba a fizikai processzoron. Az érték függ a virtuális gépek számától és azok CPU terheltségétől (loadjától). & milliszekundum \\ 
-		\hline
-	\end{tabular}
-	\normalsize
-	\label{tab:cpu.ready.summation}
-\end{table}
+
 
 \subsection{Összefüggés a wait, ready, run metrikák között}
 
-\begin{table}[h]
-	\caption{A cpu.wait.summation metrika}
-	\centering
-	\small
-	\begin{tabular}{| p{3.5cm} | p{7.5cm} | p{2cm} |}
-		\hline
-		\rowcolor{tc_bone} \textbf{Metrika} & \textbf{Leírás} & \textbf{Mértékegység} \\
-		\hline
-		cpu.wait.summation & Értéke megadja, hogy a teljes CPU időhöz viszonyítva mennyi időt töltött a virtuális gép várakozó állapotban. & milliszekundum \\ 
-		\hline
-	\end{tabular}
-	\normalsize
-	\label{tab:cpu.wait.summation}
-\end{table}
 
-\begin{table}[h]
-	\caption{A cpu.run.summation metrika}
-	\centering
-	\small
-	\begin{tabular}{| p{3.5cm} | p{7.5cm} | p{2cm} |}
-		\hline
-		\rowcolor{tc_bone} \textbf{Metrika} & \textbf{Leírás} & \textbf{Mértékegység} \\
-		\hline
-		cpu.run.summation & Megadja, hogy a VM az idő hány százalékát töltötte futási állapotban. (Származtatott érték: 100\% = run + ready + wait (+ costop) & milliszekundum \\ 
-		\hline
-	\end{tabular}
-	\normalsize
-	\label{tab:cpu.run.summation}
-\end{table}
 
 A következőekben a wait, ready és run metrikák közötti összefüggést fogjuk megvizsgálni. Tudjuk, hogy a három metrika összege kiadja a mérési ablak nagyságát, tehát a CPU 20 másodpercből $X$ időt futási, $Y$ időt várakozási és $Z$ időt futásra kész állapotban tölt, amelyekre $X+Y+Z=20000$. \Aref{fig:cpu_run_wait_ready-guest-15-01}.~ábrán a \textit{guest-15} azonosítójú virtuális gép ezen metrikáinak alakulása látható a teljes mérési időszakban.
 
@@ -499,6 +430,191 @@ A vizsgálatból megállítható, hogy bár a három metrika összege megközel�
 
 \subsection{Korreláció vizsgálata a cpu.usage.average és cpu.usagemhz.average metrikák között}
 
+
+
+Vizsgáljuk meg a \texttt{cpu.usage.average} és \texttt{cpu.usagemhz.average} metrikák közötti korrelációt. A korreláció nagyságát vizuálisan \aref{fig:corrgram-hosts}.~ábra mutatja.
+
+Megállapítható, hogy a két metrika közötti összefüggés miatt az egyikük akár el is hagyható a monitorozás/naplózás során, hiszen nem nyújt új információt az infrastruktúráról. 
+
+\begin{figure}[h!]
+  \centering
+  \subfloat[host-01 (Korreláció: $0,999999734514543$)]{\label{fig:corrgram-host-01}\includegraphics[width=0.45\textwidth]{figures/corrgram-host-01-0999999734514543.png}}                
+  \subfloat[host-02 (Korreláció: $0,999999692814215$)]{\label{fig:corrgram-host-01}\includegraphics[width=0.45\textwidth]{figures/corrgram-host-02-0999999692814215.png}}
+  \caption{A cpu.usage.average és cpu.usagemhz.average metrikák közötti korreláció}
+  \label{fig:corrgram-hosts}
+\end{figure}
+
+\section{Lemez metrikák}
+
+\todo{Írni a lemezmetrikákról általánosan!}
+
+\todo{Forrás: \url{http://www.vmware.com/support/developer/vc-sdk/visdk400pubs/ReferenceGuide/disk_counters.html}}
+
+\subsection{Összefüggés a disk.deviceLatency.average, disk.kernelLatency.average, \\ disk.totallatency.average metrikák között}
+
+\todo{Megcsinálni!}
+
+
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=1.00\textwidth]{figures/disk_metrics_sumlatency-20120826230140-20120924083120.png}
+\caption{ Lemezkésleltetések a host-01 esetében a teljes mérési időintervallumon \label{fig:disk_metrics_sumlatency-01}}
+\end{figure}
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=1.00\textwidth]{figures/disk_metrics_sumlatency-20120912013500-20120912014000.png}
+\caption{ Lemezkésleltetések a host-01 esetében 2012.09.12. 01:35:00 és 2012.09.12. 01:40:00 között \label{fig:disk_metrics_sumlatency-02}}
+\end{figure}
+
+
+
+\subsection{Összefüggés a storagepath, storageadapter, disk latency-k között}
+
+\todo{Megcsinálni!}
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=1.00\textwidth]{figures/disk_metrics_storage_latency-20120826230140-20120924083120.png}
+\caption{ Storage késleltetés a host-01 esetében a teljes megfigyelési időintervallumon \label{fig:disk_metrics_storage_latency-01}}
+\end{figure}
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=1.00\textwidth]{figures/disk_metrics_storage_latency-20120910120000-20120910123000.png}
+\caption{ Storage késleltetés a host-01 esetében 2012.09.10. 12:00:00 és 2012.09.10. 12:30:00 között \label{fig:disk_metrics_storage_latency-02}}
+\end{figure}
+
+\section{Hálózati metrikák}
+
+\todo{Írni a hálózati metrikákról általánosan!}
+
+\subsection{net.transmitted.average}
+
+\todo{Megcsinálni!}
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=1.00\textwidth]{figures/net_transmitted_average-20120826230140-20120924083120.png}
+\caption{ A hálózati adatátviteli-sebesség alakulása a host-01 esetében a teljes megfigyelési időintervallumon \label{fig:net_transmitted_average-01}}
+\end{figure}
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=1.00\textwidth]{figures/net_transmitted_average-20120831160000-20120831200000.png}
+\caption{ A hálózati adatátviteli-sebesség alakulása a host-01 esetében 2012.08.31. 16:00:00 és 2012.08.31. 20:00:00 között \label{fig:net_transmitted_average-02}}
+\end{figure}
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=1.00\textwidth]{figures/net_transmitted_average_dev-20120831172900-20120831181100.png}
+\caption{ A hálózati adatátviteli-sebesség alakulása a host-01 esetében eszközönként 2012.08.31. 17:29:00 és 2012.08.31. 18:11:00 között \label{fig:net_transmitted_average_dev}}
+\end{figure}
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=1.00\textwidth]{figures/net_transmitted_average_diff-20120826230140-20120924083120.png}
+\caption{ Eltérés a kiszámított és mért hálózati adatátviteli-sebesség között a teljes mért időintervallumon \label{fig:net_transmitted_average_diff-01}}
+\end{figure}
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=1.00\textwidth]{figures/net_transmitted_average_diff-20120831172900-20120831181100.png}
+\caption{ Eltérés a kiszámított és mért hálózati adatátviteli-sebesség között 2012.08.31. 17:29:00 és 2012.08.31. 18:11:00 között \label{fig:net_transmitted_average_diff-02}}
+\end{figure}
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=0.25\textwidth]{figures/net_transmitted_average_diff-dist-20120826230140-20120924083120.png}
+\caption{ Az eltérések eloszlása a teljes adathalmazra nézve \label{fig:net_transmitted_average_diff-dist}}
+\end{figure}
+
+%\section{Metrikák összefüggése}
+%
+%\todo{Megcsinálni!}
+
+\section{Összefoglalás}
+
+\todo{Megcsinálni!}
+
+\section{Függelék - A dokumentumban előforduló néhány metrika leírása}
+
+\begin{table}[h]
+	\caption{A cpu.swapwait.summation metrika}
+	\centering
+	\small
+	\begin{tabular}{| p{3.5cm} | p{7.5cm} | p{2cm} |}
+		\hline
+		\rowcolor{tc_bone} \textbf{Metrika} & \textbf{Leírás} & \textbf{Mértékegység} \\
+		\hline
+		cpu.swapwait.summation & A 20 milliszekundumos ablakból mennyi időt tölt a VM várakozással (munkavégzés nélkül) amiatt, hogy nem tudja memóriába tölteni a működéséhez szükséges adatokat. & milliszekundum \\ 
+		\hline
+	\end{tabular}
+	\normalsize
+	\label{tab:cpu.swapwait.summation}
+\end{table}
+
+\begin{table}[h]
+	\caption{A cpu.idle.summation metrika}
+	\centering
+	\small
+	\begin{tabular}{| p{3.5cm} | p{7.5cm} | p{2cm} |}
+		\hline
+		\rowcolor{tc_bone} \textbf{Metrika} & \textbf{Leírás} & \textbf{Mértékegység} \\
+		\hline
+		cpu.idle.summation & A 20 milliszekundumos ablakból mennyi időt tölt a VM idle (vagyis futás nélküli) állapotban. & milliszekundum \\ 
+		\hline
+	\end{tabular}
+	\normalsize
+	\label{tab:cpu.idle.summation}
+\end{table}
+
+\begin{table}[h]
+	\caption{A cpu.ready.summation metrika}
+	\centering
+	\small
+	\begin{tabular}{| p{3.5cm} | p{7.5cm} | p{2cm} |}
+		\hline
+		\rowcolor{tc_bone} \textbf{Metrika} & \textbf{Leírás} & \textbf{Mértékegység} \\
+		\hline
+		cpu.ready.summation & Megmutatja, hogy egy virtuális gép az időablak hány százalékában volt olyan állapotban, hogy ugyan futásra készen állt, de nem került futtatási állapotba a fizikai processzoron. Az érték függ a virtuális gépek számától és azok CPU terheltségétől (loadjától). & milliszekundum \\ 
+		\hline
+	\end{tabular}
+	\normalsize
+	\label{tab:cpu.ready.summation}
+\end{table}
+
+\begin{table}[h]
+	\caption{A cpu.wait.summation metrika}
+	\centering
+	\small
+	\begin{tabular}{| p{3.5cm} | p{7.5cm} | p{2cm} |}
+		\hline
+		\rowcolor{tc_bone} \textbf{Metrika} & \textbf{Leírás} & \textbf{Mértékegység} \\
+		\hline
+		cpu.wait.summation & Értéke megadja, hogy a teljes CPU időhöz viszonyítva mennyi időt töltött a virtuális gép várakozó állapotban. & milliszekundum \\ 
+		\hline
+	\end{tabular}
+	\normalsize
+	\label{tab:cpu.wait.summation}
+\end{table}
+
+\begin{table}[h]
+	\caption{A cpu.run.summation metrika}
+	\centering
+	\small
+	\begin{tabular}{| p{3.5cm} | p{7.5cm} | p{2cm} |}
+		\hline
+		\rowcolor{tc_bone} \textbf{Metrika} & \textbf{Leírás} & \textbf{Mértékegység} \\
+		\hline
+		cpu.run.summation & Megadja, hogy a VM az idő hány százalékát töltötte futási állapotban. (Származtatott érték: 100\% = run + ready + wait (+ costop) & milliszekundum \\ 
+		\hline
+	\end{tabular}
+	\normalsize
+	\label{tab:cpu.run.summation}
+\end{table}
+
 \begin{table}[h]
 	\caption{A cpu.usage.average metrika}
 	\centering
@@ -528,28 +644,6 @@ A vizsgálatból megállítható, hogy bár a három metrika összege megközel�
 	\normalsize
 	\label{tab:cpu.usage.average}
 \end{table}
-
-Vizsgáljuk meg a \texttt{cpu.usage.average} és \texttt{cpu.usagemhz.average} metrikák közötti korrelációt. A korreláció nagyságát vizuálisan \aref{fig:corrgram-hosts}.~ábra mutatja.
-
-Megállapítható, hogy a két metrika közötti összefüggés miatt az egyikük akár el is hagyható a monitorozás/naplózás során, hiszen nem nyújt új információt az infrastruktúráról. 
-
-\begin{figure}[h!]
-  \centering
-  \subfloat[host-01 (Korreláció: $0,999999734514543$)]{\label{fig:corrgram-host-01}\includegraphics[width=0.45\textwidth]{figures/corrgram-host-01-0999999734514543.png}}                
-  \subfloat[host-02 (Korreláció: $0,999999692814215$)]{\label{fig:corrgram-host-01}\includegraphics[width=0.45\textwidth]{figures/corrgram-host-02-0999999692814215.png}}
-  \caption{A cpu.usage.average és cpu.usagemhz.average metrikák közötti korreláció}
-  \label{fig:corrgram-hosts}
-\end{figure}
-
-\section{Lemez metrikák}
-
-\todo{Írni a lemezmetrikákról általánosan!}
-
-\todo{Forrás: \url{http://www.vmware.com/support/developer/vc-sdk/visdk400pubs/ReferenceGuide/disk_counters.html}}
-
-\subsection{Összefüggés a disk.deviceLatency.average, disk.kernelLatency.average, \\ disk.totallatency.average metrikák között}
-
-\todo{Megcsinálni!}
 
 \begin{table}[h]
 	\caption{A disk.deviceLatency.average metrika}
@@ -596,50 +690,5 @@ Megállapítható, hogy a két metrika közötti összefüggés miatt az egyikü
 	\label{tab:disk.totallatency.average}
 \end{table}
 
-\begin{figure}[h!]
-\centering
-\includegraphics[width=1.00\textwidth]{figures/disk_metrics_sumlatency-20120826230140-20120924083120.png}
-\caption{ Lemezkésleltetések a host-01 esetében a teljes mérési időintervallumon \label{fig:disk_metrics_sumlatency-01}}
-\end{figure}
-
-\begin{figure}[h!]
-\centering
-\includegraphics[width=1.00\textwidth]{figures/disk_metrics_sumlatency-20120912013500-20120912014000.png}
-\caption{ Lemezkésleltetések a host-01 esetében 2012.09.12. 01:35:00 és 2012.09.12. 01:40:00 között \label{fig:disk_metrics_sumlatency-02}}
-\end{figure}
-
-
-
-\subsection{Összefüggés a storagepath, storageadapter, disk latency-k között}
-
-\todo{Megcsinálni!}
-
-\begin{figure}[h!]
-\centering
-\includegraphics[width=1.00\textwidth]{figures/disk_metrics_storage_latency-20120826230140-20120924083120.png}
-\caption{ Storage késleltetés a host-01 esetében a teljes megfigyelési időintervallumon \label{fig:disk_metrics_storage_latency-01}}
-\end{figure}
-
-\begin{figure}[h!]
-\centering
-\includegraphics[width=1.00\textwidth]{figures/disk_metrics_storage_latency-20120910120000-20120910123000.png}
-\caption{ Storage késleltetés a host-01 esetében 2012.09.10. 12:00:00 és 2012.09.10. 12:30:00 között \label{fig:disk_metrics_storage_latency-02}}
-\end{figure}
-
-\section{Hálózati metrikák}
-
-\todo{Írni a hálózati metrikákról általánosan!}
-
-\subsection{net.transmitted.average}
-
-\todo{Megcsinálni!}
-
-%\section{Metrikák összefüggése}
-%
-%\todo{Megcsinálni!}
-
-\section{Összefoglalás}
-
-\todo{Megcsinálni!}
 
 \end{document}
