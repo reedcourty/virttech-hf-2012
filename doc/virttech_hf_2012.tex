@@ -541,8 +541,6 @@ Megállapítható, hogy a két metrika közötti összefüggés miatt az egyikü
   \label{fig:corrgram-hosts}
 \end{figure}
 
-
-
 \section{Lemez metrikák}
 
 \todo{Írni a lemezmetrikákról általánosan!}
@@ -553,9 +551,80 @@ Megállapítható, hogy a két metrika közötti összefüggés miatt az egyikü
 
 \todo{Megcsinálni!}
 
+\begin{table}[h]
+	\caption{A disk.deviceLatency.average metrika}
+	\centering
+	\small
+	\begin{tabular}{| p{3.5cm} | p{7.5cm} | p{2cm} |}
+		\hline
+		\rowcolor{tc_bone} \textbf{Metrika} & \textbf{Leírás} & \textbf{Mértékegység} \\
+		\hline
+		disk.deviceLatency.average &  & \\ 
+		\hline
+	\end{tabular}
+	\normalsize
+	\label{tab:disk.deviceLatency.average}
+\end{table}
+
+\begin{table}[h]
+	\caption{A disk.kernelLatency.average metrika}
+	\centering
+	\small
+	\begin{tabular}{| p{3.5cm} | p{7.5cm} | p{2cm} |}
+		\hline
+		\rowcolor{tc_bone} \textbf{Metrika} & \textbf{Leírás} & \textbf{Mértékegység} \\
+		\hline
+		disk.kernelLatency.average & & \\ 
+		\hline
+	\end{tabular}
+	\normalsize
+	\label{tab:disk.kernelLatency.average}
+\end{table}
+
+\begin{table}[h]
+	\caption{A disk.totallatency.average metrika}
+	\centering
+	\small
+	\begin{tabular}{| p{3.5cm} | p{7.5cm} | p{2cm} |}
+		\hline
+		\rowcolor{tc_bone} \textbf{Metrika} & \textbf{Leírás} & \textbf{Mértékegység} \\
+		\hline
+		disk.totallatency.average & & \\ 
+		\hline
+	\end{tabular}
+	\normalsize
+	\label{tab:disk.totallatency.average}
+\end{table}
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=1.00\textwidth]{figures/disk_metrics_sumlatency-20120826230140-20120924083120.png}
+\caption{ Lemezkésleltetések a host-01 esetében a teljes mérési időintervallumon \label{fig:disk_metrics_sumlatency-01}}
+\end{figure}
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=1.00\textwidth]{figures/disk_metrics_sumlatency-20120912013500-20120912014000.png}
+\caption{ Lemezkésleltetések a host-01 esetében 2012.09.12. 01:35:00 és 2012.09.12. 01:40:00 között \label{fig:disk_metrics_sumlatency-02}}
+\end{figure}
+
+
+
 \subsection{Összefüggés a storagepath, storageadapter, disk latency-k között}
 
 \todo{Megcsinálni!}
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=1.00\textwidth]{figures/disk_metrics_storage_latency-20120826230140-20120924083120.png}
+\caption{ Storage késleltetés a host-01 esetében a teljes megfigyelési időintervallumon \label{fig:disk_metrics_storage_latency-01}}
+\end{figure}
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=1.00\textwidth]{figures/disk_metrics_storage_latency-20120910120000-20120910123000.png}
+\caption{ Storage késleltetés a host-01 esetében 2012.09.10. 12:00:00 és 2012.09.10. 12:30:00 között \label{fig:disk_metrics_storage_latency-02}}
+\end{figure}
 
 \section{Hálózati metrikák}
 
