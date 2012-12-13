@@ -541,7 +541,7 @@ Megállapítható, hogy a két metrika közötti összefüggés miatt az egyikü
 \section{Függelék - A dokumentumban előforduló néhány metrika leírása}
 
 \begin{table}[h]
-	\caption{A cpu.swapwait.summation metrika}
+	\caption{Néhány CPU-val kapcsolatos metrika}
 	\centering
 	\small
 	\begin{tabular}{| p{3.5cm} | p{7.5cm} | p{2cm} |}
@@ -550,103 +550,25 @@ Megállapítható, hogy a két metrika közötti összefüggés miatt az egyikü
 		\hline
 		cpu.swapwait.summation & A 20 milliszekundumos ablakból mennyi időt tölt a VM várakozással (munkavégzés nélkül) amiatt, hogy nem tudja memóriába tölteni a működéséhez szükséges adatokat. & milliszekundum \\ 
 		\hline
-	\end{tabular}
-	\normalsize
-	\label{tab:cpu.swapwait.summation}
-\end{table}
-
-\begin{table}[h]
-	\caption{A cpu.idle.summation metrika}
-	\centering
-	\small
-	\begin{tabular}{| p{3.5cm} | p{7.5cm} | p{2cm} |}
-		\hline
-		\rowcolor{tc_bone} \textbf{Metrika} & \textbf{Leírás} & \textbf{Mértékegység} \\
-		\hline
 		cpu.idle.summation & A 20 milliszekundumos ablakból mennyi időt tölt a VM idle (vagyis futás nélküli) állapotban. & milliszekundum \\ 
-		\hline
-	\end{tabular}
-	\normalsize
-	\label{tab:cpu.idle.summation}
-\end{table}
-
-\begin{table}[h]
-	\caption{A cpu.ready.summation metrika}
-	\centering
-	\small
-	\begin{tabular}{| p{3.5cm} | p{7.5cm} | p{2cm} |}
-		\hline
-		\rowcolor{tc_bone} \textbf{Metrika} & \textbf{Leírás} & \textbf{Mértékegység} \\
 		\hline
 		cpu.ready.summation & Megmutatja, hogy egy virtuális gép az időablak hány százalékában volt olyan állapotban, hogy ugyan futásra készen állt, de nem került futtatási állapotba a fizikai processzoron. Az érték függ a virtuális gépek számától és azok CPU terheltségétől (loadjától). & milliszekundum \\ 
 		\hline
-	\end{tabular}
-	\normalsize
-	\label{tab:cpu.ready.summation}
-\end{table}
-
-\begin{table}[h]
-	\caption{A cpu.wait.summation metrika}
-	\centering
-	\small
-	\begin{tabular}{| p{3.5cm} | p{7.5cm} | p{2cm} |}
-		\hline
-		\rowcolor{tc_bone} \textbf{Metrika} & \textbf{Leírás} & \textbf{Mértékegység} \\
-		\hline
 		cpu.wait.summation & Értéke megadja, hogy a teljes CPU időhöz viszonyítva mennyi időt töltött a virtuális gép várakozó állapotban. & milliszekundum \\ 
-		\hline
-	\end{tabular}
-	\normalsize
-	\label{tab:cpu.wait.summation}
-\end{table}
-
-\begin{table}[h]
-	\caption{A cpu.run.summation metrika}
-	\centering
-	\small
-	\begin{tabular}{| p{3.5cm} | p{7.5cm} | p{2cm} |}
-		\hline
-		\rowcolor{tc_bone} \textbf{Metrika} & \textbf{Leírás} & \textbf{Mértékegység} \\
 		\hline
 		cpu.run.summation & Megadja, hogy a VM az idő hány százalékát töltötte futási állapotban. (Származtatott érték: 100\% = run + ready + wait (+ costop) & milliszekundum \\ 
 		\hline
-	\end{tabular}
-	\normalsize
-	\label{tab:cpu.run.summation}
-\end{table}
-
-\begin{table}[h]
-	\caption{A cpu.usage.average metrika}
-	\centering
-	\small
-	\begin{tabular}{| p{3.5cm} | p{7.5cm} | p{2cm} |}
-		\hline
-		\rowcolor{tc_bone} \textbf{Metrika} & \textbf{Leírás} & \textbf{Mértékegység} \\
-		\hline
 		cpu.usage.average & Az aktívan használt virtuális CPU értéke a teljes elérhető CPU-ra nézve. Ez az átlagos kihasználtsága az összes CPU-nak az adott virtuális gépben. & \% \\ 
-		\hline
-	\end{tabular}
-	\normalsize
-	\label{tab:cpu.usage.average}
-\end{table}
-
-\begin{table}[h]
-	\caption{A cpu.usagemhz.average metrika}
-	\centering
-	\small
-	\begin{tabular}{| p{3.5cm} | p{7.5cm} | p{2cm} |}
-		\hline
-		\rowcolor{tc_bone} \textbf{Metrika} & \textbf{Leírás} & \textbf{Mértékegység} \\
 		\hline
 		cpu.usagemhz.average & Az aktívan használt virtuális CPU értéke. Ez a host által látott CPU használat, és nem a vendég operációs rendszer által megfigyelt. & MHz \\ 
 		\hline
 	\end{tabular}
 	\normalsize
-	\label{tab:cpu.usage.average}
+	\label{tab:cpu.metrics}
 \end{table}
 
 \begin{table}[h]
-	\caption{A disk.deviceLatency.average metrika}
+	\caption{Néhány lemezzel kapcsolatos metrika}
 	\centering
 	\small
 	\begin{tabular}{| p{3.5cm} | p{7.5cm} | p{2cm} |}
@@ -655,33 +577,7 @@ Megállapítható, hogy a két metrika közötti összefüggés miatt az egyikü
 		\hline
 		disk.deviceLatency.average &  & \\ 
 		\hline
-	\end{tabular}
-	\normalsize
-	\label{tab:disk.deviceLatency.average}
-\end{table}
-
-\begin{table}[h]
-	\caption{A disk.kernelLatency.average metrika}
-	\centering
-	\small
-	\begin{tabular}{| p{3.5cm} | p{7.5cm} | p{2cm} |}
-		\hline
-		\rowcolor{tc_bone} \textbf{Metrika} & \textbf{Leírás} & \textbf{Mértékegység} \\
-		\hline
 		disk.kernelLatency.average & & \\ 
-		\hline
-	\end{tabular}
-	\normalsize
-	\label{tab:disk.kernelLatency.average}
-\end{table}
-
-\begin{table}[h]
-	\caption{A disk.totallatency.average metrika}
-	\centering
-	\small
-	\begin{tabular}{| p{3.5cm} | p{7.5cm} | p{2cm} |}
-		\hline
-		\rowcolor{tc_bone} \textbf{Metrika} & \textbf{Leírás} & \textbf{Mértékegység} \\
 		\hline
 		disk.totallatency.average & & \\ 
 		\hline
@@ -690,5 +586,8 @@ Megállapítható, hogy a két metrika közötti összefüggés miatt az egyikü
 	\label{tab:disk.totallatency.average}
 \end{table}
 
+\todo{Lemez metrikákat megcsinálni!}
+
+\todo{Netes metrikát megcsinálni!}
 
 \end{document}
