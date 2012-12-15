@@ -80,6 +80,9 @@
 %# Egymás melleti képekhez:
 \usepackage{subfig}
 %#
+%# Körbefuttatott képekhez:
+\usepackage{wrapfig}
+%#
 %###############################################################################
 
 %###############################################################################
@@ -458,12 +461,14 @@ Megállapítható, hogy a két metrika közötti összefüggés miatt az egyikü
 \begin{figure}[h!]
   \centering
   \subfloat[host-01 (Korreláció: $0,999999734514543$)]{\label{fig:corrgram-host-01}\includegraphics[width=0.45\textwidth]{figures/corrgram-host-01-0999999734514543.png}}                
-  \subfloat[host-02 (Korreláció: $0,999999692814215$)]{\label{fig:corrgram-host-01}\includegraphics[width=0.45\textwidth]{figures/corrgram-host-02-0999999692814215.png}}
+  \subfloat[host-02 (Korreláció: $0,999999692814215$)]{\label{fig:corrgram-host-02}\includegraphics[width=0.45\textwidth]{figures/corrgram-host-02-0999999692814215.png}}
   \caption{A cpu.usage.average és cpu.usagemhz.average metrikák közötti korreláció}
   \label{fig:corrgram-hosts}
 \end{figure}
 %#
 %###############################################################################
+
+\clearpage
 
 %###############################################################################
 %#
@@ -483,9 +488,20 @@ Igen lényeges teljesítményt meghatározók lehetnek a lemezzel kapcsolatos me
 %#
 \subsection{Összefüggés a disk.deviceLatency.average, disk.kernelLatency.average, \\ disk.totallatency.average metrikák között}
 
-\todo{Megcsinálni!}
+\begin{wrapfigure}{r}{0.60\textwidth}
+  \begin{center}
+    \includegraphics[width=0.40\textwidth]{figures/tdk.png}
+  \end{center}
+  \caption{A kernel, eszköz és teljes késleltetés viszonya \label{fig:tdk}}
+\end{wrapfigure}
 
+A lemezműveletek esetében mindig előforduló teljesítményveszteség a lemezkésleltetés (\angolul{latency}), amely a lemezműveleti parancsok és azok tényleges végrehajtása között eltelt időt jelenti. A teljes lemezkésleltetést a virtualizáció több szintjéből eredően két összetevő alkotja. Ahogy az \aref{fig:tdk}.~ábrán látható a lemezműveletek a VM-ektől az ESX-en keresztül jut el a fizikai hardverhez (kernel latency), majd vezérlőtől a tényleges eszközig (device latency).
 
+A jelenleg vizsgált infrastruktúra esetében az eszközkésleltetés adja a teljes késleltetés nagy részét, hiszen a lemezműveletek hálózaton keresztül jutnak el az eszközig.
+
+\Aref{fig:disk_metrics_sumlatency-01}.~ábra a \textit{host-01} szerver lemezkésleltetéseit mutatja. Egy igen kimagasló érték figyelhető meg, amelyet \aref{fig:disk_metrics_sumlatency-02}.~ábrán szűkebb intervallumon láthatunk.
+
+\mycomment{\Aref{fig:disk_metrics_sumlatency-02}.~ábra jó példa a vizuális adatelemzés egyik hátrányára. A kiugró érték miatt olyan nagy az y tengely által megjelenített skála, hogy az ettől kisebb értékek nagysága lényegtelennek tűnhet (olyan, mintha a nagy értéken kívül csak 0 értékek lennének a megjelenített intervallumban).}
 
 \begin{figure}[h!]
 \centering
@@ -499,9 +515,24 @@ Igen lényeges teljesítményt meghatározók lehetnek a lemezzel kapcsolatos me
 \caption{ Lemezkésleltetések a host-01 esetében 2012.09.12. 01:35:00 és 2012.09.12. 01:40:00 között \label{fig:disk_metrics_sumlatency-02}}
 \end{figure}
 
+\Aref{fig:disk_metrics_sumlatency-03}.~ábrán szerepel a teljes késleltetés, annak összetevői és az összetevők alapján kiszámolt összeg is. Megállapítható, hogy ahol a kernel késleltetés 0 milliszekundum nagyságú, ott az eszközkésleltetést eltakarja a számolt érték kék színe, és sehol nem látható a teljes késleltetés sárga görbéje vagyis a kernel- és eszközkésleltetés összege jól visszaadja a teljes késleltetés mért értékeit.
 
+\begin{figure}[h!]
+\centering
+\includegraphics[width=1.00\textwidth]{figures/disk_metrics_sumlatency-20120919023000-20120919024000.png}
+\caption{ Lemezkésleltetések a host-01 esetében 2012.09.19. 02:30:00 és 2012.09.19. 02:40:00 között \label{fig:disk_metrics_sumlatency-03}}
+\end{figure}
 
-\subsection{Összefüggés a storagepath, storageadapter, disk latency-k között}
+Összegezve az itt megállapított dolgokat, a teljes késleltetés mérése és rögzítése felesleges lehet, hiszen a kernel és eszközkésleltetés értékek összegéből kiszámítható, csak redundáns információt tartalmaz.
+%#
+%###############################################################################
+
+%###############################################################################
+%#
+%#                    Összefüggés a storagepath, storageadapter és disk latency
+%#                    metrikák között:
+%#
+\subsection{Összefüggés a storagepath, storageadapter és disk latency metrikák között}
 
 \todo{Megcsinálni!}
 
