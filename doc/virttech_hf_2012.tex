@@ -245,25 +245,25 @@ A \texttt{cpu.swapwait.summation} nullától eltérő értéke teljesítménybel
 
 \Aref{fig:cpu_swapwait_summation}.~ábra a teljes megfigyelt intervallumot ábrázolja. Jól látható, hogy ez idő alatt kétszer fordult elő nagyobb várakozás egy-egy VM-nél. Az egyik augusztus 27-én, a \textit{guest-15} esetében (\ref{fig:cpu_swapwait_summation_082701}.~ábra), a másik szeptember 13-án a \textit{guest-21}-nél(\ref{fig:cpu_swapwait_summation_0913}.~ábra). Amíg a szeptemberi egy viszonylag rövidebb ideig tartott, addig az augusztusit érdemesebb lehet jobban megvizsgálni, hiszen itt egy félórás időszeletről beszélünk. Külön említést érdemel, hogy \aref{fig:cpu_swapwait_summation_082702}.~ábrát jobban megfigyelve a várakozási idő megnövekedése elején nem rendelkezünk minden mérési pontról adattal (a grafikon vonalának lassú az emelkedése).
 
-\begin{figure}[h!]
+\begin{figure}[ht!]
 \centering
 \includegraphics[width=1.00\textwidth]{figures/cpu_swapwait_summation-20120826230140-20120924083120.png}
 \caption{A cpu.swapwait.summation értékei a monitorozott időintervallumban \label{fig:cpu_swapwait_summation}}
 \end{figure}
 
-\begin{figure}[h!]
+\begin{figure}[ht!]
 \centering
 \includegraphics[width=1.00\textwidth]{figures/cpu_swapwait_summation-20120913103115-20120913103330.png}
 \caption{A cpu.swapwait.summation értéke 2012.09.13. 10:31:15 - 10:33:30 között \label{fig:cpu_swapwait_summation_0913}}
 \end{figure}
 
-\begin{figure}[h!]
+\begin{figure}[ht!]
 \centering
 \includegraphics[width=1.00\textwidth]{figures/cpu_swapwait_summation-20120827100000-20120827103500.png}
 \caption{A cpu.swapwait.summation értéke 2012.08.27. 10:00:00 - 10:35:00 között \label{fig:cpu_swapwait_summation_082701}}
 \end{figure}
 
-\begin{figure}[h!]
+\begin{figure}[ht!]
 \centering
 \includegraphics[width=1.00\textwidth]{figures/cpu_swapwait_summation-20120827100000-20120827100500.png}
 \caption{A cpu.swapwait.summation értéke 2012.08.27. 10:00:00 - 10:05:00 között \label{fig:cpu_swapwait_summation_082702}}
@@ -279,13 +279,13 @@ A \texttt{cpu.swapwait.summation} nullától eltérő értéke teljesítménybel
 
 Vizsgálódásunk tárgyai ebben az esetben a \textit{guest-15} és \textit{guest-16} nevű virtuális gépek. \Aref{fig:cpu_idle_summation_g16_1}.~ábrán a \textit{guest-16} VM idle értékei láthatóak a teljes mérési időben. Ahhoz, hogy követeztetéseket tudjunk levonni csökkentenünk kell az időablakot. \Aref{fig:cpu_idle_summation_g16_2}.~ábrával már egyszerűbb dolgunk van. \Aref{fig:cpu_idle_summation_g16_1}.~ábra tömörségének oka, hogy egyfajta periodicitás jellemzi a VM idle állapotban töltött idejét. 
 
-\begin{figure}[h!]
+\begin{figure}[ht!]
 \centering
 \includegraphics[width=1.00\textwidth]{figures/cpu_idle_summation-guest-16-20120826230140-20120924083120.png}
 \caption{A guest-16 VM cpu.idle.summation értéke a monitorozott időintervallumban \label{fig:cpu_idle_summation_g16_1}}
 \end{figure}
 
-\begin{figure}[h!]
+\begin{figure}[ht!]
 \centering
 \includegraphics[width=1.00\textwidth]{figures/cpu_idle_summation-guest-16-20120910100000-20120910140000.png}
 \caption{A guest-16 VM cpu.idle.summation értéke 2012.09.10. 10:00:00 és 2012.09.10. 14:00:00 között \label{fig:cpu_idle_summation_g16_2}}
@@ -293,13 +293,13 @@ Vizsgálódásunk tárgyai ebben az esetben a \textit{guest-15} és \textit{gues
 
 A \textit{guest-15} nevű virtuális gép \texttt{cpu.idle.summation} grafikonja jó példa arra, hogy a vizuális adatelemzés segítségével könnyen kiszúrhatjuk az esetleges mérési hibákat. \Aref{fig:cpu_idle_summation_g15_1}.~ábrán látható, hogy két esetben is (20000 milliszekundumnál) nagyobb értékek találhatóak az adathalmazunkban, mint ahogy annak értelme lenne. \Aref{fig:cpu_idle_summation_g15_2}.~ábra kisebb időablakban mutatja az egyik mérési hiba megjelenését.
 
-\begin{figure}[h!]
+\begin{figure}[ht!]
 \centering
 \includegraphics[width=1.00\textwidth]{figures/cpu_idle_summation-guest-15-20120826230140-20120924083120.png}
 \caption{A guest-15 VM cpu.idle.summation értéke a monitorozott időintervallumban \label{fig:cpu_idle_summation_g15_1}}
 \end{figure}
 
-\begin{figure}[h!]
+\begin{figure}[ht!]
 \centering
 \includegraphics[width=1.00\textwidth]{figures/cpu_idle_summation-guest-15-20120919221500-20120919224500.png}
 \caption{A guest-15 VM cpu.idle.summation értéke 2012.09.19. 22:15:00 és 2012.09.19. 22:45:00 között \label{fig:cpu_idle_summation_g15_2}}
@@ -307,7 +307,7 @@ A \textit{guest-15} nevű virtuális gép \texttt{cpu.idle.summation} grafikonja
 
 Érdemes megnézni az egyes virtuális gépek idle állapotban eltöltött idejének maximumát. Ezt mutatja \aref{fig:cpu_idle_summation_max_barchart}.~ábra, amelyről megállapítható, hogy a legkevesebb időt a \textit{guest-21} VM tölti idle állapotban.
 
-\begin{figure}[h!]
+\begin{figure}[ht!]
 \centering
 \includegraphics[width=0.50\textwidth]{figures/cpu_idle_summation-max-barchart.png}
 \caption{Az egyes VM-ek max. cpu.idle.summation értéke a teljes megfigyelési időintervallumra nézve \label{fig:cpu_idle_summation_max_barchart}}
@@ -331,7 +331,7 @@ Magas értékekről beszélünk, ha a ready meghaladja az időablak 10\%-át, te
 
 A \textit{guest-13} azonosítójú VM ready értékeit mutatja \aref{fig:cpu_ready_summation_g13}.~ábra. Megfigyelhető, hogy a legmagasabb érték sem éri el a 150 milliszekundum körüli értéket, de sok esetben 20 milliszekundum körüli.
 
-\begin{figure}[h!]
+\begin{figure}[ht!]
 \centering
 \includegraphics[width=1.00\textwidth]{figures/cpu_ready_summation-guest-13-20120826230140-20120924083120.png}
 \caption{A cpu.ready.summation alakulása a guest-13 azonosítójú VM esetében a teljes megfigyelési időintervallumon \label{fig:cpu_ready_summation_g13}}
@@ -339,13 +339,13 @@ A \textit{guest-13} azonosítójú VM ready értékeit mutatja \aref{fig:cpu_rea
 
 Érdekesebb lehet a \textit{guest-24} nevű virtuális gép (\ref{fig:cpu_ready_summation_g24_1}. és \ref{fig:cpu_ready_summation_g24_2}.~ábrák), hiszen ez 2 db virtuális CPU-val (vCPU) rendelkezik. Az ilyen virtuális gépek esetében eltérő ütemezési stratégiát alkalmaznak, hogy a vCPU-k belső órája ne csússzon szét egymáshoz és a fizikai CPU-hoz képest, ezért nagyobb ready értékek tapasztalhatóak \cite{link:VMCS}.
 
-\begin{figure}[h!]
+\begin{figure}[ht!]
 \centering
 \includegraphics[width=1.00\textwidth]{figures/cpu_ready_summation-guest-24-20120826230140-20120924083120.png}
 \caption{A cpu.ready.summation alakulása a guest-24 azonosítójú VM esetében a teljes megfigyelési időintervallumon \label{fig:cpu_ready_summation_g24_1}}
 \end{figure}
 
-\begin{figure}[h!]
+\begin{figure}[ht!]
 \centering
 \includegraphics[width=1.00\textwidth]{figures/cpu_ready_summation-guest-24-20120912170000-20120912173000.png}
 \caption{A cpu.ready.summation alakulása a guest-24 azonosítójú VM esetében 2012.09.12. 17:00:00 és 2012.09.12. 17:30:00 között \label{fig:cpu_ready_summation_g24_2}}
@@ -355,7 +355,7 @@ A \textit{guest-13} azonosítójú VM ready értékeit mutatja \aref{fig:cpu_rea
 
 \Aref{fig:cpu_ready_summation_max_barchart}.~ábrán az egyes virtuális gépek maximális CPU ready értékeit láthatjuk összesítve, a \textit{guest-24} esetében külön és összesítve is a vCPU-kra.
 
-\begin{figure}[h!]
+\begin{figure}[ht!]
 \centering
 \includegraphics[width=0.80\textwidth]{figures/cpu_ready_summation-max-barchart.png}
 \caption{A cpu.ready.summation maximális értéke az egyes VM-ek esetén \label{fig:cpu_ready_summation_max_barchart}}
@@ -363,7 +363,7 @@ A \textit{guest-13} azonosítójú VM ready értékeit mutatja \aref{fig:cpu_rea
 
 Amennyiben arra vagyunk kíváncsiak, hogy a rendszerünk mennyire üzemel a ready idők szempontjából a kritikus határokon belül, úgy azt \aref{fig:cpu_ready_summation_histograms}.~ábrákon (\aref{fig:cpu_ready_summation_histogram_wb}.~ábra esetében az 5 és kritikus 10\%-os határ is jelölve van) nézhetjük meg. Megállapítható, hogy még a legnagyobb érték sem éri az időablak 2.5\%-át sem, tehát a vizsgált infrastruktúrán esetében nincs CPU teljesítményből eredő probléma.
 
-\begin{figure}[h!]
+\begin{figure}[ht!]
   \centering
   \subfloat[A VM-ek cpu.ready.summation eloszlása]{\label{fig:cpu_ready_summation_histogram}\includegraphics[width=0.45\textwidth]{figures/cpu_ready_summation-histogram.png}}                
   \subfloat[A VM-ek cpu.ready.summation eloszlása, az 5 és 10\%-os határokkal]{\label{fig:cpu_ready_summation_histogram_wb}\includegraphics[width=0.45\textwidth]{figures/cpu_ready_summation-histogram-w-b.png}}
@@ -381,7 +381,7 @@ Amennyiben arra vagyunk kíváncsiak, hogy a rendszerünk mennyire üzemel a rea
 
 A következőekben a wait, ready és run metrikák közötti összefüggést fogjuk megvizsgálni. Tudjuk, hogy a három metrika összege kiadja a mérési ablak nagyságát, tehát a CPU 20 másodpercből $X$ időt futási, $Y$ időt várakozási és $Z$ időt futásra kész állapotban tölt, amelyekre $X+Y+Z=20000$. \Aref{fig:cpu_run_wait_ready-guest-15-01}.~ábrán a \textit{guest-15} azonosítójú virtuális gép ezen metrikáinak alakulása látható a teljes mérési időszakban.
 
-\begin{figure}[h!]
+\begin{figure}[ht!]
 \centering
 \includegraphics[width=1.00\textwidth]{figures/cpu_run_wait_ready-guest-15-20120826230140-20120924083120.png}
 \caption{ A guest-15 VM CPU állapotainak alakulása a teljes megfigyelési időintervallumban \label{fig:cpu_run_wait_ready-guest-15-01}}
@@ -389,13 +389,13 @@ A következőekben a wait, ready és run metrikák közötti összefüggést fog
 
 Megfigyelhető, hogy a három érték összege több helyen is eltér a várt 20000-es értéktől. Ha szűkebb időintervallumban vizsgáljuk az adatok alakulását (\ref{fig:cpu_run_wait_ready-guest-15-02}.~ábra) megállapíthatjuk, hogy a \texttt{cpu.wait.summation} hibás értékeiből származnak az eltérések. Ezek értékeit \aref{fig:cpu_run_wait_ready-diff-guest-15}.~ábrán láthatjuk. 
 
-\begin{figure}[h!]
+\begin{figure}[ht!]
 \centering
 \includegraphics[width=1.00\textwidth]{figures/cpu_run_wait_ready-guest-15-20120906220000-20120906221000.png}
 \caption{ A guest-15 VM CPU állapotainak alakulása 2012.09.06. 22:00:00 és 2012.09.06. 22:10:00 között \label{fig:cpu_run_wait_ready-guest-15-02}}
 \end{figure}
 
-\begin{figure}[h!]
+\begin{figure}[ht!]
 \centering
 \includegraphics[width=1.00\textwidth]{figures/cpu_run_wait_ready-diff-guest-15-20120826230140-20120924083120.png}
 \caption{ A guest-15 VM run, wait és ready összegek eltérései a 20 másodperchez képest \label{fig:cpu_run_wait_ready-diff-guest-15}}
@@ -403,7 +403,7 @@ Megfigyelhető, hogy a három érték összege több helyen is eltér a várt 20
 
 A guest-15 kiugró értékeitől kisebb eltéréseket is megfigyelhetünk más virtuális gépeknél. \Aref{fig:cpu_run_wait_ready-diff-guest-13}.~ábrán a \textit{guest-13} méréseinek számított értéke látható. Itt max. 6 milliszekundumos különbségeket találunk.
 
-\begin{figure}[h!]
+\begin{figure}[ht!]
 \centering
 \includegraphics[width=1.00\textwidth]{figures/cpu_run_wait_ready-diff-guest-13-20120826230140-20120924083120.png}
 \caption{ A guest-13 VM run, wait és ready összegek eltérései a 20 másodperchez képest \label{fig:cpu_run_wait_ready-diff-guest-13}}
@@ -411,13 +411,13 @@ A guest-15 kiugró értékeitől kisebb eltéréseket is megfigyelhetünk más v
 
 \Aref{fig:cpu_run_wait_ready-diff-dist}.~ábrán az eltérések eloszlását láthatjuk a teljes rendszerre nézve. Megállapítható, hogy az eltérések többsége 6 milliszekundumon belüli értéket vesz fel. Ha ugyanezt az eloszlást logaritmikus skálán nézzük, akkor viszont az is kiderül, hogy milyen eltérések vannak a teljes mért időszakban (\ref{fig:cpu_run_wait_ready-diff-dist-log}.~ábra).
 
-\begin{figure}[h!]
+\begin{figure}[ht!]
 \centering
 \includegraphics[width=1.00\textwidth]{figures/cpu_run_wait_ready-diff-dist-20120826230140-20120924083120.png}
 \caption{ Előforduló eltérések a 20000 milliszekundumhoz képest \label{fig:cpu_run_wait_ready-diff-dist}}
 \end{figure}
 
-\begin{figure}[h!]
+\begin{figure}[ht!]
 \centering
 \includegraphics[width=1.00\textwidth]{figures/cpu_run_wait_ready-diff-dist-log-20120826230140-20120924083120.png}
 \caption{ Előforduló eltérések a 20000 milliszekundumhoz képest (logaritmikus skálán)\label{fig:cpu_run_wait_ready-diff-dist-log}}
@@ -432,7 +432,7 @@ A vizsgálatból megállítható, hogy bár a három metrika összege megközel�
 %
 %\todo{Megcsinálni!}
 %
-%\begin{table}[h]
+%\begin{table}[ht]
 %	\caption{A cpu.system.summation metrika}
 %	\centering
 %	\small
@@ -458,7 +458,7 @@ Vizsgáljuk meg a \texttt{cpu.usage.average} és \texttt{cpu.usagemhz.average} m
 
 Megállapítható, hogy a két metrika közötti összefüggés miatt az egyikük akár el is hagyható a monitorozás/naplózás során, hiszen nem nyújt új információt az infrastruktúráról. 
 
-\begin{figure}[h!]
+\begin{figure}[ht!]
   \centering
   \subfloat[host-01 (Korreláció: $0,999999734514543$)]{\label{fig:corrgram-host-01}\includegraphics[width=0.40\textwidth]{figures/corrgram-host-01-0999999734514543.png}}                
   \subfloat[host-02 (Korreláció: $0,999999692814215$)]{\label{fig:corrgram-host-02}\includegraphics[width=0.40\textwidth]{figures/corrgram-host-02-0999999692814215.png}}
@@ -492,7 +492,7 @@ Igen lényeges teljesítményt meghatározók lehetnek a lemezzel kapcsolatos me
   \begin{center}
     \includegraphics[width=0.40\textwidth]{figures/tdk.png}
   \end{center}
-  \caption{A kernel, eszköz és teljes késleltetés viszonya (Forrás: \cite[link:TDK]) \label{fig:tdk}}
+  \caption{A kernel, eszköz és teljes késleltetés viszonya (Forrás: \cite{link:TDK}) \label{fig:tdk}}
 \end{wrapfigure}
 
 A lemezműveletek esetében mindig előforduló teljesítményveszteség a lemezkésleltetés (\angolul{latency}), amely a lemezműveleti parancsok és azok tényleges végrehajtása között eltelt időt jelenti. A teljes lemezkésleltetést a virtualizáció több szintjéből eredően két összetevő alkotja. Ahogy az \aref{fig:tdk}.~ábrán látható a lemezműveletek a VM-ektől az ESX-en keresztül jut el a fizikai hardverhez (kernel latency), majd vezérlőtől a tényleges eszközig (device latency).
@@ -503,13 +503,13 @@ A jelenleg vizsgált infrastruktúra esetében az eszközkésleltetés adja a te
 
 \mycomment{\Aref{fig:disk_metrics_sumlatency-02}.~ábra jó példa a vizuális adatelemzés egyik hátrányára. A kiugró érték miatt olyan nagy az y tengely által megjelenített skála, hogy az ettől kisebb értékek nagysága lényegtelennek tűnhet (olyan, mintha a nagy értéken kívül csak 0 értékek lennének a megjelenített intervallumban).}
 
-\begin{figure}[h!]
+\begin{figure}[ht!]
 \centering
 \includegraphics[width=1.00\textwidth]{figures/disk_metrics_sumlatency-20120826230140-20120924083120.png}
 \caption{ Lemezkésleltetések a host-01 esetében a teljes mérési időintervallumon \label{fig:disk_metrics_sumlatency-01}}
 \end{figure}
 
-\begin{figure}[h!]
+\begin{figure}[ht!]
 \centering
 \includegraphics[width=1.00\textwidth]{figures/disk_metrics_sumlatency-20120912013500-20120912014000.png}
 \caption{ Lemezkésleltetések a host-01 esetében 2012.09.12. 01:35:00 és 2012.09.12. 01:40:00 között \label{fig:disk_metrics_sumlatency-02}}
@@ -517,7 +517,7 @@ A jelenleg vizsgált infrastruktúra esetében az eszközkésleltetés adja a te
 
 \Aref{fig:disk_metrics_sumlatency-03}.~ábrán szerepel a teljes késleltetés, annak összetevői és az összetevők alapján kiszámolt összeg is. Megállapítható, hogy ahol a kernel késleltetés 0 milliszekundum nagyságú, ott az eszközkésleltetést eltakarja a számolt érték kék színe, és sehol nem látható a teljes késleltetés sárga görbéje vagyis a kernel- és eszközkésleltetés összege jól visszaadja a teljes késleltetés mért értékeit.
 
-\begin{figure}[h!]
+\begin{figure}[ht!]
 \centering
 \includegraphics[width=1.00\textwidth]{figures/disk_metrics_sumlatency-20120919023000-20120919024000.png}
 \caption{ Lemezkésleltetések a host-01 esetében 2012.09.19. 02:30:00 és 2012.09.19. 02:40:00 között \label{fig:disk_metrics_sumlatency-03}}
@@ -540,7 +540,7 @@ A tárolórendszerünk teljesítményét jellemezhetik a \textit{storage path} �
 
 \Aref{fig:disk_metrics_storage_latency-01}.~ábra a teljes mérési időintervallum alatt összegyűjtött teljes írási késleltetéseket mutatja a path, adapter és lemez esetében. 
 
-\begin{figure}[h!]
+\begin{figure}[ht!]
 \centering
 \includegraphics[width=1.00\textwidth]{figures/disk_metrics_storage_latency-20120826230140-20120924083120.png}
 \caption{ Storage késleltetés a host-01 esetében a teljes megfigyelési időintervallumon \label{fig:disk_metrics_storage_latency-01}}
@@ -548,13 +548,13 @@ A tárolórendszerünk teljesítményét jellemezhetik a \textit{storage path} �
 
 Érdemi információhoz inkább \aref{fig:disk_metrics_storage_latency-02}. és \aref{fig:disk_metrics_storage_latency-03}.~ábra esetében jutunk. Ezekről megállapítható, hogy az adapter és a lemez késleltetés mindig megegyezik (a zöld és kék görbe együtt fut a mérés ideje alatt).
 
-\begin{figure}[h!]
+\begin{figure}[ht!]
 \centering
 \includegraphics[width=1.00\textwidth]{figures/disk_metrics_storage_latency-20120910120000-20120910123000.png}
 \caption{ Storage késleltetés a host-01 esetében 2012.09.10. 12:00:00 és 2012.09.10. 12:30:00 között \label{fig:disk_metrics_storage_latency-02}}
 \end{figure}
 
-\begin{figure}[h!]
+\begin{figure}[ht!]
 \centering
 \includegraphics[width=1.00\textwidth]{figures/disk_metrics_storage_latency-20120903040000-20120903041000.png}
 \caption{ Storage késleltetés a host-01 esetében 2012.09.03. 04:00:00 és 2012.09.03. 04:10:00 között \label{fig:disk_metrics_storage_latency-03}}
@@ -586,13 +586,13 @@ A hálózati metrikák közül csak a \texttt{net.transmitted.average} került v
 
 \Aref{fig:net_transmitted_average-01}.~ábrán a teljes mérés ideje alatt, míg \aref{fig:net_transmitted_average-02}.~ábrán egy rövidebb intervallumon rögzített átviteli sebesség alakulása figyelhető meg.
 
-\begin{figure}[h!]
+\begin{figure}[ht!]
 \centering
 \includegraphics[width=1.00\textwidth]{figures/net_transmitted_average-20120826230140-20120924083120.png}
 \caption{ A hálózati adatátviteli-sebesség alakulása a host-01 esetében a teljes megfigyelési időintervallumon \label{fig:net_transmitted_average-01}}
 \end{figure}
 
-\begin{figure}[h!]
+\begin{figure}[ht!]
 \centering
 \includegraphics[width=1.00\textwidth]{figures/net_transmitted_average-20120831160000-20120831200000.png}
 \caption{ A hálózati adatátviteli-sebesség alakulása a host-01 esetében 2012.08.31. 16:00:00 és 2012.08.31. 20:00:00 között \label{fig:net_transmitted_average-02}}
@@ -600,7 +600,7 @@ A hálózati metrikák közül csak a \texttt{net.transmitted.average} került v
 
 Ha külön kezeljük a két hálózati eszközt és a szummázott értékeket, akkor \aref{fig:net_transmitted_average_dev}.~ábrát kapjuk, amiről megállapítható, hogy a szummázott eredmény látszólag jól visszaadja a két eszköz értékeit (hiszen a mért értékeket mutató sárga görbét mindenütt fedi a számított kék görbe).
 
-\begin{figure}[h!]
+\begin{figure}[ht!]
 \centering
 \includegraphics[width=1.00\textwidth]{figures/net_transmitted_average_dev-20120831172900-20120831181100.png}
 \caption{ A hálózati adatátviteli-sebesség alakulása a host-01 esetében eszközönként 2012.08.31. 17:29:00 és 2012.08.31. 18:11:00 között \label{fig:net_transmitted_average_dev}}
@@ -608,13 +608,13 @@ Ha külön kezeljük a két hálózati eszközt és a szummázott értékeket, a
 
 Viszont ha megnézzük a mért és számított átviteli-sebességeket, akkor \aref{fig:net_transmitted_average_diff-01}. és \aref{fig:net_transmitted_average_diff-02}.~ábrákról megállapíthatjuk, hogy az eltérés 0 és 1 kB/s között ugrál. 
 
-\begin{figure}[h!]
+\begin{figure}[ht!]
 \centering
 \includegraphics[width=1.00\textwidth]{figures/net_transmitted_average_diff-20120826230140-20120924083120.png}
 \caption{ Eltérés a kiszámított és mért hálózati adatátviteli-sebesség között a teljes mért időintervallumon \label{fig:net_transmitted_average_diff-01}}
 \end{figure}
 
-\begin{figure}[h!]
+\begin{figure}[ht!]
 \centering
 \includegraphics[width=1.00\textwidth]{figures/net_transmitted_average_diff-20120831172900-20120831181100.png}
 \caption{ Eltérés a kiszámított és mért hálózati adatátviteli-sebesség között 2012.08.31. 17:29:00 és 2012.08.31. 18:11:00 között \label{fig:net_transmitted_average_diff-02}}
@@ -624,7 +624,7 @@ Azt, hogy mekkora arányban vannak eltérések, \aref{fig:net_transmitted_averag
 
 Amennyiben úgy döntünk, hogy ez a hibaérték még hibahatáron belül van számunkra, akkor mellőzhető a teljes sebességet megjelenítő metrika megfigyelése/rögzítése, és az eszközönkénti mérésekből kiszámítható a későbbiek során.
 
-\begin{figure}[h!]
+\begin{figure}[ht!]
 \centering
 \includegraphics[width=0.25\textwidth]{figures/net_transmitted_average_diff-dist-20120826230140-20120924083120.png}
 \caption{ Az eltérések eloszlása a teljes adathalmazra nézve \label{fig:net_transmitted_average_diff-dist}}
@@ -674,7 +674,7 @@ A dokumentum elkészítéséhez nélkülözhetetlen segítséget nyújtott \text
 %#
 %#                    Néhány CPU-val kapcsolatos metrika:
 %#
-\begin{table}[h]
+\begin{table}[ht]
 	\caption{Néhány CPU-val kapcsolatos metrika}
 	\centering
 	\small
@@ -704,7 +704,7 @@ A dokumentum elkészítéséhez nélkülözhetetlen segítséget nyújtott \text
 %#
 %#                    Néhány lemezzel kapcsolatos metrika:
 %#
-\begin{table}[h]
+\begin{table}[ht]
 	\caption{Néhány lemezkezeléssel kapcsolatos metrika}
 	\centering
 	\small
@@ -726,7 +726,7 @@ A dokumentum elkészítéséhez nélkülözhetetlen segítséget nyújtott \text
 %#
 %#                    Néhány hálózattal kapcsolatos metrika:
 %#
-\begin{table}[h]
+\begin{table}[ht]
 	\caption{Néhány hálózattal kapcsolatos metrika}
 	\centering
 	\small
