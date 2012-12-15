@@ -311,44 +311,30 @@ A \textit{guest-15} nevű virtuális gép \texttt{cpu.idle.summation} grafikonja
 Érdemes megnézni az egyes virtuális gépek idle állapotban eltöltött idejének maximumát. Ezt mutatja \aref{fig:cpu_idle_summation_max_barchart}.~ábra.
 
 \mycomment{A már említett mérési hibák nem jelennek meg \aref{fig:cpu_idle_summation_max_barchart}.~ábrán, azok eltávolításra kerültek a diagram adathalmazából.}
+%#
+%###############################################################################
 
-
-
-
-
+%###############################################################################
+%#
+%#                    A cpu.ready.summation metrika:
+%#
 \subsection{A cpu.ready.summation metrika}
 
 A cpu.ready.summation metrika az egyik legismertebb teljesítmény indikátor a metrikák közül. Amennyiben egy virtuális gép futásra kész állapotban van, ám ennek ellenére nem jut fizikai processzor időhöz, úgy ennek a számlálónak az értéke növekszik, maximum a 20 másodperces mintavételezési ablak értékéig.
 
-Amennyiben egy virtuális infrastruktúra monitorozása során magas CPU ready értékeket figyelünk meg, úgy abban az esetben érdemes utána járni, hogy mi lehet ennek az oka. Általában ha túlterhelt (sok VM-et működtet) a kiszolgálónk, az megjelenik a magas ready időkben.
+Amennyiben egy virtuális infrastruktúra monitorozása során magas CPU ready értékeket figyelünk meg, úgy abban az esetben érdemes utána járni, hogy mi lehet ennek az oka. Általában ha túlterhelt (sok VM-et működtet) a kiszolgálónk, az megjelenik a magas ready időkben \cite{link:VPM}.
 
-Magas értékekről beszélünk, ha a ready meghaladja az időablak 10\%-át, tehát 2 másodpercet. Egy átlagos kihasználtsággal rendelkező infrastruktúra esetében a ready értékek 5\% környékiek. 
+Magas értékekről beszélünk, ha a ready meghaladja az időablak 10\%-át, tehát 2 másodpercet. Egy átlagos kihasználtsággal rendelkező infrastruktúra esetében a ready értékek 5\% környékiek \cite{link:CRT}.
 
-\todo{Megcsinálni!}
-
-\todo{Következtetést levonni jelen infrastruktúra teljesítményére ready alapján!}
-
-\todo{Forrás: \url{http://communities.vmware.com/docs/DOC-7390}} \cite{link:CRT}
-
-\todo{Forrás: \url{http://www.vmware.com/files/webinars/communities/VI-Performance-Monitoring.pdf}}
-
-\todo{Forrás: \url{http://www.vmware.com/support/developer/vc-sdk/visdk400pubs/ReferenceGuide/cpu_counters.html}}
-
-\todo{Forrás: \url{http://www.vmware.com/support/developer/vc-sdk/visdk400pubs/ReferenceGuide/vim.PerformanceManager.CounterInfo.html}}
-
-\todo{Forrás: \url{http://www.slideshare.net/alanrenouf/vsphere-apis-for-performance-monitoring}}
-
-\todo{Forrás: \url{http://www.vmware.com/support/developer/vc-sdk/}}
-
-\todo{Forrás: \url{http://communities.vmware.com/docs/DOC-5600}}
-
-\todo{Forrás: \url{http://communities.vmware.com/docs/DOC-5230}}
+A \textit{guest-13} azonosítójú VM ready értékeit mutatja \aref{fig:cpu_ready_summation_g13}.~ábra. Megfigyelhető, hogy a legmagasabb érték sem éri el a 150 milliszekundum körüli értéket, de sok esetben 20 milliszekundum körüli.
 
 \begin{figure}[h!]
 \centering
 \includegraphics[width=1.00\textwidth]{figures/cpu_ready_summation-guest-13-20120826230140-20120924083120.png}
 \caption{A cpu.ready.summation alakulása a guest-13 azonosítójú VM esetében a teljes megfigyelési időintervallumon \label{fig:cpu_ready_summation_g13}}
 \end{figure}
+
+Érdekesebb lehet a \textit{guest-24} nevű virtuális gép (\ref{fig:cpu_ready_summation_g24_1}. és \ref{fig:cpu_ready_summation_g24_2}.~ábrák), hiszen ez 2 db virtuális CPU-val (vCPU) rendelkezik. Az ilyen virtuális gépek esetében eltérő ütemezési stratégiát alkalmaznak, hogy a vCPU-k belső órája ne csússzon szét egymáshoz és a fizikai CPU-hoz képest, ezért nagyobb ready értékek tapasztalhatóak \cite{link:VMCS}.
 
 \begin{figure}[h!]
 \centering
@@ -359,36 +345,32 @@ Magas értékekről beszélünk, ha a ready meghaladja az időablak 10\%-át, te
 \begin{figure}[h!]
 \centering
 \includegraphics[width=1.00\textwidth]{figures/cpu_ready_summation-guest-24-20120912170000-20120912173000.png}
-\caption{A cpu.ready.summation alakulása a guest-24 azonosítójú VM esetében 2012.09.12. 17:00:00 és 2012.09.12. 17:30:00 között \label{fig:cpu_ready_summation_g24_1}}
+\caption{A cpu.ready.summation alakulása a guest-24 azonosítójú VM esetében 2012.09.12. 17:00:00 és 2012.09.12. 17:30:00 között \label{fig:cpu_ready_summation_g24_2}}
 \end{figure}
 
+\mycomment{Érdemes lehet megvizsgálni, hogy a vCPU-k ready értékeinek összege kiadja-e az összesített ready értéket, hiszen ebben az esetben az összesített metrika megfigyelése és tárolása felesleges lehet a redundáns információ tartalom miatt.}
 
+\Aref{fig:cpu_ready_summation_max_barchart}.~ábrán az egyes virtuális gépek maximális CPU ready értékeit láthatjuk összesítve, a \textit{guest-24} esetében külön és összesítve is a vCPU-kra.
 
 \begin{figure}[h!]
 \centering
-\includegraphics[width=1.00\textwidth]{figures/cpu_ready_summation-max-barchart.png}
+\includegraphics[width=0.80\textwidth]{figures/cpu_ready_summation-max-barchart.png}
 \caption{A cpu.ready.summation maximális értéke az egyes VM-ek esetén \label{fig:cpu_ready_summation_max_barchart}}
 \end{figure}
 
-\begin{figure}[h!]
-\centering
-\includegraphics[width=1.00\textwidth]{figures/cpu_ready_summation-histogram.png}
-\caption{A VM-ek cpu.ready.summation eloszlása \label{fig:cpu_ready_summation_histogram}}
-\end{figure}
-
+Amennyiben arra vagyunk kíváncsiak, hogy a rendszerünk mennyire üzemel a ready idők szempontjából a kritikus határokon belül, úgy azt \aref{fig:cpu_ready_summation_histograms}.~ábrákon (\aref{fig:cpu_ready_summation_histogram_wb}.~ábra esetében az 5 és kritikus 10\%-os határ is jelölve van) nézhetjük meg. Megállapítható, hogy még a legnagyobb érték sem éri az időablak 2.5\%-át sem, tehát a vizsgált infrastruktúrán esetében nincs CPU teljesítményből eredő probléma.
 
 \begin{figure}[h!]
-\centering
-\includegraphics[width=1.00\textwidth]{figures/cpu_ready_summation-histogram-w-b.png}
-\caption{A VM-ek cpu.ready.summation eloszlása, az 5 és 10\%-os határokkal \label{fig:cpu_ready_summation_histogram_wb}}
+  \centering
+  \subfloat[A VM-ek cpu.ready.summation eloszlása]{\label{fig:cpu_ready_summation_histogram}\includegraphics[width=0.45\textwidth]{figures/cpu_ready_summation-histogram.png}}                
+  \subfloat[A VM-ek cpu.ready.summation eloszlása, az 5 és 10\%-os határokkal]{\label{fig:cpu_ready_summation_histogram_wb}\includegraphics[width=0.45\textwidth]{figures/cpu_ready_summation-histogram-w-b.png}}
+  \caption{A VM-ek cpu.ready.summation eloszlása}
+  \label{fig:cpu_ready_summation_histograms}
 \end{figure}
-
-
-
+%#
+%###############################################################################
 
 \subsection{Összefüggés a wait, ready, run metrikák között}
-
-
 
 A következőekben a wait, ready és run metrikák közötti összefüggést fogjuk megvizsgálni. Tudjuk, hogy a három metrika összege kiadja a mérési ablak nagyságát, tehát a CPU 20 másodpercből $X$ időt futási, $Y$ időt várakozási és $Z$ időt futásra kész állapotban tölt, amelyekre $X+Y+Z=20000$. \Aref{fig:cpu_run_wait_ready-guest-15-01}.~ábrán a \textit{guest-15} azonosítójú virtuális gép ezen metrikáinak alakulása látható a teljes mérési időszakban.
 
@@ -623,6 +605,16 @@ A dokumentum elkészítéséhez nélkülözhetetlen segítséget nyújtott \text
 
 \todo{Netes metrikát megcsinálni!}
 
+\hrulefill
+
+\todo{Forrás: \url{http://www.slideshare.net/alanrenouf/vsphere-apis-for-performance-monitoring}}
+
+\todo{Forrás: \url{http://www.vmware.com/support/developer/vc-sdk/}}
+
+\todo{Forrás: \url{http://communities.vmware.com/docs/DOC-5600}}
+
+\todo{Forrás: \url{http://communities.vmware.com/docs/DOC-5230}}
+
 \begin{thebibliography}{99}
 
 \bibitem[R] {link:R}
@@ -640,6 +632,15 @@ Link: {\footnotesize \url{http://www.vmware.com/support/developer/vc-sdk/visdk40
 \bibitem[CRT] {link:CRT}
 VMware Communities - Ready Time \\
 Link: {\footnotesize \url{http://communities.vmware.com/docs/DOC-7390}}
+
+\bibitem[VPM] {link:VPM}
+Preetham Gopalaswamy, Ravi Soundararajan – VI Performance Monitoring \\
+2008. szeptember 15. \\
+Link: \url{http://www.vmware.com/files/webinars/communities/VI-Performance-Monitoring.pdf}
+
+\bibitem[VMCS] {link:VMCS}
+VMware vSphere 4: The CPU Scheduler in VMware ESX 4 (White paper) \\
+Link: \url{www.vmware.com/files/pdf/perf-vsphere-cpu_scheduler.pdf}
 
 \end{thebibliography}
 
