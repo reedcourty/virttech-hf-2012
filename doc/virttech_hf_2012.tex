@@ -201,8 +201,26 @@ A feltáró adatelemzést megkönnyítheti az adatok ábrázolása, vagyis a viz
 
 Jelen dokumentum megpróbálja egy VMware infrastruktúrából származó mérési eredmények adatainak egy részét elemezni. Ehhez az R nyelv és a hozzákapcsolódó ggplot2 csomag került felhasználásra \cite{link:R, link:GG2}.
 
+
+%###############################################################################
+%#
+%#                    A vizsgált infrastruktúra:
+%#
 \subsection{A vizsgált infrastruktúra}
-\todo{Infrastruktúra felépítése, hostok, VM-ek, mérés elvégzésének ideje, metrikák gyűjtésére használt eszközök stb.}
+%#
+A vizsgált infrastruktúra egy 2 szerveres VMware klaszter. A szerverek mindegyike 4 magos 2 GHz-es Xeon E5504 CPU-val, 18 GB memóriával rendelkezik. A közös tárhely iSCSI hálózati csatolón keresztül érhető el. Minden szerverben 2, 1 Gb/s-os hálózati csatoló található, privát belső és nyílt hálózathoz csatlakoztatva.
+
+Az egyik hoston 6, a másikon 4 virtuális gép üzemelt a mérés ideje alatt. A virtuális gépeken vegyesen Windows és Linux vendég operációs rendszerek futnak. A metrikákat egy PowerShell szkript exportálta ki CSV fájlokba hostonként/VM-enként, napi bontásban. Néhány információ a mért adatmennyiségről:
+\begin{sajat_itemize}
+\item a mérés 2012.08.26. és 2012.09.24. között történt,
+\item 144 rögzített metrika,
+\item kb. 89 millió mérési pont,
+\item kb. 290 MB adat CSV állományban.
+\end{sajat_itemize}
+%#
+%###############################################################################
+
+
 \section{CPU metrikák}
 
 \todo{Írni a CPU metrikákról általánosan!}
