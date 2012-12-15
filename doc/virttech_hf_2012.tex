@@ -527,6 +527,8 @@ A jelenleg vizsgált infrastruktúra esetében az eszközkésleltetés adja a te
 %#
 %###############################################################################
 
+\clearpage
+
 %###############################################################################
 %#
 %#                    Összefüggés a storagepath, storageadapter és disk latency
@@ -534,7 +536,9 @@ A jelenleg vizsgált infrastruktúra esetében az eszközkésleltetés adja a te
 %#
 \subsection{Összefüggés a storagepath, storageadapter és disk latency metrikák között}
 
-\todo{Megcsinálni!}
+A tárolórendszerünk teljesítményét jellemezhetik a \textit{storage path} és \textit{storage adapter} metrikák. Ezek vizsgálatát, és a lemezmetrikákkal való kapcsolatát láthatjuk \aref{fig:disk_metrics_storage_latency-01}., \ref{fig:disk_metrics_storage_latency-02}. és \ref{fig:disk_metrics_storage_latency-03}.~ábrákon.
+
+\Aref{fig:disk_metrics_storage_latency-01}.~ábra a teljes mérési időintervallum alatt összegyűjtött teljes írási késleltetéseket mutatja a path, adapter és lemez esetében. 
 
 \begin{figure}[h!]
 \centering
@@ -542,11 +546,21 @@ A jelenleg vizsgált infrastruktúra esetében az eszközkésleltetés adja a te
 \caption{ Storage késleltetés a host-01 esetében a teljes megfigyelési időintervallumon \label{fig:disk_metrics_storage_latency-01}}
 \end{figure}
 
+Érdemi információhoz inkább \aref{fig:disk_metrics_storage_latency-02}. és \aref{fig:disk_metrics_storage_latency-03}.~ábra esetében jutunk. Ezekről megállapítható, hogy az adapter és a lemez késleltetés mindig megegyezik (a zöld és kék görbe együtt fut a mérés ideje alatt).
+
 \begin{figure}[h!]
 \centering
 \includegraphics[width=1.00\textwidth]{figures/disk_metrics_storage_latency-20120910120000-20120910123000.png}
 \caption{ Storage késleltetés a host-01 esetében 2012.09.10. 12:00:00 és 2012.09.10. 12:30:00 között \label{fig:disk_metrics_storage_latency-02}}
 \end{figure}
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=1.00\textwidth]{figures/disk_metrics_storage_latency-20120903040000-20120903041000.png}
+\caption{ Storage késleltetés a host-01 esetében 2012.09.03. 04:00:00 és 2012.09.03. 04:10:00 között \label{fig:disk_metrics_storage_latency-03}}
+\end{figure}
+
+A storage path késleltetése általában nagyobb, mint a másik két vizsgált metrikáé, ami valószínűleg a hálózati késleltetésből ered.
 
 \section{Hálózati metrikák}
 
@@ -665,6 +679,8 @@ A dokumentum elkészítéséhez nélkülözhetetlen segítséget nyújtott \text
 \todo{Forrás: \url{http://communities.vmware.com/docs/DOC-5600}}
 
 \todo{Forrás: \url{http://communities.vmware.com/docs/DOC-5230}}
+
+\todo{kernel device total kép forrást betenni}
 
 \begin{thebibliography}{99}
 
