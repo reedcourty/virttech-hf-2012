@@ -444,10 +444,12 @@ A vizsgálatból megállítható, hogy bár a három metrika összege megközel�
 %	\label{tab:cpu.system.summation}
 %\end{table}
 
-
+%###############################################################################
+%#
+%#                    Korreláció vizsgálata a cpu.usage.average és 
+%#                    cpu.usagemhz.average metrikák között:
+%#
 \subsection{Korreláció vizsgálata a cpu.usage.average és cpu.usagemhz.average metrikák között}
-
-
 
 Vizsgáljuk meg a \texttt{cpu.usage.average} és \texttt{cpu.usagemhz.average} metrikák közötti korrelációt. A korreláció nagyságát vizuálisan \aref{fig:corrgram-hosts}.~ábra mutatja.
 
@@ -460,13 +462,25 @@ Megállapítható, hogy a két metrika közötti összefüggés miatt az egyikü
   \caption{A cpu.usage.average és cpu.usagemhz.average metrikák közötti korreláció}
   \label{fig:corrgram-hosts}
 \end{figure}
+%#
+%###############################################################################
 
+%###############################################################################
+%#
+%#                    Lemez metrikák:
+%#
 \section{Lemez metrikák}
 
-\todo{Írni a lemezmetrikákról általánosan!}
+Igen lényeges teljesítményt meghatározók lehetnek a lemezzel kapcsolatos metrikák. Mint a CPU metrikák esetében itt is találunk a virtuális gépekre, a virtualizációs szerverekre és az adattárolóra is jellemző adatokat \cite{link:DC}.
+%#
+%###############################################################################
 
-\todo{Forrás: \url{http://www.vmware.com/support/developer/vc-sdk/visdk400pubs/ReferenceGuide/disk_counters.html}}
-
+%###############################################################################
+%#
+%#                    Összefüggés a disk.deviceLatency.average, 
+%#                    disk.kernelLatency.average, disk.totallatency.average 
+%#                    metrikák között:
+%#
 \subsection{Összefüggés a disk.deviceLatency.average, disk.kernelLatency.average, \\ disk.totallatency.average metrikák között}
 
 \todo{Megcsinálni!}
@@ -647,6 +661,10 @@ Link: \url{http://www.vmware.com/files/webinars/communities/VI-Performance-Monit
 \bibitem[VMCS] {link:VMCS}
 VMware vSphere 4: The CPU Scheduler in VMware ESX 4 (White paper) \\
 Link: \url{www.vmware.com/files/pdf/perf-vsphere-cpu_scheduler.pdf}
+
+\bibitem[DC] {link:DC}
+VMware.com - Disk I/O Counters \\
+Link: {\footnotesize \url{http://www.vmware.com/support/developer/vc-sdk/visdk400pubs/ReferenceGuide/disk_counters.html}}
 
 \end{thebibliography}
 
