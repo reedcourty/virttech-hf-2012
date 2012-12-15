@@ -370,6 +370,10 @@ Amennyiben arra vagyunk kíváncsiak, hogy a rendszerünk mennyire üzemel a rea
 %#
 %###############################################################################
 
+%###############################################################################
+%#
+%#                    Összefüggés a wait, ready, run metrikák között
+%#
 \subsection{Összefüggés a wait, ready, run metrikák között}
 
 A következőekben a wait, ready és run metrikák közötti összefüggést fogjuk megvizsgálni. Tudjuk, hogy a három metrika összege kiadja a mérési ablak nagyságát, tehát a CPU 20 másodpercből $X$ időt futási, $Y$ időt várakozási és $Z$ időt futásra kész állapotban tölt, amelyekre $X+Y+Z=20000$. \Aref{fig:cpu_run_wait_ready-guest-15-01}.~ábrán a \textit{guest-15} azonosítójú virtuális gép ezen metrikáinak alakulása látható a teljes mérési időszakban.
@@ -381,7 +385,6 @@ A következőekben a wait, ready és run metrikák közötti összefüggést fog
 \end{figure}
 
 Megfigyelhető, hogy a három érték összege több helyen is eltér a várt 20000-es értéktől. Ha szűkebb időintervallumban vizsgáljuk az adatok alakulását (\ref{fig:cpu_run_wait_ready-guest-15-02}.~ábra) megállapíthatjuk, hogy a \texttt{cpu.wait.summation} hibás értékeiből származnak az eltérések. Ezek értékeit \aref{fig:cpu_run_wait_ready-diff-guest-15}.~ábrán láthatjuk. 
-
 
 \begin{figure}[h!]
 \centering
@@ -403,7 +406,7 @@ A guest-15 kiugró értékeitől kisebb eltéréseket is megfigyelhetünk más v
 \caption{ A guest-13 VM run, wait és ready összegek eltérései a 20 másodperchez képest \label{fig:cpu_run_wait_ready-diff-guest-13}}
 \end{figure}
 
-\Aref{fig:cpu_run_wait_ready-diff-dist}.~ábrán az eltérések eloszlását láthatjuk a teljes rendszerre nézve. Megállapítható, hogy az eltérések többsége 6 milliszekundumon belüli értéket vesz fel. Ha ugyanezt az eloszlást logaritmikus skálán nézzük, akkor viszont az is kiderül, hogy milyen eltérések vannak a teljes mért időszakban (\ref{fig:cpu_run_wait_ready-diff-dist-log}).
+\Aref{fig:cpu_run_wait_ready-diff-dist}.~ábrán az eltérések eloszlását láthatjuk a teljes rendszerre nézve. Megállapítható, hogy az eltérések többsége 6 milliszekundumon belüli értéket vesz fel. Ha ugyanezt az eloszlást logaritmikus skálán nézzük, akkor viszont az is kiderül, hogy milyen eltérések vannak a teljes mért időszakban (\ref{fig:cpu_run_wait_ready-diff-dist-log}.~ábra).
 
 \begin{figure}[h!]
 \centering
@@ -418,6 +421,9 @@ A guest-15 kiugró értékeitől kisebb eltéréseket is megfigyelhetünk más v
 \end{figure}
 
 A vizsgálatból megállítható, hogy bár a három metrika összege megközelítve kiadja a mérési időablak nagyságának értékét, de nincs teljesen megbízható lehetőség arra, hogy esetlegesen valamelyik metrika eltárolása helyett azt a másik kettő alapján számoljuk ki.
+%#
+%###############################################################################
+
 
 %\subsection{Összefüggés az idle, swapwait, system metrikák között}
 %
