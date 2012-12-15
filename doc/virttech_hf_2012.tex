@@ -629,11 +629,18 @@ Amennyiben úgy döntünk, hogy ez a hibaérték még hibahatáron belül van sz
 \includegraphics[width=0.25\textwidth]{figures/net_transmitted_average_diff-dist-20120826230140-20120924083120.png}
 \caption{ Az eltérések eloszlása a teljes adathalmazra nézve \label{fig:net_transmitted_average_diff-dist}}
 \end{figure}
+%#
+%###############################################################################
+
 
 %\section{Metrikák összefüggése}
 %
 %\todo{Megcsinálni!}
 
+%###############################################################################
+%#
+%#                    Összefoglalás:
+%#
 \section{Összefoglalás}
 
 Jelen írásban bemutattam néhány fontosabb teljesítmény jellemző, virtualizációval kapcsolatos metrikát, és az azok közötti, esetleges kapcsolatot. Megnéztem, hogy a vizsgált infrastruktúra esetében előfordulnak-e CPU ütemezéssel kapcsolatos teljesítménybeli problémák.
@@ -643,13 +650,30 @@ Elemeztem a lemezkezeléssel kapcsolatos késleltetéseket, és az egyes virtual
 A hálózati metrikák közül a net.transmitted.average elemzésével foglalkoztam.
 
 Megvizsgáltam annak a lehetőségét, hogy a származtatott adatok tényleges elhagyhatóak-e a mérések során, vagyis értékeiket kiadják-e azok a metrikák, amelyek meghatározzák azokat.
+%#
+%###############################################################################
 
+
+%###############################################################################
+%#
+%#                    Köszönetnyilvánítás:
+%#
 \section{Köszönetnyilvánítás}
 
 A dokumentum elkészítéséhez nélkülözhetetlen segítséget nyújtott \textbf{Micskei Zoltán}, aki rendelkezésemre bocsájtotta a feldolgozásra került adathalmazt, és hasznos tanácsokkal látott el munkám során. Ezenkívül hálával tartozom \textbf{Gönczy László}nak, hogy az informatika ezen területére terelgetett.
+%#
+%###############################################################################
 
+
+%###############################################################################
+%#
+%#                    Függelék:
+%#
 \section{Függelék - A dokumentumban előforduló néhány metrika leírása}
-
+%#
+%#
+%#                    Néhány CPU-val kapcsolatos metrika:
+%#
 \begin{table}[h]
 	\caption{Néhány CPU-val kapcsolatos metrika}
 	\centering
@@ -676,27 +700,28 @@ A dokumentum elkészítéséhez nélkülözhetetlen segítséget nyújtott \text
 	\normalsize
 	\label{tab:cpu.metrics}
 \end{table}
-
+%#
+%#
+%#                    Néhány lemezzel kapcsolatos metrika:
+%#
 \begin{table}[h]
-	\caption{Néhány lemezzel kapcsolatos metrika}
+	\caption{Néhány lemezkezeléssel kapcsolatos metrika}
 	\centering
 	\small
 	\begin{tabular}{| p{3.5cm} | p{7.5cm} | p{2cm} |}
 		\hline
 		\rowcolor{tc_bone} \textbf{Metrika} & \textbf{Leírás} & \textbf{Mértékegység} \\
 		\hline
-		disk.deviceLatency.average &  & \\ 
+		disk.deviceLatency.average & Egy SCSI lemezművelet végrehajtásának átlagos ideje a fizikai eszköz esetében. & milliszekundum \\ 
 		\hline
-		disk.kernelLatency.average & & \\ 
+		disk.kernelLatency.average & Az az átlagos idő, amit a VMkernel egy SCSI lemezművelet végrehajtásával tölt. & milliszekundum \\ 
 		\hline
-		disk.totallatency.average & & \\ 
+		disk.totallatency.average & Az az átlagos idő a mérési időablakban, amíg a vendég operációs rendszer által kiadott SCSI lemezművelet végrehajtódik a virtuális gépen. A kernelLatency és a deviceLatency értékének összege. & milliszekundum \\ 
 		\hline
 	\end{tabular}
 	\normalsize
 	\label{tab:disk.totallatency.average}
 \end{table}
-
-\todo{Lemez metrikákat megcsinálni!}
 
 \todo{Netes metrikát megcsinálni!}
 
