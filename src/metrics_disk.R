@@ -104,114 +104,12 @@ logger(paste("A futás kezdete:", start_time, sep=" "))
 # #
 # ################################################################################
 
-# ################################################################################
-# #
-# # disk.*latency* metrikák kirajzolása:
-# #
-# # A rajzoló függvényünk:
-# latency_plotter <- function(datas, ST, ET) {
-#     
-#     STS <- gsub("-", "", ST)
-#     STS <- gsub(":", "", STS)
-#     STS <- gsub(" ", "", STS)
-#     
-#     ETS <- gsub("-", "", ET)
-#     ETS <- gsub(":", "", ETS)
-#     ETS <- gsub(" ", "", ETS)
-#     
-#     vcdatas_limit <- timestamp_filter(datas, ST, ET)
-# 
-#     plot <- ggplot() +
-#         
-#         geom_line(data=vcdatas_limit, aes(x = timestamp, 
-#                                 y = disk.deviceLatency.average_t10, 
-#                                 colour="1")) +
-#         geom_point(data=vcdatas_limit, aes(x = timestamp, 
-#                                  y = disk.deviceLatency.average_t10, 
-#                                  colour="1")) +
-#         
-#         geom_line(data=vcdatas_limit, aes(x = timestamp, 
-#                                           y = disk.kernelLatency.average_t10, 
-#                                           colour="2")) +
-#         geom_point(data=vcdatas_limit, aes(x = timestamp, 
-#                                            y = disk.kernelLatency.average_t10, 
-#                                            colour="2")) +
-#         
-#         geom_line(data=vcdatas_limit, aes(x = timestamp, 
-#                                           y = disk.totallatency.average_t10, 
-#                                           colour="3")) +
-#         geom_point(data=vcdatas_limit, aes(x = timestamp, 
-#                                            y = disk.totallatency.average_t10, 
-#                                            colour="3")) +
-#         
-#         geom_line(data=vcdatas_limit, aes(x = timestamp, 
-#                                           y = sum_latency, colour="4")) +
-#         geom_point(data=vcdatas_limit, aes(x = timestamp, 
-#                                            y = sum_latency, colour="4")) +
-#         
-#         labs(y = "milliszekundum", x = "dátum - idő") +
-#         
-#         scale_colour_manual(values=c("#4E9A06", "#A40000", "#EDD400", "#204A87"), 
-#                             name="Latency-k",
-#                             labels=c("Device", "Kernel", "Total", "Számított"))
-#     
-#     filename <- paste("disk_metrics_sumlatency-", STS, "-", ETS, ".png", sep="")
-#         
-#     logger(paste("Plott mentése", filename, "néven...", sep=" "))
-#     
-#     ggsave(plot=plot, 
-#            filename=file.path(OUTPUT_PATH, filename), height=4, width=10)   
-# }
-# 
-# 
-# vcdatas <- load_file(file.path(INPUT_PATH, "vcenter_datas_disk_infos.RData"))
-# 
-# # Latency-vel kapcsolatos metrikák: 
-# cols <- names(vcdatas)
-# 
-# # "atency", hogy a Latency és a latency is benne legyen. Tudom, csúnya :D
-# cols_latency <- subset(cols, grepl(pattern="atency", cols))
-# cols_latency <- subset(cols_latency, grepl(pattern="virtual", cols_latency)==FALSE)
-# cols <- c(rep("timestamp"), rep("item_id"), cols_latency)
-# 
-# vcd <- vcdatas[,cols]
-# 
-# # Memóriát spórolunk:
-# rm(vcdatas)
-# 
-# vcd <- get_machine(vcd, "host-01")
-# 
-# vcd$sum_latency <- vcd$disk.deviceLatency.average_t10 + vcd$disk.kernelLatency.average_t10
-# 
-# vcd$calc <- vcd$sum_latency - vcd$disk.totallatency.average_t10
-# 
-# # A teljes időintervallum:
-# ST <- min(vcd$timestamp)
-# ET <- max(vcd$timestamp)
-# 
-# latency_plotter(vcd, ST, ET)
-# 
-# ST <- "2012-09-10 12:00:00"
-# ET <- "2012-09-10 12:30:00"
-# 
-# latency_plotter(vcd, ST, ET)
-# 
-# ST <- "2012-09-12 01:35:00"
-# ET <- "2012-09-12 01:40:00"
-# 
-# latency_plotter(vcd, ST, ET)
-# 
-# # Memóriát spórolunk:
-# rm(vcd)
-# #
-# ################################################################################
-
 ################################################################################
 #
-# storage*.*latency* metrikák:
+# disk.*latency* metrikák kirajzolása:
 #
 # A rajzoló függvényünk:
-stlatency_plotter <- function(datas, ST, ET) {
+latency_plotter <- function(datas, ST, ET) {
     
     STS <- gsub("-", "", ST)
     STS <- gsub(":", "", STS)
@@ -225,46 +123,46 @@ stlatency_plotter <- function(datas, ST, ET) {
 
     plot <- ggplot() +
         
+        geom_line(data=vcdatas_limit, aes(x = timestamp, 
+                                y = disk.deviceLatency.average_t10, 
+                                colour="1")) +
+        geom_point(data=vcdatas_limit, aes(x = timestamp, 
+                                 y = disk.deviceLatency.average_t10, 
+                                 colour="1")) +
         
-        geom_line(data=vcdatas_limit, 
-                  aes(x = timestamp, 
-                      y = storagepath.totalwritelatency.average_iqn.com.vmware.host01,
-                      colour="1")) +
-        geom_point(data=vcdatas_limit,
-                   aes(x = timestamp,
-                       y = storagepath.totalwritelatency.average_iqn.com.vmware.host01,
-                       colour="1")) +
-         
-        geom_line(data=vcdatas_limit,
-                  aes(x = timestamp,
-                      y = storageadapter.totalwritelatency.average_vmhba0,
-                      colour="2")) +
-        geom_point(data=vcdatas_limit,
-                   aes(x = timestamp, 
-                       y = storageadapter.totalwritelatency.average_vmhba0, 
-                       colour="2")) +
-             
-        geom_line(data=vcdatas_limit, 
-                  aes(x = timestamp, 
-                      y = disk.totalwritelatency.average_t10, colour="3")) +
-        geom_point(data=vcdatas_limit, 
-                   aes(x = timestamp, 
-                       y = disk.totalwritelatency.average_t10, colour="3")) +
+        geom_line(data=vcdatas_limit, aes(x = timestamp, 
+                                          y = disk.kernelLatency.average_t10, 
+                                          colour="2")) +
+        geom_point(data=vcdatas_limit, aes(x = timestamp, 
+                                           y = disk.kernelLatency.average_t10, 
+                                           colour="2")) +
+        
+        geom_line(data=vcdatas_limit, aes(x = timestamp, 
+                                          y = disk.totallatency.average_t10, 
+                                          colour="3")) +
+        geom_point(data=vcdatas_limit, aes(x = timestamp, 
+                                           y = disk.totallatency.average_t10, 
+                                           colour="3")) +
+        
+        geom_line(data=vcdatas_limit, aes(x = timestamp, 
+                                          y = sum_latency, colour="4")) +
+        geom_point(data=vcdatas_limit, aes(x = timestamp, 
+                                           y = sum_latency, colour="4")) +
         
         labs(y = "milliszekundum", x = "dátum - idő") +
         
-        scale_colour_manual(values=c("#4E9A06", "#A40000", "#204A87"), 
+        scale_colour_manual(values=c("#4E9A06", "#A40000", "#EDD400", "#204A87"), 
                             name="Latency-k",
-                            labels=c("Storage adapter", "Storage path", "Disk"))
+                            labels=c("Device", "Kernel", "Total", "Számított"))
     
-    filename <- paste("disk_metrics_storage_latency", "-", STS, "-", ETS, 
-                      ".png", sep="")
+    filename <- paste("disk_metrics_sumlatency-", STS, "-", ETS, ".png", sep="")
         
     logger(paste("Plott mentése", filename, "néven...", sep=" "))
     
     ggsave(plot=plot, 
            filename=file.path(OUTPUT_PATH, filename), height=4, width=10)   
 }
+
 
 vcdatas <- load_file(file.path(INPUT_PATH, "vcenter_datas_disk_infos.RData"))
 
@@ -273,24 +171,134 @@ cols <- names(vcdatas)
 
 # "atency", hogy a Latency és a latency is benne legyen. Tudom, csúnya :D
 cols_latency <- subset(cols, grepl(pattern="atency", cols))
-cols_latency <- subset(cols_latency, grepl(pattern="virtual", 
-                                           cols_latency)==FALSE)
+cols_latency <- subset(cols_latency, grepl(pattern="virtual", cols_latency)==FALSE)
 cols <- c(rep("timestamp"), rep("item_id"), cols_latency)
 
 vcd <- vcdatas[,cols]
 
+# Memóriát spórolunk:
+rm(vcdatas)
+
 vcd <- get_machine(vcd, "host-01")
+
+vcd$sum_latency <- vcd$disk.deviceLatency.average_t10 + vcd$disk.kernelLatency.average_t10
+
+vcd$calc <- vcd$sum_latency - vcd$disk.totallatency.average_t10
 
 # A teljes időintervallum:
 ST <- min(vcd$timestamp)
 ET <- max(vcd$timestamp)
 
-stlatency_plotter(vcd, ST, ET)
+latency_plotter(vcd, ST, ET)
 
 ST <- "2012-09-10 12:00:00"
 ET <- "2012-09-10 12:30:00"
 
-stlatency_plotter(vcd, ST, ET)
+latency_plotter(vcd, ST, ET)
+
+ST <- "2012-09-12 01:35:00"
+ET <- "2012-09-12 01:40:00"
+
+latency_plotter(vcd, ST, ET)
+
+ST <- "2012-09-19 02:30:00"
+ET <- "2012-09-19 02:40:00"
+
+latency_plotter(vcd, ST, ET)
+
+#unique(vcd$disk.kernelLatency.average_t10)
+#vcd$timestamp[vcd$disk.kernelLatency.average_t10==50]
+
+# Memóriát spórolunk:
+rm(vcd)
+#
+################################################################################
+
+# ################################################################################
+# #
+# # storage*.*latency* metrikák:
+# #
+# # A rajzoló függvényünk:
+# stlatency_plotter <- function(datas, ST, ET) {
+#     
+#     STS <- gsub("-", "", ST)
+#     STS <- gsub(":", "", STS)
+#     STS <- gsub(" ", "", STS)
+#     
+#     ETS <- gsub("-", "", ET)
+#     ETS <- gsub(":", "", ETS)
+#     ETS <- gsub(" ", "", ETS)
+#     
+#     vcdatas_limit <- timestamp_filter(datas, ST, ET)
+# 
+#     plot <- ggplot() +
+#         
+#         
+#         geom_line(data=vcdatas_limit, 
+#                   aes(x = timestamp, 
+#                       y = storagepath.totalwritelatency.average_iqn.com.vmware.host01,
+#                       colour="1")) +
+#         geom_point(data=vcdatas_limit,
+#                    aes(x = timestamp,
+#                        y = storagepath.totalwritelatency.average_iqn.com.vmware.host01,
+#                        colour="1")) +
+#          
+#         geom_line(data=vcdatas_limit,
+#                   aes(x = timestamp,
+#                       y = storageadapter.totalwritelatency.average_vmhba0,
+#                       colour="2")) +
+#         geom_point(data=vcdatas_limit,
+#                    aes(x = timestamp, 
+#                        y = storageadapter.totalwritelatency.average_vmhba0, 
+#                        colour="2")) +
+#              
+#         geom_line(data=vcdatas_limit, 
+#                   aes(x = timestamp, 
+#                       y = disk.totalwritelatency.average_t10, colour="3")) +
+#         geom_point(data=vcdatas_limit, 
+#                    aes(x = timestamp, 
+#                        y = disk.totalwritelatency.average_t10, colour="3")) +
+#         
+#         labs(y = "milliszekundum", x = "dátum - idő") +
+#         
+#         scale_colour_manual(values=c("#4E9A06", "#A40000", "#204A87"), 
+#                             name="Latency-k",
+#                             labels=c("Storage adapter", "Storage path", "Disk"))
+#     
+#     filename <- paste("disk_metrics_storage_latency", "-", STS, "-", ETS, 
+#                       ".png", sep="")
+#         
+#     logger(paste("Plott mentése", filename, "néven...", sep=" "))
+#     
+#     ggsave(plot=plot, 
+#            filename=file.path(OUTPUT_PATH, filename), height=4, width=10)   
+# }
+# 
+# vcdatas <- load_file(file.path(INPUT_PATH, "vcenter_datas_disk_infos.RData"))
+# 
+# # Latency-vel kapcsolatos metrikák: 
+# cols <- names(vcdatas)
+# 
+# # "atency", hogy a Latency és a latency is benne legyen. Tudom, csúnya :D
+# cols_latency <- subset(cols, grepl(pattern="atency", cols))
+# cols_latency <- subset(cols_latency, grepl(pattern="virtual", 
+#                                            cols_latency)==FALSE)
+# cols <- c(rep("timestamp"), rep("item_id"), cols_latency)
+# 
+# vcd <- vcdatas[,cols]
+# 
+# vcd <- get_machine(vcd, "host-01")
+# 
+# # A teljes időintervallum:
+# ST <- min(vcd$timestamp)
+# ET <- max(vcd$timestamp)
+# 
+# stlatency_plotter(vcd, ST, ET)
+# 
+# ST <- "2012-09-10 12:00:00"
+# ET <- "2012-09-10 12:30:00"
+# 
+# stlatency_plotter(vcd, ST, ET)
 
 ################################################################################
 
