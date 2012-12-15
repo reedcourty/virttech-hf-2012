@@ -492,7 +492,7 @@ Igen lényeges teljesítményt meghatározók lehetnek a lemezzel kapcsolatos me
   \begin{center}
     \includegraphics[width=0.40\textwidth]{figures/tdk.png}
   \end{center}
-  \caption{A kernel, eszköz és teljes késleltetés viszonya \label{fig:tdk}}
+  \caption{A kernel, eszköz és teljes késleltetés viszonya (Forrás: \cite[link:TDK]) \label{fig:tdk}}
 \end{wrapfigure}
 
 A lemezműveletek esetében mindig előforduló teljesítményveszteség a lemezkésleltetés (\angolul{latency}), amely a lemezműveleti parancsok és azok tényleges végrehajtása között eltelt időt jelenti. A teljes lemezkésleltetést a virtualizáció több szintjéből eredően két összetevő alkotja. Ahogy az \aref{fig:tdk}.~ábrán látható a lemezműveletek a VM-ektől az ESX-en keresztül jut el a fizikai hardverhez (kernel latency), majd vezérlőtől a tényleges eszközig (device latency).
@@ -720,22 +720,28 @@ A dokumentum elkészítéséhez nélkülözhetetlen segítséget nyújtott \text
 		\hline
 	\end{tabular}
 	\normalsize
-	\label{tab:disk.totallatency.average}
+	\label{tab:disk.metrics}
+\end{table}
+%#
+%#
+%#                    Néhány hálózattal kapcsolatos metrika:
+%#
+\begin{table}[h]
+	\caption{Néhány hálózattal kapcsolatos metrika}
+	\centering
+	\small
+	\begin{tabular}{| p{3.5cm} | p{7.5cm} | p{2cm} |}
+		\hline
+		\rowcolor{tc_bone} \textbf{Metrika} & \textbf{Leírás} & \textbf{Mértékegység} \\
+		\hline
+		net.transmitted.average & A mérési ablakban elküldött adat átlagos mennyisége. Az érték a hálózat sávszélességét jelenti. VM esetében a virtuális, host esetében a fizikai interfészen keresztül átküldött adat mennyiségét jelenti. & kB/s \\ 
+		\hline
+	\end{tabular}
+	\normalsize
+	\label{tab:net.metrics}
 \end{table}
 
-\todo{Netes metrikát megcsinálni!}
-
-\hrulefill
-
-\todo{Forrás: \url{http://www.slideshare.net/alanrenouf/vsphere-apis-for-performance-monitoring}}
-
-\todo{Forrás: \url{http://www.vmware.com/support/developer/vc-sdk/}}
-
-\todo{Forrás: \url{http://communities.vmware.com/docs/DOC-5600}}
-
-\todo{Forrás: \url{http://communities.vmware.com/docs/DOC-5230}}
-
-\todo{kernel device total kép forrást betenni}
+\clearpage
 
 \begin{thebibliography}{99}
 
@@ -746,6 +752,14 @@ Link: {\footnotesize \url{http://www.r-project.org/}}
 \bibitem[GG2] {link:GG2}
 ggplot2 \\
 Link: {\footnotesize \url{http://ggplot2.org/}}
+
+\bibitem[VPC] {link:VPC}
+VMware Communities - vCenter Performance Counters \\
+Link: {\footnotesize \url{http://communities.vmware.com/docs/DOC-5600}}
+
+\bibitem[UVC] {link:UVC}
+VMware Communities - Understanding VirtualCenter Performance Statistics \\
+Link: {\footnotesize \url{http://communities.vmware.com/docs/DOC-5230}}
 
 \bibitem[CC] {link:CC}
 VMware.com - CPU Counters \\
@@ -767,6 +781,10 @@ Link: {\footnotesize \url{www.vmware.com/files/pdf/perf-vsphere-cpu_scheduler.pd
 \bibitem[DC] {link:DC}
 VMware.com - Disk I/O Counters \\
 Link: {\footnotesize \url{http://www.vmware.com/support/developer/vc-sdk/visdk400pubs/ReferenceGuide/disk_counters.html}}
+
+\bibitem[TDK] {link:TDK}
+Chris Kranz - VMware Performance Troubleshooting \\
+Link: {\footnotesize \url{http://www.slideshare.net/glbsolutions/vmware-performance-troubleshooting}}
 
 \bibitem[NC] {link:NC}
 VMware.com - Network Counters \\
