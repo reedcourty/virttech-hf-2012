@@ -561,14 +561,30 @@ A tárolórendszerünk teljesítményét jellemezhetik a \textit{storage path} �
 \end{figure}
 
 A storage path késleltetése általában nagyobb, mint a másik két vizsgált metrikáé, ami valószínűleg a hálózati késleltetésből ered.
+%#
+%###############################################################################
 
+
+%###############################################################################
+%#
+%#                    Hálózati metrikák:
+%#
 \section{Hálózati metrikák}
 
-\todo{Írni a hálózati metrikákról általánosan!}
+Természetesen a VMware lehetőséget biztosít a hálózattal kapcsolatos metrikák mérésére is. A metrikák mindegyike egyaránt elérhető a virtuális gépek és a virtualizációs szerverek esetében is \cite{link:NC}.
+%#
+%###############################################################################
 
-\subsection{net.transmitted.average}
 
-\todo{Megcsinálni!}
+%###############################################################################
+%#
+%#                    A net.transmitted.average metrika:
+%#
+\subsection{A net.transmitted.average metrika}
+
+A hálózati metrikák közül csak a \texttt{net.transmitted.average} került vizsgálatra. A bevezető részben már megtudhattuk, hogy az infrastruktúránk 2 hálózati eszközzel rendelkezik, ezért adja magát, hogy ezen eszközökön átmenő forgalmat és azok összegét vizsgáljuk.
+
+\Aref{fig:net_transmitted_average-01}.~ábrán a teljes mérés ideje alatt, míg \aref{fig:net_transmitted_average-02}.~ábrán egy rövidebb intervallumon rögzített átviteli sebesség alakulása figyelhető meg.
 
 \begin{figure}[h!]
 \centering
@@ -582,11 +598,15 @@ A storage path késleltetése általában nagyobb, mint a másik két vizsgált 
 \caption{ A hálózati adatátviteli-sebesség alakulása a host-01 esetében 2012.08.31. 16:00:00 és 2012.08.31. 20:00:00 között \label{fig:net_transmitted_average-02}}
 \end{figure}
 
+Ha külön kezeljük a két hálózati eszközt és a szummázott értékeket, akkor \aref{fig:net_transmitted_average_dev}.~ábrát kapjuk, amiről megállapítható, hogy a szummázott eredmény látszólag jól visszaadja a két eszköz értékeit (hiszen a mért értékeket mutató sárga görbét mindenütt fedi a számított kék görbe).
+
 \begin{figure}[h!]
 \centering
 \includegraphics[width=1.00\textwidth]{figures/net_transmitted_average_dev-20120831172900-20120831181100.png}
 \caption{ A hálózati adatátviteli-sebesség alakulása a host-01 esetében eszközönként 2012.08.31. 17:29:00 és 2012.08.31. 18:11:00 között \label{fig:net_transmitted_average_dev}}
 \end{figure}
+
+Viszont ha megnézzük a mért és számított átviteli-sebességeket, akkor \aref{fig:net_transmitted_average_diff-01}. és \aref{fig:net_transmitted_average_diff-02}.~ábrákról megállapíthatjuk, hogy az eltérés 0 és 1 kB/s között ugrál. 
 
 \begin{figure}[h!]
 \centering
@@ -599,6 +619,10 @@ A storage path késleltetése általában nagyobb, mint a másik két vizsgált 
 \includegraphics[width=1.00\textwidth]{figures/net_transmitted_average_diff-20120831172900-20120831181100.png}
 \caption{ Eltérés a kiszámított és mért hálózati adatátviteli-sebesség között 2012.08.31. 17:29:00 és 2012.08.31. 18:11:00 között \label{fig:net_transmitted_average_diff-02}}
 \end{figure}
+
+Azt, hogy mekkora arányban vannak eltérések, \aref{fig:net_transmitted_average_diff-dist}.~ábra mutatja meg. Mint látható, ugyan nagyobb számban egyezik meg a mért és a két eszközön mért sebességek számított összege, de sok esetben előfordul 1 kB/s-os eltérés.
+
+Amennyiben úgy döntünk, hogy ez a hibaérték még hibahatáron belül van számunkra, akkor mellőzhető a teljes sebességet megjelenítő metrika megfigyelése/rögzítése, és az eszközönkénti mérésekből kiszámítható a későbbiek során.
 
 \begin{figure}[h!]
 \centering
@@ -703,15 +727,19 @@ Link: {\footnotesize \url{http://communities.vmware.com/docs/DOC-7390}}
 \bibitem[VPM] {link:VPM}
 Preetham Gopalaswamy, Ravi Soundararajan – VI Performance Monitoring \\
 2008. szeptember 15. \\
-Link: \url{http://www.vmware.com/files/webinars/communities/VI-Performance-Monitoring.pdf}
+Link: {\footnotesize \url{http://www.vmware.com/files/webinars/communities/VI-Performance-Monitoring.pdf}}
 
 \bibitem[VMCS] {link:VMCS}
 VMware vSphere 4: The CPU Scheduler in VMware ESX 4 (White paper) \\
-Link: \url{www.vmware.com/files/pdf/perf-vsphere-cpu_scheduler.pdf}
+Link: {\footnotesize \url{www.vmware.com/files/pdf/perf-vsphere-cpu_scheduler.pdf}}
 
 \bibitem[DC] {link:DC}
 VMware.com - Disk I/O Counters \\
 Link: {\footnotesize \url{http://www.vmware.com/support/developer/vc-sdk/visdk400pubs/ReferenceGuide/disk_counters.html}}
+
+\bibitem[NC] {link:NC}
+VMware.com - Network Counters \\
+Link: {\footnotesize \url{http://www.vmware.com/support/developer/vc-sdk/visdk400pubs/ReferenceGuide/network_counters.html}}
 
 \end{thebibliography}
 
